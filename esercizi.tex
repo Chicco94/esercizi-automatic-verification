@@ -15,6 +15,8 @@
 
 \newcommand{\A}{\ensuremath{\mathcal{A}}\xspace}
 \newcommand{\Buchi}{\ensuremath{\mathcal{A} = (\mathcal{Q},A,\Delta,q_0,F)}\xspace}
+\newcommand{\congAlpha}{\ensuremath{\cong_\alpha}\xspace}
+\newcommand{\congAlphaM}{\ensuremath{\congAlpha^m}\xspace}
 
 \title{Automatic System Verification\\Exercices}
 \author{
@@ -149,7 +151,54 @@ e quindi $uu' \approx_A vv'$.
 Il resto della dimostrazione è già stata svolta negli appunti.
 
 \subsection*{Esercizio 2.25}
-\textit{Si dimostri che la relazione $\cong_\alpha$ è una relazione di equivalenza sui naturali di indice finito}
+\textit{Si dimostri che la relazione $\congAlpha$ è una relazione di equivalenza sui naturali di indice finito}
+
+Riprendo la definizione di $\congAlpha$. Sia $\sim$ una congruenza su $A^*$ di indice finito. Sia $\alpha \in A^\omega$ e siano $k,k'$ posizioni. Diciamo che 
+$k\congAlphaM k'$ ($k,k'$ si riuniscono in $m>k,k'$) se $\alpha(k,m)\sim\alpha(k',m)$. Diciamo che $k\congAlpha k'$ se esiste $m$ per cui $k \congAlphaM k'$.
+
+Dato che $\sim$ ha indice finito, per un $m$ fisso, ci troviamo in una situazione del genere:
+
+% https://www.mathcha.io/editor
+\begin{center}
+	\tikzset{every picture/.style={line width=0.75pt}} %set default line width to 0.75pt        
+	\begin{tikzpicture}[x=0.75pt,y=0.75pt,yscale=-1,xscale=1]
+	%uncomment if require: \path (0,739); %set diagram left start at 0, and has height of 739
+	
+	%Shape: Ellipse [id:dp9650618878961996] 
+	\draw   (23.5,124.5) .. controls (23.5,63.47) and (95.13,14) .. (183.5,14) .. controls (271.87,14) and (343.5,63.47) .. (343.5,124.5) .. controls (343.5,185.53) and (271.87,235) .. (183.5,235) .. controls (95.13,235) and (23.5,185.53) .. (23.5,124.5) -- cycle ;
+	%Straight Lines [id:da5240208167193734] 
+	\draw    (135.5,20) -- (319,182.17) ;
+	%Straight Lines [id:da29391365058759567] 
+	\draw    (32.17,88) -- (219.67,232.17) ;
+	%Straight Lines [id:da8926403422381457] 
+	\draw    (51,185.5) -- (296.33,46.83) ;
+	%Straight Lines [id:da020284257694958674] 
+	\draw    (155,232.83) -- (339.67,96.17) ;
+	%Shape: Free Drawing [id:dp14447012165158735] 
+	\draw  [color={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=3] [line join = round][line cap = round] (66.5,76) .. controls (67.17,76) and (67.83,76) .. (68.5,76) ;
+	%Shape: Free Drawing [id:dp8018216878137716] 
+	\draw  [color={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=3] [line join = round][line cap = round] (125.5,110) .. controls (126.17,110) and (126.83,110) .. (127.5,110) ;
+	%Shape: Free Drawing [id:dp5726072331827443] 
+	\draw  [color={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=3] [line join = round][line cap = round] (176.5,138) .. controls (177.17,138) and (177.83,138) .. (178.5,138) ;
+	%Shape: Free Drawing [id:dp6843798478967522] 
+	\draw  [color={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=3] [line join = round][line cap = round] (164.5,168) .. controls (165.17,168) and (165.83,168) .. (166.5,168) ;
+	
+	% Text Node
+	\draw (74,61.73) node [anchor=north west][inner sep=0.75pt]    {$\alpha ( k,m)$};
+	% Text Node
+	\draw (132.67,90.4) node [anchor=north west][inner sep=0.75pt]    {$\alpha ( k',m)$};
+	% Text Node
+	\draw (313.33,31.73) node [anchor=north west][inner sep=0.75pt]    {$\mathbb{N}$};
+	% Text Node
+	\draw (311.33,195.4) node [anchor=north west][inner sep=0.75pt]    {$\sim $};
+	% Text Node
+	\draw (183.67,119.57) node [anchor=north west][inner sep=0.75pt]    {$\alpha ( k'',m)$};
+	% Text Node
+	\draw (174.67,151.57) node [anchor=north west][inner sep=0.75pt]    {$\alpha ( k''',m)$};
+	\end{tikzpicture}
+\end{center}
+Dove il numero di classi di equivalenza è limitato dal numero di classi di equivalenza di $\sim$.
+
 
 
 \subsection*{Esercizio 2.44}
