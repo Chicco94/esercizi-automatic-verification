@@ -156,7 +156,14 @@ Il resto della dimostrazione è già stata svolta negli appunti.
 Riprendo la definizione di $\congAlpha$. Sia $\sim$ una congruenza su $A^*$ di indice finito. Sia $\alpha \in A^\omega$ e siano $k,k'$ posizioni. Diciamo che 
 $k\congAlphaM k'$ ($k,k'$ si riuniscono in $m>k,k'$) se $\alpha(k,m)\sim\alpha(k',m)$. Diciamo che $k\congAlpha k'$ se esiste $m$ per cui $k \congAlphaM k'$.
 
-Dato che $\sim$ ha indice finito, per un $m$ fisso, ci troviamo in una situazione del genere:
+Dimostro che è una relazione di equivalenza:
+\begin{itemize}
+	\item \textbf{Riflessività}: $\forall k \in \mathbb{N}$ è sempre vero che $k\congAlpha k$ perchè $k\congAlpha k \Leftrightarrow \exists m\;t.c.\;\alpha(k,m)\sim\alpha(k,m)$ e questo è vero $\forall k$ perchè $\sim$ è una relazione di equivalenza
+	\item \textbf{Simmetria}: $\forall k,k' \in \mathbb{N}$ è sempre vero che $k\congAlpha k' \Rightarrow k' \congAlpha k$ perchè $k\congAlpha k' \Leftrightarrow \exists m\;t.c.\;\alpha(k,m)\sim\alpha(k',m)$. Dato che $\sim$ è una relazione di equivalenza allora vale che $\exists m\;t.c.\;\alpha(k',m)\sim\alpha(k,m)$, il che significa che $k' \congAlpha k$.
+	\item \textbf{Transitività}: $\forall i,j,k \in \mathbb{N}$ è sempre vero che $i\congAlpha j$ e $j\congAlpha k \Rightarrow i \congAlpha k$, perchè $i\congAlpha j \Leftrightarrow \exists m\;t.c.\;\alpha(i,m)\sim\alpha(j,m)$ e $j\congAlpha k \Leftrightarrow \exists n\;t.c.\;\alpha(j,n)\sim\alpha(k,n)$. Senza perdere di generalità pongo $n>m$, quindi abbiamo che $\exists m\;t.c.\;\alpha(i,m)\sim\alpha(j,m)$ e $\alpha(j,m)\sim\alpha(k,m)$. Dato che $\sim$ è una relazione di equivalenza allora vale che $\exists m$ tale che $\alpha(i,m)\sim\alpha(j,m)$ e $\alpha(j,m)\sim\alpha(k,m) \Rightarrow \alpha(i,m)\sim\alpha(k,m)$, il che significa che $i \congAlpha k$. 
+\end{itemize}
+
+Dimostro che $\congAlpha$ ha indice finito. Dato che $\sim$ ha indice finito, per un $m$ fisso, ci troviamo in una situazione del genere:
 
 % https://www.mathcha.io/editor
 \begin{center}
