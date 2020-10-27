@@ -115,6 +115,9 @@ In questo caso abbiamo che $W^\omega = \overrightarrow{W}$.
 \end{enumerate}
 \textit{Dimostrare le proprietà (2) e (3) del teorema}
 
+Dimostro \textit{(2)}. Siano $\mathcal{A}, \mathcal{B}$ automi tali che $\mathcal{A}$ accetta V e $\mathcal{B}$ accetta L, allora possiamo costruire $\mathcal{C}$ unendo tutti gli stati finali di $\mathcal{A}$ con lo stato iniziale di $\mathcal{B}$. Otteniamo così un'automa che legge il linguaggio $V\cdot L$, quindi $V \cdot L$ è $\omega$-regolare.
+
+Dimostro \textit{(3)}. Per quanto riguarda l'unione, prendiamo $\mathcal{A}, \mathcal{B}$ automi tali che $\mathcal{A}$ accetta $L_1$ e $\mathcal{B}$ accetta $L_2$. Costruiamo $\mathcal{C}$ unendo gli stati iniziali di $\mathcal{A}$ e $\mathcal{B}$. Abbiamo quindi che $\mathcal{C}$ accetta tutte le parole di $L_1 \cup L_2$. Sappiamo inoltre che i linguaggi $\omega$-regolari sono chiusi per complementazione, quindi possiamo riscrivere $L_1 \cap L_2 = \neg (\neg L_1 \cup \neg L_2)$ ed ottenere la chiusura per intersezione.
 
 \subsection*{Esercizio 2.13}
 \textit{Fornire un esempio di parola non definitivamente periodica}
@@ -204,7 +207,7 @@ Dimostro che $\congAlpha$ ha indice finito. Dato che $\sim$ ha indice finito, pe
 	\draw (174.67,151.57) node [anchor=north west][inner sep=0.75pt]    {$\alpha ( k''',m)$};
 	\end{tikzpicture}
 \end{center}
-Dove il numero di classi di equivalenza è limitato dal numero di classi di equivalenza di $\sim$.
+Dove il numero di classi di equivalenza è limitato dal numero di classi di equivalenza di $\sim$, e sappiamo che $\sim$ ha un numero finito di classi di equivalenza, quindi anche $\congAlpha$ avrà un numero finito di classi di equivalenza.
 
 
 
