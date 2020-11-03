@@ -17,6 +17,7 @@
 \newcommand{\Buchi}{\ensuremath{\mathcal{A} = (\mathcal{Q},A,\Delta,q_0,F)}\xspace}
 \newcommand{\congAlpha}{\ensuremath{\cong_\alpha}\xspace}
 \newcommand{\congAlphaM}{\ensuremath{\congAlpha^m}\xspace}
+\newcommand{\buchi}{B\"uchi }
 
 \title{Automatic System Verification\\Exercices}
 \author{
@@ -131,7 +132,7 @@ Un esempio è: $$ ababbab^3ab^4ab^5...$$
 Invariante a destra significa che $\forall x,y,z \in A$, se $x \sim y$ allora $xz \sim yz$. Questo è sempre vero perchè, concatenando la stessa parola ad $x,y$ finiremo in un'unica classe di equivalenza.
 
 \subsection*{Esercizio 2.19}
-\textit{Dato un automa di Buchi $\Buchi$, dimostrare che, per ogni $s,s' \in \mathcal{Q}$, $W^F_{ss'}$ è regolare}
+\textit{Dato un automa di \buchi $\Buchi$, dimostrare che, per ogni $s,s' \in \mathcal{Q}$, $W^F_{ss'}$ è regolare}
 
 Un linguaggio è regolare se esiste un'automa in grado di accettarlo. Per poterlo accettare deve avere almeno uno stato finale. Quindi se eliminiamo dall'automa \A, tutti gli stati e le relazioni non interessate dai possibili cammini tra $s$ e $s'$ otteniamo un automa in grado di leggere solo $W^F_{ss'}$, e questo fa di lui un linguaggio regolare.
 
@@ -212,7 +213,7 @@ Dove il numero di classi di equivalenza è limitato dal numero di classi di equi
 
 
 \subsection*{Esercizio 2.44}
-\textit{Dimostrare la chiusura della classe dei linguaggi riconosciuti dagli automi di Buchi deterministici rispetto alle operazioni di unione e intersezione}
+\textit{Dimostrare la chiusura della classe dei linguaggi riconosciuti dagli automi di \buchi deterministici rispetto alle operazioni di unione e intersezione}
 
 Siano $\mathcal{A} = (\mathcal{Q_A},A,\Delta_A,q_{0A},F_A)$ e $\mathcal{B} = (\mathcal{Q_B},A,\Delta_B,q_{0B},F_B)$
 
@@ -243,7 +244,7 @@ Per costruzione, $r_C=(q_{A}^0,q_{B}^0,i^0),(q_{A}^1,q_{B}^1,i^1),\ldots$ è un'
 \end{itemize}
 $r_A$ e $r_B$ sono accettate se $r_C$ è la concatenazione di una serie infinita di segmenti finiti di stati 1 (stati con terza componente 1) e stati 2 (stati con terza componente 2) alternativamente. Questa sequenza esiste se $r_C$ è accettato da $\mathcal{A}$ 
 \subsection*{Esercizio 2.46}
-\textit{Sia $A=\{a,b\}$ e $L=\{\alpha \in A^\omega. \exists^{<\omega}\;n\;\alpha(n)=a\}$. Si costruisca un automa di Buchi non deterministico che riconosca il linguaggio $L$}
+\textit{Sia $A=\{a,b\}$ e $L=\{\alpha \in A^\omega. \exists^{<\omega}\;n\;\alpha(n)=a\}$. Si costruisca un automa di \buchi non deterministico che riconosca il linguaggio $L$}
  
 \begin{center}
 \begin{tikzpicture}[shorten >=1pt,node distance=2cm,on grid,auto] 
@@ -258,7 +259,7 @@ $r_A$ e $r_B$ sono accettate se $r_C$ è la concatenazione di una serie infinita
 
 
 \subsection*{Esercizio 2.48}
-\textit{Sia $A=\{a,b\}$ e $L=\overrightarrow{\{b^*a^*\}}$. Si costruisca un automa di Buchi non deterministico che riconosca il linguaggio $L$}
+\textit{Sia $A=\{a,b\}$ e $L=\overrightarrow{\{b^*a^*\}}$. Si costruisca un automa di \buchi non deterministico che riconosca il linguaggio $L$}
 
 \begin{center}
 \begin{tikzpicture}[shorten >=1pt,node distance=2cm,on grid,auto] 
@@ -275,6 +276,10 @@ $r_A$ e $r_B$ sono accettate se $r_C$ è la concatenazione di una serie infinita
 \subsection*{Esercizio 2.50}
 \textit{Dimostrare che la classe degli $\omega$-linguaggi $\omega$-regolari coincide con la classe degli $\omega$-linguaggi riconosciuti dagli automi di Muller non deterministici}
 
+Dato che un $\omega$-linguaggio per essere $\omega$-regolare deve essere accettato da un automa di \buchi, mi basta dimostrare l'equivalenza tra gli automi di \buchi non deterministici e quelli di Muller non deterministici.
+
+Sia $\Buchi$ un automa di \buchi, possiamo costruire un automa di Muller: $\mathcal{M} = (\mathcal{Q},A,\Delta,q_0,\mathcal{F})$ dove $\mathcal{F} = \{ X | X \in 2^Q \land X \cap F \neq \emptyset\}$. Si può osservare che una $\omega$-parola viene accettata da $\A$ se e solo se passa infinite volte per uno stato finale. Quindi viene accettata anche da $\mathcal{M}$ perchè, presa una sua computazione $\sigma$, abbiamo che $In(\sigma) \cap F \neq \emptyset $ e $ In(\sigma) \in 2^Q \Rightarrow In(\sigma) \in \mathcal{F}$ quindi la stessa $\omega$-parola viene accettata da $\mathcal{F}$. Lo stesso ragionamento lo possiamo fare al contrario. Se una $\omega$-parola viene accettata da $\mathcal{M}$ allora $In(\sigma) \cap F \neq \emptyset $ quindi esiste una computazione che passa infinite volte per uno stato finale, quindi 
+la stessa $\omega$-parola viene accettata da $\A$. 
 
 \subsection*{Esercizio 2.57}
 \textit{Dimostrare che l'insieme $W_v\subseteq A^*$ dei V-testimoni, con V classe di congruenza $\approx_\mathcal{A}$ è regolare}
@@ -288,11 +293,11 @@ $r_A$ e $r_B$ sono accettate se $r_C$ è la concatenazione di una serie infinita
 
 
 \subsection*{Esercizio2}
-\textit{Dimostrare che l'insieme dei linguaggi riconosciuti da automi di B\"uchi su alberi infiniti con insieme degli stati finali singoletto è strettamente contenuto nell'insieme dei linguaggi riconosciuti da automi di B\"uchi su alberi infiniti}
+\textit{Dimostrare che l'insieme dei linguaggi riconosciuti da automi di \buchi su alberi infiniti con insieme degli stati finali singoletto è strettamente contenuto nell'insieme dei linguaggi riconosciuti da automi di \buchi su alberi infiniti}
 
 
 \subsection*{Esercizio3}
-\textit{Sia $A=\{a,b\}$ e $T_1=\{t\in T^{\omega}_A:$tutti i cammini di t contengono un numero finito di occorrenze di a$\}$. $T_1$ contiene l'insieme di tutti gli alberi $t_i$, con $i\geqslant 0$, tali che $t_i$ ha un'occorrenza di a nelle posizioni $\epsilon, 1^{m_1}0,\ldots,1^{m_1}01^{m_2}0\ldots 1^{m_i}0$, con $m_1,m_2,\ldots,m_i>0$. Immaginiamo che esista un automa di B\"uchi $\Buchi$ con $n+1$ stati, con $n\geqslant 1$, incluso lo stato iniziale $q_0$ che occorre solo in posizione $\epsilon$ tale che $L(\A)=T_1$ e sia r un run di successo di $\A$ su $t_n$. Mostrare che deve esistere un cammino in $t_n$ contenente 3 nodi u,v e w, con $u<v<w$, tali che $r(u)=r(w)=s \in F e t_n(v)=a$.}
+\textit{Sia $A=\{a,b\}$ e $T_1=\{t\in T^{\omega}_A:$tutti i cammini di t contengono un numero finito di occorrenze di a$\}$. $T_1$ contiene l'insieme di tutti gli alberi $t_i$, con $i\geqslant 0$, tali che $t_i$ ha un'occorrenza di a nelle posizioni $\epsilon, 1^{m_1}0,\ldots,1^{m_1}01^{m_2}0\ldots 1^{m_i}0$, con $m_1,m_2,\ldots,m_i>0$. Immaginiamo che esista un automa di \buchi $\Buchi$ con $n+1$ stati, con $n\geqslant 1$, incluso lo stato iniziale $q_0$ che occorre solo in posizione $\epsilon$ tale che $L(\A)=T_1$ e sia r un run di successo di $\A$ su $t_n$. Mostrare che deve esistere un cammino in $t_n$ contenente 3 nodi u,v e w, con $u<v<w$, tali che $r(u)=r(w)=s \in F e t_n(v)=a$.}
 
 
 \subsection*{Esercizio4}
