@@ -1,6 +1,7 @@
 \documentclass[12pt]{article}
 
 \usepackage[english]{babel}
+\setlength{\parindent}{0pt} % tolgo indentazioni
 \usepackage[utf8]{inputenc}
 \usepackage{xspace}
 \usepackage{amsmath,amssymb,amsfonts,mathrsfs,latexsym,stmaryrd}
@@ -10,6 +11,12 @@
 \usepackage{xcolor}
 \usepackage{widetable}
 \usepackage{graphicx}
+
+% per gli algoritmi
+\usepackage{algorithm}
+\usepackage{algorithmic}
+
+% per i grafi
 \usepackage{tikz}
 \usetikzlibrary{automata,positioning}
 
@@ -286,9 +293,42 @@ la stessa $\omega$-parola viene accettata da $\A$.
 
 Ri
 
-
+\newpage
 \section{Exercices of chapter 0 of Temporal Verification of Reactive Systems}
+\subsection*{Esercizio1}
+\begin{center}
+\textbf{out} x: \textbf{integer where} x = 0
+$$
+\begin{aligned}[t]
+ l_0 &: \left[ \begin{aligned}
+ 		[l_1 &: \textbf{while }x \geq 0 \textbf{ do } l_2: x := x+1]\\ 
+ 		&\textbf{or} \\ 
+ 		[l_3 &: \textbf{await } x > 0] \\
+		\end{aligned} \right]\\
+ l_4 &:
+\end{aligned}
+$$
+\end{center}
 
+\textit{\textbf{a)} Identify the locations of this program as equivalence classes of labels. List the post-location of each of the statements.}
+
+There are three classes:
+\begin{itemize}
+\item[$l_0$] = $\{ l_0,l_1,l_3 \} $
+\item[$l_2$] = $\{ l_2 \} $
+\item[$l_4$] = $\{ l_4 \} $
+\end{itemize}
+
+While the post-locations are:
+\begin{itemize}
+\item[$post(l_0)$] = $post(l_1)$ = $post(l_3)$ = $[ l_4 ] $
+\item[$post(l_2)$] = $[ l_1 ] $
+\end{itemize}
+
+
+
+
+\newpage
 \section{Additional exercices}
 \subsection*{Esercizio1}
 \textit{Dato un linguaggio $L \subseteq A^*$, dimostrare se che $L$ è un linguaggio star-free, allora $L$ è definibile nel frammento al prim'ordine di $S1S_A$, con la relazione di ordinamento $<$ e i predicati unari $Q_a$, con $a \in A$.}
