@@ -12,6 +12,9 @@
 \usepackage{widetable}
 \usepackage{graphicx}
 
+% per multicolonna
+\usepackage{multicol}
+
 % per gli algoritmi
 \usepackage{algorithm}
 \usepackage{algorithmic}
@@ -266,7 +269,7 @@ $r_A$ e $r_B$ sono accettate se $r_C$ è la concatenazione di una serie infinita
 
 
 \subsection*{Esercizio 2.48}
-\textit{Sia $A=\{a,b\}$ e $L=\overrightarrow{\{b^*a^*\}}$. Si costruisca un automa di \buchi non deterministico che riconosca il linguaggio $L$}
+\textit{Sia $A=\{a,b\}$ e $L=\overrightarrow{\{b^*a^*\}}$. Si costruisca un automa di \buchi deterministico che riconosca il linguaggio $L$}
 
 \begin{center}
 \begin{tikzpicture}[shorten >=1pt,node distance=2cm,on grid,auto] 
@@ -274,8 +277,9 @@ $r_A$ e $r_B$ sono accettate se $r_C$ è la concatenazione di una serie infinita
    \node[state,accepting] (q_1) [right=of q_1] {$q_1$};
     \path[->] 
     (q_0) edge [loop above] node {b} (q_0)
-          edge node {a,b} (q_1)
-    (q_1) edge [loop above] node  {a} (q_1);
+          edge [bend left] node {a} (q_1)
+    (q_1) edge [loop above] node  {a} (q_1)
+    	  edge [bend left] node {b} (q_0);
 \end{tikzpicture}
 \end{center}
 
@@ -295,7 +299,7 @@ Ri
 
 \newpage
 \section{Exercices of chapter 0 of Temporal Verification of Reactive Systems}
-\subsection*{Esercizio1}
+\subsection*{Problem 0.1}
 \begin{center}
 \textbf{out} x: \textbf{integer where} x = 0
 $$
@@ -322,8 +326,67 @@ There are three classes:
 While the post-locations are:
 \begin{itemize}
 \item[$post(l_0)$] = $post(l_1)$ = $post(l_3)$ = $[ l_4 ] $
-\item[$post(l_2)$] = $[ l_1 ] $
+\item[$post(l_2)$] = $[ l_0 ] $
 \end{itemize}
+
+\textit{\textbf{b)} Show that this program has a terminating computation.}
+
+The program can terminate because the post-location of the body of the while is the selection statement. So the await condition can be satisfied and this terminate the program.
+
+\medskip
+\textit{\textbf{c)} Define transitions and transition relations for this version of a WHILE statement.
+Show that the version of program SB in which the while statement has been replaced by this WHILE statement has no terminating computation.}
+
+Recall of the new WHILE statement:
+
+$$ l_1: [WHILE\;c\;DO\;[l_2:S;\hat{l_2}]]; l_3: \textrm{ where } \hat{l_2} \nsim l_1$$
+
+We can define its transitions $\tau_{l_1},\tau_{\hat{l_2}}$ and transition relations $\rho_{l_1},\rho_{\hat{l_2}}$ as follow:
+
+\begin{itemize}
+\item[$\rho_{l_1}:$] $\rho^T_{l_1} \lor \rho^F_{l_1}$ where 
+	\begin{itemize}
+		\item[$\rho^T_{l_1}:$] $move(l_1,l_2) \land c \land pres(Y)$ 
+		\item[$\rho^F_{l_1}:$] $move(l_1,l_3) \land \neg c \land pres(Y)$
+	\end{itemize}
+\item[$\rho_{\hat{l_2}}:$] $\rho^T_{\hat{l_2}} \lor \rho^F_{\hat{l_2}}$ where 
+	\begin{itemize}
+		\item[$\rho^T_{\hat{l_2}}:$] $move(\hat{l_2},l_2) \land c \land pres(Y)$ 
+		\item[$\rho^F_{\hat{l_2}}:$] $move(\hat{l_2},l_3) \land \neg c \land pres(Y)$
+	\end{itemize}
+\end{itemize}
+
+As we can see, now the program cannot terminate anymore, because once in the WHILE loop, the transition $\rho^F_{\hat{l_2}}$ will be never satisfied.
+
+
+
+\subsection*{Problem 0.2}
+
+\begin{center}
+\textbf{out} y: \textbf{integer where} y = 0
+
+
+\textbf{local} x: \textbf{boolean where} x = T
+\begin{tabular}{ccc}
+   \parbox{4cm}{\begin{align*}
+      P_1 &:: \left[ \begin{aligned}
+ 		l_0 &: \textbf{while }x \textbf{ do } \\ 
+ 			& l_1: y:= y+1\\
+ 		l_2 &: \\
+		\end{aligned} \right]\\
+   \end{align*}} 
+   &
+	$\Bigg{\|}$   
+   &
+   \parbox{4cm}{\begin{align*}
+      P_2 &:: \left[ \begin{aligned}
+ 		m_0 &: x := F \\
+ 		m_1 &: \\
+		\end{aligned} \right]\\
+   \end{align*}}\\
+\end{tabular}
+\end{center}
+
 
 
 
