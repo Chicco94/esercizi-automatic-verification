@@ -12,6 +12,9 @@
 \usepackage{widetable}
 \usepackage{graphicx}
 
+% per multicolonna
+\usepackage{multicol}
+
 % per gli algoritmi
 \usepackage{algorithm}
 \usepackage{algorithmic}
@@ -266,7 +269,7 @@ $r_A$ e $r_B$ sono accettate se $r_C$ è la concatenazione di una serie infinita
 
 
 \subsection*{Esercizio 2.48}
-\textit{Sia $A=\{a,b\}$ e $L=\overrightarrow{\{b^*a^*\}}$. Si costruisca un automa di \buchi non deterministico che riconosca il linguaggio $L$}
+\textit{Sia $A=\{a,b\}$ e $L=\overrightarrow{\{b^*a^*\}}$. Si costruisca un automa di \buchi deterministico che riconosca il linguaggio $L$}
 
 \begin{center}
 \begin{tikzpicture}[shorten >=1pt,node distance=2cm,on grid,auto] 
@@ -274,8 +277,9 @@ $r_A$ e $r_B$ sono accettate se $r_C$ è la concatenazione di una serie infinita
    \node[state,accepting] (q_1) [right=of q_1] {$q_1$};
     \path[->] 
     (q_0) edge [loop above] node {b} (q_0)
-          edge node {a,b} (q_1)
-    (q_1) edge [loop above] node  {a} (q_1);
+          edge [bend left] node {a} (q_1)
+    (q_1) edge [loop above] node  {a} (q_1)
+    	  edge [bend left] node {b} (q_0);
 \end{tikzpicture}
 \end{center}
 
@@ -291,23 +295,28 @@ la stessa $\omega$-parola viene accettata da $\A$.
 \subsection*{Esercizio 2.57}
 \textit{Dimostrare che l'insieme $W_V\subseteq A^*$ dei V-testimoni, con V classe di congruenza $\approx_\mathcal{A}$ è regolare}
 
-Ri
+
 
 \newpage
 \section{Exercices of chapter 0 of Temporal Verification of Reactive Systems}
-\subsection*{Esercizio1}
+\subsection*{Problem 0.1}
 \begin{center}
-\textbf{out} x: \textbf{integer where} x = 0
-$$
-\begin{aligned}[t]
- l_0 &: \left[ \begin{aligned}
+\begin{tabular}{|c|}
+\hline
+\textbf{out} x: \textbf{integer where} x = 0 \\
+
+\parbox{4cm}{
+  \begin{align*}
+    l_0 &: \left[ \begin{aligned}
  		[l_1 &: \textbf{while }x \geq 0 \textbf{ do } l_2: x := x+1]\\ 
  		&\textbf{or} \\ 
  		[l_3 &: \textbf{await } x > 0] \\
 		\end{aligned} \right]\\
- l_4 &:
-\end{aligned}
-$$
+ 	l_4 &:
+  \end{align*}}\\
+Program S8 (strange behavior). \\
+\hline
+\end{tabular}
 \end{center}
 
 \textit{\textbf{a)} Identify the locations of this program as equivalence classes of labels. List the post-location of each of the statements.}
@@ -322,9 +331,109 @@ There are three classes:
 While the post-locations are:
 \begin{itemize}
 \item[$post(l_0)$] = $post(l_1)$ = $post(l_3)$ = $[ l_4 ] $
-\item[$post(l_2)$] = $[ l_1 ] $
+\item[$post(l_2)$] = $[ l_0 ] $
 \end{itemize}
 
+\textit{\textbf{b)} Show that this program has a terminating computation.}
+
+The program can terminate because the post-location of the body of the while is the selection statement. So the await condition can be satisfied and this terminate the program.
+
+\medskip
+\textit{\textbf{c)} Define transitions and transition relations for this version of a WHILE statement.
+Show that the version of program SB in which the while statement has been replaced by this WHILE statement has no terminating computation.}
+
+Recall of the new WHILE statement:
+
+$$ l_1: [WHILE\;c\;DO\;[l_2:S;\hat{l_2}]]; l_3: \textrm{ where } \hat{l_2} \nsim l_1$$
+
+We can define its transitions $\tau_{l_1},\tau_{\hat{l_2}}$ and transition relations $\rho_{l_1},\rho_{\hat{l_2}}$ as follow:
+
+\begin{itemize}
+\item[$\rho_{l_1}:$] $\rho^T_{l_1} \lor \rho^F_{l_1}$ where 
+	\begin{itemize}
+		\item[$\rho^T_{l_1}:$] $move(l_1,l_2) \land c \land pres(Y)$ 
+		\item[$\rho^F_{l_1}:$] $move(l_1,l_3) \land \neg c \land pres(Y)$
+	\end{itemize}
+\item[$\rho_{\hat{l_2}}:$] $\rho^T_{\hat{l_2}} \lor \rho^F_{\hat{l_2}}$ where 
+	\begin{itemize}
+		\item[$\rho^T_{\hat{l_2}}:$] $move(\hat{l_2},l_2) \land c \land pres(Y)$ 
+		\item[$\rho^F_{\hat{l_2}}:$] $move(\hat{l_2},l_3) \land \neg c \land pres(Y)$
+	\end{itemize}
+\end{itemize}
+
+As we can see, now the program cannot terminate anymore, because once in the WHILE loop, the transition $\rho^F_{\hat{l_2}}$ will be never satisfied.
+
+
+
+\subsection*{Problem 0.2}
+\begin{center}
+\begin{tabular}{|ccc|}
+\hline
+\multicolumn{3}{|c|}{
+\textbf{out} y: \textbf{integer where} y = 0
+} \\
+\multicolumn{3}{|c|}{
+\textbf{local} x: \textbf{boolean where} x = T
+} \\
+\parbox{4cm}{\begin{align*}
+      P_1 &:: \left[ \begin{aligned}
+ 		l_0 &: \textbf{while }x \textbf{ do } \\ 
+ 			& l_1: y:= y+1\\
+ 		l_2 &: \\
+		\end{aligned} \right]\\
+   \end{align*}}
+   &
+	$\Bigg{\|}$   
+   &
+   \parbox{4cm}{\begin{align*}
+      P_2 &:: \left[ \begin{aligned}
+ 		m_0 &: x := F \\
+ 		m_1 &: \\
+		\end{aligned} \right]\\
+   \end{align*}}\\
+   \multicolumn{3}{|c|}{Program ANY-NAT (computing any natural number).} \\\hline
+\end{tabular}
+\end{center}
+
+
+
+\textit{\textbf{a)} Consider program ANY-NAT. Argue (informally) that this program always terminates. Also show that, for every natural number $n \geq 0$,
+there exists a computation of ANY-NAT such that $y = n$ on termination.}
+
+\medskip
+The program terminates whenever $m_0$ is executed. The transition $\tau_{m_0}$ is always enabled and because of \textit{justice} requirement we know that, soon or after, it will be taken. Once executed $\rho^F_{l_0}$ is satisfied and control goes to $\pi = \{l_2,m_1\}$.
+Furthermore, the justice requirement allow only a finite (but unbounded) number of transition $\tau_{l_0}$. So, $\forall n \in \mathbb{N}$ there exists a run where $\tau_{l_0}$ is taken $n$ times before $\tau_{m_0}$, leading to have $y=n$ on termination.
+
+\medskip
+\textit{\textbf{b)} Construct a program with a single process that exhibits a similar behavior;
+that is, all of its computations terminate and, for each natural number n, there
+exists a computation producing n.}
+
+\begin{center}
+\begin{tabular}{|c|}
+\hline
+	\textbf{out} y: \textbf{integer where} y = 0\\
+	\textbf{local} x: \textbf{boolean where} x = T\\
+	\parbox{4cm}{\begin{align*}
+		l_0 &: \left[ \textbf{while }x \textbf{ do } l_1:
+			\left[
+			\begin{aligned}
+ 				[l_2 &: y:= y+1]\\ 
+ 					 & \textbf{or} \\
+ 				[l_3 &: x := F]
+			\end{aligned} 
+			\right]
+			\right]\\
+		l_4 &:
+   \end{align*}}\\
+\hline
+\end{tabular}
+\end{center}
+
+
+\medskip
+\textit{\textbf{c)} Prove that no single-process program with only just transitions can have
+the same behavior as ANY-NAT.}
 
 
 
