@@ -401,7 +401,7 @@ As we can see, now the program cannot terminate anymore, because once in the WHI
 there exists a computation of ANY-NAT such that $y = n$ on termination.}
 
 \medskip
-The program terminates whenever $m_0$ is executed. The transition $\tau_{m_0}$ is always enabled and because of \textit{justice} requirement we know that, soon or after, it will be taken. Once executed $\rho^F_{l_0}$ is satisfied and control goes to $\pi = \{l_2,m_1\}$.
+The program terminates whenever $m_0$ is executed. The transition $\tau_{m_0}$ is always enabled and because of \textit{justice} requirement we know that, soon or later, it will be taken. Once executed $\rho^F_{l_0}$ is satisfied and control goes to $\pi = \{l_2,m_1\}$.
 Furthermore, the justice requirement allow only a finite (but unbounded) number of transition $\tau_{l_0}$. So, $\forall n \in \mathbb{N}$ there exists a run where $\tau_{l_0}$ is taken $n$ times before $\tau_{m_0}$, leading to have $y=n$ on termination.
 
 \medskip
@@ -429,13 +429,60 @@ exists a computation producing n.}
 \hline
 \end{tabular}
 \end{center}
-
+This Program exibits the same behavior of the previus one:
+\begin{itemize}
+\item All of its computation terminates, because $\tau_{l_3}$ is always enabled and thank to the justice requirement we know that soon or later it will be taken and change the value of $x$ ending the cycle.
+\item As the previous program, the number of iteration before the execution of $\tau_{l_3}$ is finite but unbounded, so $y$ could have any value in $\mathcal{N}$ at the end of the computation.
+\end{itemize}
 
 \medskip
 \textit{\textbf{c)} Prove that no single-process program with only just transitions can have
 the same behavior as ANY-NAT.}
+This kind of program need:
+\begin{itemize}
+\item an incremental statement
+\item a termination statement
+\end{itemize}
 
 
+\subsection*{Problem 0.3}
+\textit{Consider a program P of the form $$P :: \left[declaration; \left[[ l_1:S_1;\hat{l_1}:] \parallel \ldots \parallel [l_k:S_k;\hat{l_k}:]\right]\right]$$}
+\textit{\textbf{a)} Consider the two statements
+\begin{itemize}
+\item[] $S_1 :: [x:=1;x:=2]$
+\item[] $S_2 :: [x:=1;x:=x+1]$
+\end{itemize}
+and the context
+$$P[S]:: [\textbf{out}\;x: \textbf{integer where}\;x = 0; S].$$
+Show that $P[S_1]$ and $P[S_2]$ are termination equivalent}
+
+\medskip
+\textit{\textbf{b)} Consider the preceding two statements and the context
+$$Q[S]:: [\textbf{out}\;x: \textbf{integer where}\;x = 0; [S \parallel x := 0]].$$
+Show that $Q[S_1]$ and $Q[S_2]$ are not termination equivalent. We may conclude that $S_1$ and $S_2$ are not congruent.}
+
+\medskip
+\textit{\textbf{c)} Show the following congruence:
+\begin{enumerate}
+\item $[S_1 \textbf{or} S_2] \approx [S_2 \textbf{or} S_1]$
+\item $[S_1 \parallel S_2] \approx [S_2 \parallel S_1]$
+\item $S \approx [S; \textbf{skip}]$
+\item $\textbf{await}\;c \approx \textbf{while}\;\neg c\;\textbf{do skip}$
+\end{enumerate}}
+
+\medskip
+\textit{\textbf{d)} Are the two statements:
+$$ \textbf{await} x \;\;\; and \textbf{skip};\; m: \textbf{await} x$$
+congruent? Prove your answer.}
+
+\medskip
+\textit{\textbf{e)} Let $y$ be a boolean variable. Which of the three following statements are congruent?
+\begin{itemize}
+\item[] $y:=T$
+\item[] $\textbf{if}\;y\;\textbf{then}\;y:=T\;\textbf{else}\;y:=T$
+\item[] $\left[ [\textbf{await}\; y;\; y:=T]\;\textbf{or}\;[\textbf{await}\;\neg y;\; y:=T]\right]$
+\end{itemize}
+}
 
 \newpage
 \section{Additional exercices}
