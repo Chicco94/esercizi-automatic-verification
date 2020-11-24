@@ -446,43 +446,76 @@ This kind of program need:
 
 
 \subsection*{Problem 0.3}
-\textit{Consider a program P of the form $$P :: \left[declaration; \left[[ l_1:S_1;\hat{l_1}:] \parallel \ldots \parallel [l_k:S_k;\hat{l_k}:]\right]\right]$$}
 \textit{\textbf{a)} Consider the two statements
 \begin{itemize}
-\item[] $S_1 :: [x:=1;x:=2]$
-\item[] $S_2 :: [x:=1;x:=x+1]$
+\item[] $S_1 :: [x:=1;l_1: x:=2]$
+\item[] $S_2 :: [x:=1;l_2: x:=x+1]$
 \end{itemize}
 and the context
-$$P[S]:: [\textbf{out}\;x: \textbf{integer where}\;x = 0; S].$$
-Show that $P[S_1]$ and $P[S_2]$ are termination equivalent}
+$$P[S]:: l_0: [\textbf{out}\;x: \textbf{integer where}\;x = 0; S] \hat{l_0}:$$
+Show that $P[S_1]$ and $P[S_2]$ are termination equivalent.}
+
+$P[S_1]$ and $P[S_2]$ have the initial state with the same interpretation of the variable $x$ (equal to 0). They both have a single possible run, that is:
+$$ P[S_1]: \langle \pi:[l_0],x:0\rangle \xrightarrow{l_0} \langle \pi:[l_1],x:1\rangle \xrightarrow{l_1} \langle \pi:[\hat{l_0}],x:2\rangle $$
+$$ P[S_2]: \langle \pi:[l_0],x:0\rangle \xrightarrow{l_0} \langle \pi:[l_2],x:1\rangle \xrightarrow{l_2} \langle \pi:[\hat{l_0}],x:2\rangle $$
+This lead to have ending states sharing the interpretation of variable $x$ equal to 2. Thus $P[S_1]$ and $P[S_2]$ are termination equivalent.
 
 \medskip
 \textit{\textbf{b)} Consider the preceding two statements and the context
-$$Q[S]:: [\textbf{out}\;x: \textbf{integer where}\;x = 0; [S \parallel x := 0]].$$
+$$Q[S]:: [\textbf{out}\;x: \textbf{integer where}\;x = 0; [[l_0: S; \hat{l_0}:] \parallel [m_0: x := 0 ; \hat{m_0}:]]].$$
 Show that $Q[S_1]$ and $Q[S_2]$ are not termination equivalent. We may conclude that $S_1$ and $S_2$ are not congruent.}
 
+$Q[S_1]$ and $Q[S_2]$ are not termination equivalent, because the are some computation that lead to different ending states, like:
+\begin{align*}
+Q[S_1]: &	\langle \pi:\{l_0,m_0\},x:0 \rangle \xrightarrow{l_0} 
+			\langle \pi:\{l_1,m_0\},x:1 \rangle \xrightarrow{m_0} \\
+		&	\langle \pi:\{l_1,\hat{m_0}\},x:0 \rangle \xrightarrow{l_1} 
+			\langle \pi:\{\hat{l_0},\hat{m_0}\},x:2\rangle \\
+Q[S_2]: &	\langle \pi:\{l_0,m_0\},x:0 \rangle \xrightarrow{l_0} 
+			\langle \pi:\{l_2,m_0\},x:1 \rangle \xrightarrow{m_0} \\
+		&	\langle \pi:\{l_2,\hat{m_0}\},x:0 \rangle \xrightarrow{l_2} 
+			\langle \pi:\{\hat{l_0},\hat{m_0}\},x:1\rangle \\
+\end{align*}
+
 \medskip
-\textit{\textbf{c)} Show the following congruence:
+\textit{\textbf{c)} Show the following congruence:}
 \begin{enumerate}
-\item $[S_1 \textbf{or} S_2] \approx [S_2 \textbf{or} S_1]$
-\item $[S_1 \parallel S_2] \approx [S_2 \parallel S_1]$
-\item $S \approx [S; \textbf{skip}]$
-\item $\textbf{await}\;c \approx \textbf{while}\;\neg c\;\textbf{do skip}$
-\end{enumerate}}
+\item $P::[S_1 \textbf{or} S_2] \approx Q::[S_2 \textbf{or} S_1]$: If $P$ selects $S_1$ (resp. $S_2$), also $Q$ can select $S_1$ (resp. $S_2$) and vice versa.
+\item $[S_1 \parallel S_2] \approx [S_2 \parallel S_1]$: As the previous case, since there is no precondition to the parallel composition of $S_1$ and $S_2$, each transition on $P$ can be choose on $Q$.
+\item $S \approx [S; \textbf{skip}]$: We know that \textbf{skip} always terminates, so $S$;\textbf{skip} terminates if and only if $S$ does. Moreover, \textbf{skip} does not alter the data (its data transformation is the identity).
+\item $\textbf{await}\;c \approx \textbf{while}\;\neg c\;\textbf{do skip}$ While $c$ is false the programs loop forever. When $c$ is true, both programs terminates without altering the values of output variables.
+\end{enumerate}
 
 \medskip
 \textit{\textbf{d)} Are the two statements:
-$$ \textbf{await} x \;\;\; and \textbf{skip};\; m: \textbf{await} x$$
+$$ \textrm{\textbf{await} }x \textrm{ and \textbf{skip} }m: \textrm{\textbf{await} }x$$
 congruent? Prove your answer.}
+
+The statements are not congruent since there exist a context $P[S]$ like:
+\begin{align*}
+	P[S] &:: \left[ \begin{aligned}
+ 		\textrm{local }x &\textrm{ : boolean where }x = F \\ 
+ 			&[S\textrm{ or await }\neg x] \\
+		\end{aligned} \right]
+\end{align*}
+where $P[\textrm{\textbf{await} }x]$ always terminates because $ \textrm{\textbf{await} }x$ is not enabled and $ \textrm{\textbf{await} } \neg x$ is selected, terminating the computation. While $P[\textrm{\textbf{skip} }m: \textrm{\textbf{await} }x]$ is always enabled, due to the \textbf{skip}, and if it is chosen, it leads to a non terminating computation.
 
 \medskip
 \textit{\textbf{e)} Let $y$ be a boolean variable. Which of the three following statements are congruent?
-\begin{itemize}
-\item[] $y:=T$
-\item[] $\textbf{if}\;y\;\textbf{then}\;y:=T\;\textbf{else}\;y:=T$
-\item[] $\left[ [\textbf{await}\; y;\; y:=T]\;\textbf{or}\;[\textbf{await}\;\neg y;\; y:=T]\right]$
-\end{itemize}
-}
+\begin{enumerate}
+\item $y:=T$
+\item $\textbf{if}\;y\;\textbf{then}\;y:=T\;\textbf{else}\;y:=T$
+\item $\left[ [\textbf{await}\; y;\; y:=T]\;\textbf{or}\;[\textbf{await}\;\neg y;\; y:=T]\right]$
+\end{enumerate}}
+While \textit{1} and \textit{2} are equivalently enabled, the selection \textit{3} can be disregarded by a scheduler ensuring justice requirement, since the two await commands may be not continuously enabled. Consider the following context:
+\begin{align*}
+	P[S] &:: \left[ \begin{aligned}
+ 		&\textrm{local }x \textrm{ : boolean where }x = T \\ 
+ 		&\textrm{local }y \textrm{ : boolean where }y = F \\ 
+ 		&[S;x:=F] \parallel [\textrm{while }x\textrm{ do } y:= \neg y] \\
+		\end{aligned} \right]
+\end{align*}
+While \textit{1} and \textit{2} always terminates in computations that ensure justice, with \textit{3} there exists a fair computation that stays forever in loop $\textrm{while }x\textrm{ do } y:= \neg y$, as the \textbf{await} commands are enabled in alternation.
 
 \newpage
 \section{Additional exercices}
