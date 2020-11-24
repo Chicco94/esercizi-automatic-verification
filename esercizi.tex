@@ -517,6 +517,112 @@ While \textit{1} and \textit{2} are equivalently enabled, the selection \textit{
 \end{align*}
 While \textit{1} and \textit{2} always terminates in computations that ensure justice, with \textit{3} there exists a fair computation that stays forever in loop $\textrm{while }x\textrm{ do } y:= \neg y$, as the \textbf{await} commands are enabled in alternation.
 
+\subsection*{Problem 0.4}
+\begin{center}
+\begin{tabular}{|ccc|}
+\hline
+\multicolumn{3}{|c|}{\textbf{local} $y_1,y_2$: \textbf{integer where} $y_1$ = 0, $y_2$ = 0} \\
+\parbox{4cm}{\begin{align*}
+      P_1 &:: \left[ \begin{aligned}
+ 		l_0 &: \textbf{loop forever do } \\ 
+ 			& \left[ \begin{aligned}
+ 				l_1 &: \textbf{noncritical}\\ 
+ 				l_2 &: \textbf{await } y_2 = 0\\
+ 				l_3 &: y_1 := 1\\
+ 				l_4 &: \textbf{critical}\\
+ 				l_5 &: y_1 := 0\\
+			\end{aligned} \right]
+		\end{aligned} \right]\\
+   \end{align*}}
+   &
+	$\Bigg{\|}$   
+   &
+   \parbox{4cm}{\begin{align*}
+      P_2 &:: \left[ \begin{aligned}
+ 		m_0 &: \textbf{loop forever do } \\ 
+ 			& \left[ \begin{aligned}
+ 				m_1 &: \textbf{noncritical}\\ 
+ 				m_2 &: \textbf{await } y_1 = 0\\
+ 				m_3 &: y_2 := 1\\
+ 				m_4 &: \textbf{critical}\\
+ 				m_5 &: y_2 := 0\\
+			\end{aligned} \right]
+		\end{aligned} \right]\\
+   \end{align*}}\\
+   \multicolumn{3}{|c|}{Program TRY-MUX1(proposed solution to mutual exclusion).} \\\hline
+\end{tabular}
+\end{center}
+
+
+\textit{\textbf{a)} Is program TRY-MUXI a good solution to the mutual-exclusion problem?}
+No, because it does not satisfy neither the exclusion requirement, neither the accessibility requirement. First of all there exists a computation where a state $\pi = \{l_4,m_4\}$ is accessible as shown by the following computation:
+\begin{align*}
+\langle \pi:\{l_0,m_0\},y_1:0,y_2:0 \rangle & \xrightarrow{l_0} \langle \pi:\{l_1,m_0\},y_1:0,y_2:0 \rangle\\
+& \xrightarrow{l_1} \langle \pi:\{l_2,m_0\},y_1:0,y_2:0 \rangle\\
+& \xrightarrow{l_2} \langle \pi:\{l_3,m_0\},y_1:0,y_2:0 \rangle\\
+& \xrightarrow{m_0} \langle \pi:\{l_3,m_1\},y_1:0,y_2:0 \rangle\\
+& \xrightarrow{m_1} \langle \pi:\{l_3,m_2\},y_1:0,y_2:0 \rangle\\
+& \xrightarrow{m_2} \langle \pi:\{l_3,m_3\},y_1:0,y_2:0 \rangle\\
+& \xrightarrow{l_3} \langle \pi:\{l_4,m_3\},y_1:1,y_2:0 \rangle\\
+& \xrightarrow{m_3} \langle \pi:\{l_4,m_4\},y_1:1,y_2:1 \rangle\\
+\end{align*}
+Furthermore $P_2$ can indefinitely wain in $m_2$: in fact, $P_1$ is allowed to visit locations $l_3$ and $l_5$, disabling and enabling respectively the statement in $m_2$. Without a compassion requirement, it has not to be taken eventually.
+
+\medskip
+\textit{\textbf{b)} The same questions for TRY-MUX2, a version of program TRY-MUXl in which statements $l_2$ and $l_3$ are interchanged and so are statements $m_2$ and $m_3$.}
+
+In this case, program TRY-MUX2 guarantees exclusion but not accessibility since there is a deadlock computation:
+\begin{align*}
+\langle \pi:\{l_0,m_0\},y_1:0,y_2:0 \rangle & \xrightarrow{l_0} \langle \pi:\{l_1,m_0\},y_1:0,y_2:0 \rangle\\
+& \xrightarrow{l_1} \langle \pi:\{l_2,m_0\},y_1:0,y_2:0 \rangle\\
+& \xrightarrow{l_2} \langle \pi:\{l_3,m_0\},y_1:1,y_2:0 \rangle\\
+& \xrightarrow{m_0} \langle \pi:\{l_3,m_1\},y_1:1,y_2:0 \rangle\\
+& \xrightarrow{m_1} \langle \pi:\{l_3,m_2\},y_1:1,y_2:0 \rangle\\
+& \xrightarrow{m_2} \langle \pi:\{l_3,m_3\},y_1:1,y_2:1 \rangle \not\rightarrow\\
+\end{align*}
+
+\medskip
+\begin{center}
+\begin{tabular}{|ccc|}
+\hline
+\multicolumn{3}{|c|}{\textbf{local} $t$: \textbf{integer where} $t$ = 1} \\
+\parbox{4cm}{\begin{align*}
+      P_1 &:: \left[ \begin{aligned}
+ 		l_0 &: \textbf{loop forever do } \\ 
+ 			& \left[ \begin{aligned}
+ 				l_1 &: \textbf{noncritical}\\ 
+ 				l_2 &: \textbf{await } t = 1\\
+ 				l_3 &: \textbf{critical}\\
+ 				l_4 &: t := 2\\
+			\end{aligned} \right]
+		\end{aligned} \right]\\
+   \end{align*}}
+   &
+	$\Bigg{\|}$   
+   &
+   \parbox{4cm}{\begin{align*}
+      P_2 &:: \left[ \begin{aligned}
+ 		m_0 &: \textbf{loop forever do } \\ 
+ 			& \left[ \begin{aligned}
+ 				m_1 &: \textbf{noncritical}\\ 
+ 				m_2 &: \textbf{await } t = 2\\
+ 				m_3 &: \textbf{critical}\\
+ 				m_4 &: t := 1\\
+			\end{aligned} \right]
+		\end{aligned} \right]\\
+   \end{align*}}\\
+   \multicolumn{3}{|c|}{Program TURN (turn taking).} \\\hline
+\end{tabular}
+\end{center}
+\textit{\textbf{c)} The same questions for program TURN.}
+
+This program satisfies exclusion but neither accessibility nor common accessibility.
+\begin{itemize}
+\item[exclusion] Consider the case in which $P_1$ enter in critical section ($at_{l_3}$ we have $t=1$) so $P_2$ must be in $m_0, m1, m2$ or waiting in front of $m_2$. The same consideration can be applied when $P_2$ enters in its critical section.
+\item[accessibility] $P_1$ and $P_2$ enters in critical their section in a forced alternation: since it is not required to a non-critical section to terminate, if process $P_1$ (resp., $P_2$) is stuck in its non-critical section, $P_2$ (resp., $P_1$) waits indefinitely for its turn. If both non-critical sections are ensured to terminate, then the protocol would satisfy both requirements.
+\end{itemize}
+
+
 \newpage
 \section{Additional exercices}
 \subsection*{Esercizio1}
