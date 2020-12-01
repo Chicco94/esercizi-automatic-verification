@@ -12,6 +12,15 @@
 \usepackage{widetable}
 \usepackage{graphicx}
 
+% per rimuovere inutile spazio bianco dopo gli align
+\usepackage{etoolbox}
+\newcommand{\zerodisplayskips}{%
+  \setlength{\belowdisplayskip}{0pt}}
+\appto{\normalsize}{\zerodisplayskips}
+\appto{\small}{\zerodisplayskips}
+\appto{\footnotesize}{\zerodisplayskips}
+
+
 % per multicolonna
 \usepackage{multicol}
 
@@ -38,8 +47,8 @@
 \date{\today}
 
 
-
 \begin{document}
+
 \maketitle
 
 \section{Exercices on the automata's notes}
@@ -383,7 +392,7 @@ As we can see, now the program cannot terminate anymore, because once in the WHI
 		\end{aligned} \right]\\
    \end{align*}}
    &
-	$\Bigg{\|}$   
+	$\big{\|}$   
    &
    \parbox{4cm}{\begin{align*}
       P_2 &:: \left[ \begin{aligned}
@@ -535,7 +544,7 @@ While \textit{1} and \textit{2} always terminates in computations that ensure ju
 		\end{aligned} \right]\\
    \end{align*}}
    &
-	$\Bigg{\|}$   
+	$\big{\|}$   
    &
    \parbox{4cm}{\begin{align*}
       P_2 &:: \left[ \begin{aligned}
@@ -598,7 +607,7 @@ In this case, program TRY-MUX2 guarantees exclusion but not accessibility since 
 		\end{aligned} \right]\\
    \end{align*}}
    &
-	$\Bigg{\|}$   
+	$\big{\|}$   
    &
    \parbox{4cm}{\begin{align*}
       P_2 &:: \left[ \begin{aligned}
@@ -622,6 +631,118 @@ This program satisfies exclusion but neither accessibility nor common accessibil
 \item[accessibility] $P_1$ and $P_2$ enters in critical their section in a forced alternation: since it is not required to a non-critical section to terminate, if process $P_1$ (resp., $P_2$) is stuck in its non-critical section, $P_2$ (resp., $P_1$) waits indefinitely for its turn. If both non-critical sections are ensured to terminate, then the protocol would satisfy both requirements.
 \end{itemize}
 
+\subsection*{Problem 0.5}
+\begin{center}
+\begin{tabular}{|c|}
+\hline
+\textbf{local} $\alpha_1,\alpha_2,\beta_1,\beta_2$: \textbf{channel of boolean}\\
+\parbox{8cm}{\begin{align*}
+	P_1 &:: \left[ \begin{aligned}
+		&\textbf{local } x_1: \textbf{boolean}\\
+		&l_0: \textbf{loop forever do } \\ 
+ 		&\;\;\; \left[ \begin{aligned}
+ 				l_1 &: \textbf{noncritical}\\ 
+ 				l_2 &: \alpha_1 \Leftarrow T\\
+ 				l_3 &: \beta_1 \Rightarrow x_1\\
+ 				l_4 &: \textbf{critical}\\
+ 				l_5 &: \alpha_1 \Leftarrow F\\
+			\end{aligned} \right]
+		\end{aligned} \right]\\
+\end{align*}} \\
+$\big{\|}$\\
+\parbox{8cm}{\begin{align*}
+	A &:: \left[ \begin{aligned}
+		&\textbf{local } y: \textbf{boolean}\\
+		&k_0: \textbf{loop forever do } \\ 
+ 		&\;\;k_1: \left[ \begin{aligned}
+ 				[k_{1}^{a}&: \alpha_1 \Rightarrow y; k_2 \beta_1 \Leftarrow T; k_3: \alpha_1 \Rightarrow y]\\ 
+ 				& \textbf{or}\\
+ 				[k_{1}^{b}&: \alpha_2 \Rightarrow y; k_4 \beta_2 \Leftarrow T; k_5: \alpha_2 \Rightarrow y]\\
+			\end{aligned} \right]
+		\end{aligned} \right]\\
+\end{align*}} \\
+$\big{\|}$\\
+\parbox{8cm}{\begin{align*}
+	P_2 &:: \left[ \begin{aligned}
+		&\textbf{local } x_2: \textbf{boolean}\\
+		&m_0: \textbf{loop forever do } \\ 
+ 		&\;\;\; \left[ \begin{aligned}
+ 				m_1 &: \textbf{noncritical}\\ 
+ 				m_2 &: \alpha_2 \Leftarrow T\\
+ 				m_3 &: \beta_2 \Rightarrow x_2\\
+ 				m_4 &: \textbf{critical}\\
+ 				m_5 &: \alpha_2 \Leftarrow F\\
+			\end{aligned} \right]
+		\end{aligned} \right]\\
+\end{align*}} \\
+Program MUX-SYNCH (mutual exclusion by synchronous communication). \\
+\hline
+\end{tabular}
+\end{center}
+\textit{\textbf{a)} Argue (informally) that program MUX-SYNCH is a good solution to the mutual exclusion problem. That is, show that each computation of the program satisfies the requirements of exclusion and accessibility.}
+
+Program MUX-SYNCH satisfies exclusion. $P_1$ (resp. $P_2$) enters in critical section only if $at_{k_3}$ (resp. $at_{k_5}$ ). Being in a selection statement, ($at_{k_3} \land at_{k_3}$ ) is inconsistent. $k^{b}_{1}$ (or $k^{a}_{1}$) can be chosen only after the execution of $k_3$ (resp. $k_5$), which is enabled only after $P_1$ (resp. $P_2$) has terminated its critical section. Program MUX-SYNCH satisfies accessibility. If $at_{k_1}$ , and both the lecture from channels $\alpha_1$ and $\alpha_2$ can synchronize, then $k^{a}_{1}$ (or $k^{b}_{1}$) is selected; since the critical section is ensured to terminate, eventually $\alpha_1$ (or $\alpha_2$) receives F. Control goes back to $k_1$. The left-over request cannot be discarded infinitely often because $k^{b}_{1}$ (or $k^{a}_{1}$) is always enabled and must be eventually selected by $k_1$.
+
+\medskip
+\textit{\textbf{b)} Consider a non-standard transition system for program MUX-SYNCH, in which transitions associated with communication statements are taken to be just but not compassionate. We refer to this interpretation of the program as MUX-SYNCH-J. Is this program (transition system) a good solution to the mutual exclusion problem? Provide an informal argument in support of a positive answer or, alternately, show a computation that violates one of the two requirements.}
+
+If only justice is ensured for channel communication, the accessibility property would still hold since there is no way the the reading in location $k^{a}_{1}$ (or $k^{b}_{1}$) can be disabled, once enabled. Since the request to enter is continuously renewed, even with a justice requirement this will be eventually accepted.
+
+\medskip
+\textit{\textbf{c)} Consider program MUX-ASYNCH which is obtained from program MUX-SYNCH by redeclaring channels $\alpha_1,\alpha_2,\beta_1$ and $\beta_2$ as asynchronous channels. Is program MUX-ASYNCH a good solution to the mutual-exclusion problem? Provide an informal argument in support of a positive answer or, alternately, show a computation that violates one of the two requirements.}
+
+With asynchronous channels, the properties would still hold. Exclusion would be guaranteed by the selection in $k_1$; besides, if the channel is not-empty, then the lecture is always enabled and the corresponding branch of selection is eventually taken.
+
+\begin{center}
+\begin{tabular}{|c|}
+\hline
+\textbf{local} $\alpha_1,\alpha_2,\beta_1,\beta_2$: \textbf{boolean where} $\alpha_1=\alpha_2=\beta_1=\beta_2=F$\\
+\parbox{8cm}{\begin{align*}
+	P_1 &:: \left[ \begin{aligned}
+		&l_0: \textbf{loop forever do } \\ 
+ 		&\;\;\; \left[ \begin{aligned}
+ 				l_1 &: \textbf{noncritical}\\ 
+ 				l_2 &: \alpha_1 := T\\
+ 				l_3 &: \textbf{await } \beta_1\\
+ 				l_4 &: \textbf{critical}\\
+ 				l_5 &: \alpha_1 := F\\
+ 				l_6 &: \textbf{await } \neg \beta_1\\
+			\end{aligned} \right]
+		\end{aligned} \right]\\
+\end{align*}} \\
+$\big{\|}$\\
+\parbox{8cm}{\begin{align*}
+	A &:: \left[ \begin{aligned}
+		&k_0: \textbf{loop forever do } \\ 
+ 		&\;\;k_1: \left[ \begin{aligned}
+ 				[k_{1}^{a}&: \textbf{await } \alpha_1; k_2: \beta_1 := T; k_3: \textbf{await } \neg \alpha_1; k_4: \beta_1 := F ]\\ 
+ 				& \textbf{or}\\
+ 				[k_{1}^{b}&: \textbf{await } \alpha_2; k_5: \beta_2 := T; k_6: \textbf{await } \neg \alpha_2; k_7: \beta_2 := F ]
+			\end{aligned} \right]
+		\end{aligned} \right]\\
+\end{align*}} \\
+$\big{\|}$\\
+\parbox{8cm}{\begin{align*}
+	P_2 &:: \left[ \begin{aligned}
+		&m_0: \textbf{loop forever do } \\ 
+ 		&\;\;\; \left[ \begin{aligned}
+ 				m_1 &: \textbf{noncritical}\\ 
+ 				m_2 &: \alpha_2 := T\\
+ 				m_3 &: \textbf{await } \beta_2\\
+ 				m_4 &: \textbf{critical}\\
+ 				m_5 &: \alpha_2 := F\\
+ 				m_6 &: \textbf{await } \neg \beta_2\\
+			\end{aligned} \right]
+		\end{aligned} \right]\\
+\end{align*}} \\
+Program MUX-SHARED (mutual exclusion by shared variables). \\
+\hline
+\end{tabular}
+\end{center}
+\textit{\textbf{d)} Is program MUX-SHARED a good solution to the mutual-exclusion problem? Present an informal argument or show a computation that violates one of the two requirements.}
+
+Program MUX-SHARED satisfies exclusion due to the selection statement in location $k_1$. Accessibility is
+also satisfied because the \textbf{await} $\alpha_1$ (resp. \textbf{await} $\alpha_2$) are always enabled if a process attempts to enter in its critical section, and must be eventually taken.
 
 \newpage
 \section{Additional exercices}
