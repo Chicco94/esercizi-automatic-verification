@@ -282,7 +282,7 @@ $r_A$ e $r_B$ sono accettate se $r_C$ è la concatenazione di una serie infinita
 
 \begin{center}
 \begin{tikzpicture}[shorten >=1pt,node distance=2cm,on grid,auto] 
-   \node[state,initial,accepting] (q_0)   {$q_0$};  
+   \node[state,initial] (q_0)   {$q_0$};  
    \node[state,accepting] (q_1) [right=of q_1] {$q_1$};
     \path[->] 
     (q_0) edge [loop above] node {b} (q_0)
