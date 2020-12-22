@@ -31,12 +31,15 @@
 % per i grafi
 \usepackage{tikz}
 \usetikzlibrary{automata,positioning}
+% per annotazioni sui grafi
+\usetikzlibrary{decorations.pathreplacing,angles,quotes}
 
 \newcommand{\A}{\ensuremath{\mathcal{A}}\xspace}
 \newcommand{\Buchi}{\ensuremath{\mathcal{A} = (\mathcal{Q},A,\Delta,q_0,F)}\xspace}
 \newcommand{\congAlpha}{\ensuremath{\cong_\alpha}\xspace}
 \newcommand{\congAlphaM}{\ensuremath{\congAlpha^m}\xspace}
 \newcommand{\buchi}{B\"uchi }
+\newcommand{\vtest}{\ensuremath{\alpha(k_0,m)}\xspace}
 
 \title{Automatic System Verification\\Exercices}
 \author{
@@ -282,7 +285,7 @@ $r_A$ e $r_B$ sono accettate se $r_C$ è la concatenazione di una serie infinita
 
 \begin{center}
 \begin{tikzpicture}[shorten >=1pt,node distance=2cm,on grid,auto] 
-   \node[state,initial,accepting] (q_0)   {$q_0$};  
+   \node[state,initial] (q_0)   {$q_0$};  
    \node[state,accepting] (q_1) [right=of q_1] {$q_1$};
     \path[->] 
     (q_0) edge [loop above] node {b} (q_0)
@@ -304,6 +307,46 @@ la stessa $\omega$-parola viene accettata da $\A$.
 \subsection*{Esercizio 2.57}
 \textit{Dimostrare che l'insieme $W_V\subseteq A^*$ dei V-testimoni, con V classe di congruenza $\approx_\mathcal{A}$ è regolare}
 
+Riprendo la definizione di V-Testimone:
+$\vtest$ è un V-testimone se, per qualche $k$, con $k_0<k<m$, $m$ è la più piccola posizione tale che $\alpha(k_0,k) \in$ V e $k_0 \congAlphaM k$. Chiamiamo $W_V$ insieme dei V-testimoni della classe V.
+
+\medskip
+
+Possiamo riscrivere questa definizione nel seguente modo:
+\begin{align*}
+	W_V &: \left\lbrace \vtest\;|\;\begin{aligned}
+ 		\;&\exists k_0,k,m\;t.c.\;k_0<k<m\\ 
+ 		\;& \alpha(k_0,k) \in V \\ 
+ 		\;&k_0 \congAlphaM k \\
+ 		\;&\nexists m'<m\;t.c.\; k_0\congAlpha^{m'}k\\
+		\end{aligned} \right\rbrace\\
+\end{align*}
+
+Una parola $x$ è un V-testimone se esistono $v \in V, u \in U (U \congAlpha$-classe) tali che $x=v\cdot u$. Inoltre  sappiamo che $m$ è minimo, quindi $u$ a sua volta dovrà essere minimo.
+\begin{center}
+\begin{tikzpicture}[shorten >=1pt,node distance=2.5cm,on grid,auto] 
+   \node[state,initial] (q_0)   {$q_0$};  
+   \node[state] (q_1) [right=of q_0] {};
+   \node[state] (q_2) [right=of q_1] {};
+   \node[state] (q_3) [right=of q_2] {};
+   \node[state] (q_4) [above right=of q_3] {};
+   \node[state] (q_5) [below right=of q_3] {};
+    \path[->] 
+    (q_0) edge  node {$\alpha(0,k_0)$} (q_1)
+    (q_1) edge  node {$\alpha(k_0,k)$} (q_2)
+    (q_2) edge  node {$\alpha(k,m)$} (q_3)
+    (q_3) edge  node {$w$} (q_4)
+    (q_3) edge  node {$w'$} (q_5);
+   
+   % annotazioni
+	\draw[decoration={brace,mirror,raise=5pt},decorate] 
+   		(q_1.south) -- node[below=6pt] {$\alpha(k_0,m), x \in W_V$} (q_3.south);
+	\draw[decoration={brace,raise=5pt},decorate] 
+   		(q_1.north) -- node[above=6pt] {$v\in V$} (q_2.north);
+   	\draw[decoration={brace,raise=5pt},decorate] 
+   		(q_2.north) -- node[above=6pt] {$u\in U$} (q_3.north);
+\end{tikzpicture}
+\end{center}
 
 
 \newpage
