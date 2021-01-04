@@ -322,31 +322,70 @@ Possiamo riscrivere questa definizione nel seguente modo:
 		\end{aligned} \right\rbrace\\
 \end{align*}
 
-Una parola $x$ è un V-testimone se esistono $v \in V, u \in U (U \congAlpha$-classe) tali che $x=v\cdot u$. Inoltre  sappiamo che $m$ è minimo, quindi $u$ a sua volta dovrà essere minimo.
-\begin{center}
-\begin{tikzpicture}[shorten >=1pt,node distance=2.5cm,on grid,auto] 
-   \node[state,initial] (q_0)   {$q_0$};  
-   \node[state] (q_1) [right=of q_0] {};
-   \node[state] (q_2) [right=of q_1] {};
-   \node[state] (q_3) [right=of q_2] {};
-   \node[state] (q_4) [above right=of q_3] {};
-   \node[state] (q_5) [below right=of q_3] {};
-    \path[->] 
-    (q_0) edge  node {$\alpha(0,k_0)$} (q_1)
-    (q_1) edge  node {$\alpha(k_0,k)$} (q_2)
-    (q_2) edge  node {$\alpha(k,m)$} (q_3)
-    (q_3) edge  node {$w$} (q_4)
-    (q_3) edge  node {$w'$} (q_5);
-   
-   % annotazioni
-	\draw[decoration={brace,mirror,raise=5pt},decorate] 
-   		(q_1.south) -- node[below=6pt] {$\alpha(k_0,m), x \in W_V$} (q_3.south);
-	\draw[decoration={brace,raise=5pt},decorate] 
-   		(q_1.north) -- node[above=6pt] {$v\in V$} (q_2.north);
-   	\draw[decoration={brace,raise=5pt},decorate] 
-   		(q_2.north) -- node[above=6pt] {$u\in U$} (q_3.north);
-\end{tikzpicture}
-\end{center}
+Una parola $x$ è un V-testimone se esistono $v \in V, u \in U (U \approx_\mathcal{A}$-classe) tali che $x=v\cdot u$. Inoltre  sappiamo che $m$ è minimo, quindi $u$ a sua volta dovrà essere minimo.
+
+Dato $U \approx_\mathcal{A}$-classe definiamo:
+$$U_{\textrm{min}} = \{ u \in U \textrm{ tali che } \exists v \in V\; v \cdot u \in U \land v \cdot u \cdot \Sigma+ \notin U \}$$
+
+\medskip
+
+In conclusione abbiamo che: $$W_V = \bigcup_{U\approx_\mathcal{A}\textrm{-classe}} (U \cap (V \cdot U_{\textrm{min}}))$$
+
+%\begin{center}
+%\begin{tikzpicture}[shorten >=1pt,node distance=2.5cm,on grid,auto] 
+%   \node[state,initial] (q_0)   {$q_0$};  
+%   \node[state] (q_1) [right=of q_0] {};
+%   \node[state] (q_2) [right=of q_1] {};
+%   \node[state] (q_3) [right=of q_2] {};
+%   \node[state] (q_4) [above right=of q_3] {};
+%   \node[state] (q_5) [below right=of q_3] {};
+%    \path[->] 
+%    (q_0) edge  node {$\alpha(0,k_0)$} (q_1)
+%    (q_1) edge  node {$\alpha(k_0,k)$} (q_2)
+%    (q_2) edge  node {$\alpha(k,m)$} (q_3)
+%    (q_3) edge  node {$w$} (q_4)
+%    (q_3) edge  node {$w'$} (q_5);
+%   
+%   % annotazioni
+%	\draw[decoration={brace,mirror,raise=5pt},decorate] 
+%   		(q_1.south) -- node[below=6pt] {$\alpha(k_0,m), x \in W_V$} (q_3.south);
+%	\draw[decoration={brace,raise=5pt},decorate] 
+%   		(q_1.north) -- node[above=6pt] {$v\in V$} (q_2.north);
+%	\draw[decoration={brace,raise=5pt},decorate] 
+%   		(q_2.north) -- node[above=6pt] {$u\in U$} (q_3.north);
+%\end{tikzpicture}
+%\end{center}
+
+%\begin{center}
+%\begin{tikzpicture}[shorten >=1pt,node distance=2.5cm,on grid,auto] 
+%   \node[state,initial] (q_0)   {$q_0$};  
+%   \node[state] (q_1) [right=of q_0] {};
+%   \node[state] (q_2) [right=of q_1] {};
+%   \node[state] (q_3) [right=of q_2] {};
+%   \node[state] (q_4) [right=of q_3] {};
+%   \node[state] (q_5) [above right=of q_4] {};
+%   \node[state] (q_6) [below right=of q_4] {};
+%    \path[->] 
+%    (q_0) edge  node {$\alpha(0,k_0)$} (q_1)
+%    (q_1) edge  node {$\alpha(k_0,k)$} (q_2)
+%    (q_2) edge  node {$\alpha(k,m)$} (q_3)
+%    (q_3) edge  node {$\alpha(m,m')$} (q_4)
+%    (q_4) edge  node {$w$} (q_5)
+%    (q_4) edge  node {$w'$} (q_6);
+%   
+%   % annotazioni
+%	\draw[decoration={brace,mirror,raise=5pt},decorate] 
+%   		(q_1.south) -- node[below=6pt] {$\alpha(k_0,m), x \in W_V$} (q_3.south);
+%   \draw[decoration={brace,mirror,raise=30pt},decorate] 
+%   		(q_1.south) -- node[below=31pt] {$\alpha(k_0,m'), x' \notin W_V$} (q_4.south);
+%	\draw[decoration={brace,raise=5pt},decorate] 
+%   		(q_1.north) -- node[above=6pt] {$v\in V$} (q_2.north);
+%   \draw[decoration={brace,raise=5pt},decorate] 
+%   		(q_2.north) -- node[above=6pt] {$u\in U$} (q_3.north);
+%   \draw[decoration={brace,raise=30pt},decorate] 
+%   		(q_2.north) -- node[above=31pt] {$\alpha(k,m'), u' \in U'$} (q_4.north);
+%\end{tikzpicture}
+%\end{center}
 
 
 \newpage
