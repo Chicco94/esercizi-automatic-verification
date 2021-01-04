@@ -833,8 +833,35 @@ also satisfied because the \textbf{await} $\alpha_1$ (resp. \textbf{await} $\alp
 
 
 \subsection*{Esercizio2}
-\textit{Dimostrare che l'insieme dei linguaggi riconosciuti da automi di \buchi su alberi infiniti con insieme degli stati finali singoletto è strettamente contenuto nell'insieme dei linguaggi riconosciuti da automi di \buchi su alberi infiniti}
+\textit{Dimostrare che l'insieme dei linguaggi riconosciuti da automi di \buchi su alberi infiniti con insieme degli stati finali singoletto è strettamente contenuto nell'insieme dei linguaggi riconosciuti da automi di \buchi su alberi infiniti.}
 
+L'insieme degli stati finali di un automa di \buchi su alberi infiniti non può essere sempre ristretto ad un singoletto. In particolare, sia $\Sigma = \{a,b\}$ un alfabeto e siano:
+\begin{enumerate}
+\item $T_a = \{t \in T^{\omega}_A | \forall w \in dom(t) : t(w)=a\}$ albero con sole $a$
+\item $T_b = \{t \in T^{\omega}_A | \forall w \in dom(t) : t(w)=b\}$ albero con sole $b$
+\end{enumerate}
+Preso $T = T_a \cup T_b$, questo è accettato dal seguente automa di \buchi : $$\mathcal{A}=(\{q_0,q_1,q_2\},\Sigma,\Delta,{q_0},\{q_1,q_2\})$$
+
+\begin{center}
+\begin{tikzpicture}[shorten >=1pt,node distance=2.5cm,on grid,auto] 
+   \node[state,initial] (q_0)   {$q_0$};  
+   \node[state,accepting] (q_1) [below left=of q_0] {$q_1$};
+   \node[state,accepting] (q_2) [below right=of q_0] {$q_2$};
+    \path[->] 
+    (q_0) edge  node {$a$} (q_1)
+    (q_0) edge  node {$b$} (q_2)
+    (q_1) edge [loop below] node {$a$} (q_1)
+    (q_2) edge [loop below] node {$b$} (q_2);
+\end{tikzpicture}
+\end{center}
+
+Dimostriamo per assurdo che non può esistere un automa di \buchi $\mathcal{A'} = (Q,\Sigma,\Delta',{q_0},\{q_f\})$ in grado di accettare $T$ con uno stato finale singoletto.
+
+Consideriamo un cammino $\sigma_a=a^\omega$ in un albero $t_a \in T_a$: esiste quindi una run $\pi_a$ su $A'$ tale che $\pi_{a|\sigma}$ ha infinite occorrenze di $q_f$. Perciò esiste $w_a = a^i$ con $i>1$ tale che $\pi_a(w_a)=q_f$.
+
+Similmente, consideriamo un cammino $\sigma_b=b^\omega$ in un albero $t_b \in T_b$: esiste quindi una run $\pi_b$ su $A'$ tale che $\pi_{b|\sigma}$ ha infinite occorrenze di $q_f$. Perciò esiste $w_b = b^j$ con $j>1$ tale che $\pi_b(w_b)=q_f$.
+
+Consideriamo ora l'albero ottenuto sostituendo il sotto-albero di $t_a$ radicato in $w_a$ con il sotto-albero di $t_b$ radicato in $w_b$. Abbiamo così ottenuto un albero infinito i cui cammini sono condivisi o con $t_a$ o un cammino che in partenza ha $a^{i-1}$ e poi continua con cammini accettati di $T_2$. Quest'ultimo legge parole del tipo $a^i-1,b^\omega$ con $i-1>0$. Segue che $\mathcal{A'}$ è forzato ad accettare anche alberi $t \notin T_a \cap T_b.$
 
 \subsection*{Esercizio3}
 \textit{Sia $A=\{a,b\}$ e $T_1=\{t\in T^{\omega}_A:$tutti i cammini di t contengono un numero finito di occorrenze di a$\}$. $T_1$ contiene l'insieme di tutti gli alberi $t_i$, con $i\geqslant 0$, tali che $t_i$ ha un'occorrenza di a nelle posizioni $\epsilon, 1^{m_1}0,\ldots,1^{m_1}01^{m_2}0\ldots 1^{m_i}0$, con $m_1,m_2,\ldots,m_i>0$. Immaginiamo che esista un automa di \buchi $\Buchi$ con $n+1$ stati, con $n\geqslant 1$, incluso lo stato iniziale $q_0$ che occorre solo in posizione $\epsilon$ tale che $L(\A)=T_1$ e sia r un run di successo di $\A$ su $t_n$. Mostrare che deve esistere un cammino in $t_n$ contenente 3 nodi u,v e w, con $u<v<w$, tali che $r(u)=r(w)=s \in F e t_n(v)=a$.}
