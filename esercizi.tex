@@ -44,8 +44,8 @@
 \title{Automatic System Verification\\Exercices}
 \author{
         Cominato Enrico 137396 \\
-                Department of Computer Science\\
-        Univeristy of Udine
+        Department of Computer Science\\
+        University of Udine
 }
 \date{\today}
 
@@ -866,6 +866,21 @@ Consideriamo ora l'albero ottenuto sostituendo il sotto-albero di $t_a$ radicato
 \subsection*{Esercizio3}
 \textit{Sia $A=\{a,b\}$ e $T_1=\{t\in T^{\omega}_A:$tutti i cammini di t contengono un numero finito di occorrenze di a$\}$. $T_1$ contiene l'insieme di tutti gli alberi $t_i$, con $i\geqslant 0$, tali che $t_i$ ha un'occorrenza di a nelle posizioni $\epsilon, 1^{m_1}0,\ldots,1^{m_1}01^{m_2}0\ldots 1^{m_i}0$, con $m_1,m_2,\ldots,m_i>0$. Immaginiamo che esista un automa di \buchi $\Buchi$ con $n+1$ stati, con $n\geqslant 1$, incluso lo stato iniziale $q_0$ che occorre solo in posizione $\epsilon$ tale che $L(\A)=T_1$ e sia r un run di successo di $\A$ su $t_n$. Mostrare che deve esistere un cammino in $t_n$ contenente 3 nodi u,v e w, con $u<v<w$, tali che $r(u)=r(w)=s \in F e t_n(v)=a$.}
 
+Consideriamo una run accettata $\pi$ su $\A$. Abbiamo che $\forall \sigma, In(\pi_{|\sigma}) \cap F \neq \emptyset$. Questo ci porta a considerare due sequenze: $k_1,...k_{n+1}$ e $f_1,...,f_{n+1}$ tali che:
+\begin{enumerate}
+\item $\pi(1^{k_1}) = f_1 \in F$ (deriva dal fatto che $1^\omega$ è un cammino accettato)
+\item $\pi(1^{k_1}01^{k_2}) = f_2 \in F$ (deriva dal fatto che $1^{k_1}01^\omega$ è un cammino accettato)
+\item ...
+\item $\pi(1^{k_1}01^{k_2}...1^{k_n}01^{k_{n+1}}) = f_{n+1} \in F$ (deriva dal fatto che $1^{k_1}01^{k_2}...1^{k_n}01^\omega$ è un cammino accettato)
+\end{enumerate}
+
+Dato che, il numero di stati dell'automa è $n+1$ e $q_0$ occorre solo ad $\epsilon$, deve esistere una coppia di stati finali ripetuta. Siano quindi $i<j\leq n+1$ tali che $f_i=f_j$. Abbiamo trovato una tripla:
+\begin{enumerate}
+\item $u=1^k_101^k_2...1^k_i$
+\item $v=1^k_101^k_2...1^k_i0$
+\item $v=1^k_101^k_2...1^k_i01^k_{i+1}...1^k_j$
+\end{enumerate} 
+tale che $\pi(u)=\pi(w)=f_i=f_j \in F$ e $t_n(v)=a$ 
 
 \subsection*{Esercizio4}
 \textit{Siano $C=\{c_1,\ldots,c_m\}$ e \=c$= ( c_1,\ldots,c_m) $. Sia dato $T \subseteq T^{\omega}_A$ tale che $T=T_0 \cdot$\=c$(T_1,\ldots,T_m)^{\omega}$}
