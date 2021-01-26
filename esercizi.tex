@@ -34,6 +34,10 @@
 % per annotazioni sui grafi
 \usetikzlibrary{decorations.pathreplacing,angles,quotes}
 
+% per elenchi puntati più gestibili in termini di spazio
+% https://ctan.mirror.garr.it/mirrors/ctan/macros/latex/contrib/enumitem/enumitem.pdf
+\usepackage{enumitem}
+
 \newcommand{\A}{\ensuremath{\mathcal{A}}\xspace}
 \newcommand{\Buchi}{\ensuremath{\mathcal{A} = (\mathcal{Q},A,\Delta,q_0,F)}\xspace}
 \newcommand{\congAlpha}{\ensuremath{\cong_\alpha}\xspace}
@@ -888,6 +892,45 @@ tale che $\pi(u)=\pi(w)=f_i=f_j \in F$ e $t_n(v)=a$
 
 \subsection*{Esercizio5}
 \textit{Dimostrare la (correttezza e completezza della) caratterizzazione di uno degli operatori di CTL (diverso da AF) quale minimo punto fisso di un’opportuna trasformazione di predicato.}
+
+Dimostro che l'operatore $EF f_1$ è un minimo punto fisso del predicato $\tau(Z)=f_1 \lor EFZ$.
+
+\medskip
+
+\textit{Correttezza)} Dimostro che $EF f_1$ è un punto fisso di $\tau(Z)$.
+Uno stato $s$ soddisfa $EF f_1 \Leftrightarrow \exists $ un cammino $s...s_i$ tale che $s_i \in f_1$. Quindi:
+\setlist{nolistsep}
+\begin{enumerate}[noitemsep]
+\item $s \in f_1$, oppure
+\item $\exists s_1$ tale che $(s,s_1) \in R$ e $s_1 \in EF f_1$
+\end{enumerate}
+Segue che $s \models EF f_1$ se e solo se $s \models f_1 \lor EXEF f_1 = \tau(EF f_1)$.
+
+\medskip
+
+\textit{Completezza)} Dimostro che $EF f_1 = \cup_i \tau^i(\textrm{False})$.
+In primo luogo, dimostro la monotonocità della trasformazione di predicato $\tau$. $\forall P_1 \subseteq P_2$,
+\begin{align*}
+s\in \tau(P_1) &\Rightarrow s \models f_1 \textrm{or} \exists s' \textrm{t.c.} ((s,s') \in R \land s' \in P_1)\\
+               &\Rightarrow s \models f_1 \textrm{or} \exists s' \textrm{t.c.} ((s,s') \in R \land s' \in P_2)\\
+			   &\Rightarrow s\in \tau(P_2)
+\end{align*}
+Dato che il numero di stati è finito, la monotonocità della trasformazione implica che esiste un limite alla catena crescente $\tau^0(false) \subseteq \tau^1(false) \subseteq \ldots \subseteq \tau^i(false)$.
+Poniamo questo limite a $\tau^l(false=\cup_i \tau^i(false)$, dimostro che $\tau^l(false=EF f_1$.
+\begin{itemize}
+\item[$\subseteq$] Per induzione su $i$, mostro che $\forall i, \tau^i(false) \subseteq EF f_1$.
+
+	Per $i=0$ abbiamo che $\tau^0(False) = False \subseteq EF f_1$.
+	
+	Assumiamo che $\tau^i(false) \subseteq EF f_1$. Per la monotonocità di $\tau$ abbiamo che $\tau^{i+1}(false) \subseteq \tau(EF f_1)$. Dato che $EF f_1$ è un punto fisso di $\tau$, abbiamo che $\tau^{i+1}(false) \subseteq EF f_1$. Segue che $\tau^l(false) \subseteq EF f_1$.
+\item[$\supseteq$] Sia $s \models EF f_1$. Questo significa che $\exists s_i \ldots s_0$ cammino tale che $s_0 \models f_1$ con $s = s_i$. Per induzione, mostro che $s_i \in \tau^{i+1}(False)$.
+
+	Per $i=0$ abbiamo che $s_0 \models f_1 = f_1 \lor False = \tau^1(False)$.
+	
+	Per $i>0$, sia $s_{i-1} \in \tau^i(False)$. Abbiamo che $s_i \models EX\tau^i(False)$ perciò $s_i \models f_1 \lor EX\tau^i(False)=\tau^{i+1}(False)$.
+	
+	Segue che $\forall s \in EF f_1 \exists i$ tale che $s \in \tau^i(False)$, cioè $EF f_1 \subseteq \tau^l(False)$.
+\end{itemize}
 
 
 \subsection*{Esercizio6}
