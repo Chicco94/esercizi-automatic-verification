@@ -44,6 +44,8 @@
 \newcommand{\congAlphaM}{\ensuremath{\congAlpha^m}\xspace}
 \newcommand{\buchi}{B\"uchi }
 \newcommand{\vtest}{\ensuremath{\alpha(k_0,m)}\xspace}
+\newcommand{\T}{\ensuremath{\textrm{\emph{TRUE}}}\xspace}
+\newcommand{\F}{\ensuremath{\textrm{\emph{FALSE}}}\xspace}
 
 \title{Automatic System Verification\\Exercices}
 \author{
@@ -359,7 +361,7 @@ In conclusione abbiamo che: $$W_V = \bigcup_{U\approx_\mathcal{A}\textrm{-classe
 %   		(q_2.north) -- node[above=6pt] {$u\in U$} (q_3.north);
 %\end{tikzpicture}
 %\end{center}
-
+%
 %\begin{center}
 %\begin{tikzpicture}[shorten >=1pt,node distance=2.5cm,on grid,auto] 
 %   \node[state,initial] (q_0)   {$q_0$};  
@@ -578,7 +580,7 @@ Q[S_2]: &	\langle \pi:\{l_0,m_0\},x:0 \rangle \xrightarrow{l_0}
 \item $P::[S_1 \textbf{or} S_2] \approx Q::[S_2 \textbf{or} S_1]$: If $P$ selects $S_1$ (resp. $S_2$), also $Q$ can select $S_1$ (resp. $S_2$) and vice versa.
 \item $[S_1 \parallel S_2] \approx [S_2 \parallel S_1]$: As the previous case, since there is no precondition to the parallel composition of $S_1$ and $S_2$, each transition on $P$ can be choose on $Q$.
 \item $S \approx [S; \textbf{skip}]$: We know that \textbf{skip} always terminates, so $S$;\textbf{skip} terminates if and only if $S$ does. Moreover, \textbf{skip} does not alter the data (its data transformation is the identity).
-\item $\textbf{await}\;c \approx \textbf{while}\;\neg c\;\textbf{do skip}$ While $c$ is false the programs loop forever. When $c$ is true, both programs terminates without altering the values of output variables.
+\item $\textbf{await}\;c \approx \textbf{while}\;\neg c\;\textbf{do skip}$ While $c$ is $\F$ the programs loop forever. When $c$ is $\T$, both programs terminates without altering the values of output variables.
 \end{enumerate}
 
 \medskip
@@ -891,14 +893,14 @@ tale che $\pi(u)=\pi(w)=f_i=f_j \in F$ e $t_n(v)=a$
 
 
 \subsection*{Esercizio5}
-\textit{Dimostrare la (correttezza e completezza della) caratterizzazione di uno degli operatori di CTL (diverso da AF) quale minimo punto fisso di un’opportuna trasformazione di predicato.}
+\textit{Dimostrare la (correttezza e completezza della) caratterizzazione di uno degli operatori di CTL (diverso da AF) quale minimo punto fisso di un'opportuna trasformazione di predicato.}
 
 Dimostro che l'operatore $EF f_1$ è un minimo punto fisso del predicato $\tau(Z)=f_1 \lor EFZ$.
 
 \medskip
 
 \textit{Correttezza)} Dimostro che $EF f_1$ è un punto fisso di $\tau(Z)$.
-Uno stato $s$ soddisfa $EF f_1 \Leftrightarrow \exists $ un cammino $s...s_i$ tale che $s_i \in f_1$. Quindi:
+Uno stato $s \models EF f_1 \Leftrightarrow \exists $ un cammino $s...s_i$ tale che $s_i \in f_1$. Quindi:
 \setlist{nolistsep}
 \begin{enumerate}[noitemsep]
 \item $s \in f_1$, oppure
@@ -908,34 +910,72 @@ Segue che $s \models EF f_1$ se e solo se $s \models f_1 \lor EXEF f_1 = \tau(EF
 
 \medskip
 
-\textit{Completezza)} Dimostro che $EF f_1 = \cup_i \tau^i(\textrm{False})$.
+\textit{Completezza)} Dimostro che $EF f_1 = \cup_i \tau^i(\textrm{\F})$.
 In primo luogo, dimostro la monotonocità della trasformazione di predicato $\tau$. $\forall P_1 \subseteq P_2$,
 \begin{align*}
 s\in \tau(P_1) &\Rightarrow s \models f_1 \textrm{or} \exists s' \textrm{t.c.} ((s,s') \in R \land s' \in P_1)\\
                &\Rightarrow s \models f_1 \textrm{or} \exists s' \textrm{t.c.} ((s,s') \in R \land s' \in P_2)\\
 			   &\Rightarrow s\in \tau(P_2)
 \end{align*}
-Dato che il numero di stati è finito, la monotonocità della trasformazione implica che esiste un limite alla catena crescente $\tau^0(false) \subseteq \tau^1(false) \subseteq \ldots \subseteq \tau^i(false)$.
-Poniamo questo limite a $\tau^l(false=\cup_i \tau^i(false)$, dimostro che $\tau^l(false=EF f_1$.
+Dato che il numero di stati è finito, la monotonocità della trasformazione implica che esiste un limite alla catena crescente $\tau^0(\F) \subseteq \tau^1(\F) \subseteq \ldots \subseteq \tau^i(\F)$.
+Poniamo questo limite a $\tau^l(\F)=\cup_i \tau^i(\F)$, dimostro che $\tau^l(\F)=EF f_1$.
 \begin{itemize}
-\item[$\subseteq$] Per induzione su $i$, mostro che $\forall i, \tau^i(false) \subseteq EF f_1$.
+\item[$\subseteq$] Per induzione su $i$, mostro che $\forall i, \tau^i(\F) \subseteq EF f_1$.
 
-	Per $i=0$ abbiamo che $\tau^0(False) = False \subseteq EF f_1$.
+	Per $i=0$ abbiamo che $\tau^0(\F) = \F \subseteq EF f_1$.
 	
-	Assumiamo che $\tau^i(false) \subseteq EF f_1$. Per la monotonocità di $\tau$ abbiamo che $\tau^{i+1}(false) \subseteq \tau(EF f_1)$. Dato che $EF f_1$ è un punto fisso di $\tau$, abbiamo che $\tau^{i+1}(false) \subseteq EF f_1$. Segue che $\tau^l(false) \subseteq EF f_1$.
-\item[$\supseteq$] Sia $s \models EF f_1$. Questo significa che $\exists s_i \ldots s_0$ cammino tale che $s_0 \models f_1$ con $s = s_i$. Per induzione, mostro che $s_i \in \tau^{i+1}(False)$.
+	Assumiamo che $\tau^i(\F) \subseteq EF f_1$. Per la monotonocità di $\tau$ abbiamo che $\tau^{i+1}(\F) \subseteq \tau(EF f_1)$. Dato che $EF f_1$ è un punto fisso di $\tau$, abbiamo che $\tau^{i+1}(\F) \subseteq EF f_1$. Segue che $\tau^l(\F) \subseteq EF f_1$.
+\item[$\supseteq$] Sia $s \models EF f_1$. Questo significa che $\exists s_i \ldots s_0$ cammino tale che $s_0 \models f_1$ con $s = s_i$. Per induzione, mostro che $s_i \in \tau^{i+1}(\F)$.
 
-	Per $i=0$ abbiamo che $s_0 \models f_1 = f_1 \lor False = \tau^1(False)$.
+	Per $i=0$ abbiamo che $s_0 \models f_1 = f_1 \lor \F = \tau^1(\F)$.
 	
-	Per $i>0$, sia $s_{i-1} \in \tau^i(False)$. Abbiamo che $s_i \models EX\tau^i(False)$ perciò $s_i \models f_1 \lor EX\tau^i(False)=\tau^{i+1}(False)$.
+	Per $i>0$, sia $s_{i-1} \in \tau^i(\F)$. Abbiamo che $s_i \models EX\tau^i(\F)$ perciò $s_i \models f_1 \lor EX\tau^i(\F)=\tau^{i+1}(\F)$.
 	
-	Segue che $\forall s \in EF f_1 \exists i$ tale che $s \in \tau^i(False)$, cioè $EF f_1 \subseteq \tau^l(False)$.
+	Segue che $\forall s \in EF f_1 \exists i$ tale che $s \in \tau^i(\F)$, cioè $EF f_1 \subseteq \tau^l(\F)$.
 \end{itemize}
 
 
 \subsection*{Esercizio6}
-\textit{Dimostrare la (correttezza e completezza della) caratterizzazione di uno degli operatori di CTL (diverso da EG) quale massimo punto fisso di un’opportuna trasformazione di predicato.}
+\textit{Dimostrare la (correttezza e completezza della) caratterizzazione di uno degli operatori di CTL (diverso da EG) quale massimo punto fisso di un'opportuna trasformazione di predicato.}
 
+Dimostro che l'operatore $AG f_1$ è il massimo punto fisso del predicato $\tau(Z)=f_1 \land AGZ$.
 
+\medskip
+
+\textit{Correttezza)} Dimostro che $AG f_1$ è un punto fisso di $\tau(Z)$.
+Uno stato $s \models AG f_1 \Leftrightarrow s_i \models f_1$ e $\forall s...s_i$ cammini, $\forall i$, vale che $s_i \in f_1$. Quindi:
+\setlist{nolistsep}
+\begin{enumerate}[noitemsep]
+\item $s \in f_1$, oppure
+\item $\forall s_1$ tale che $(s,s_1) \in R$, allora vale $s_1 \in AG f_1$
+\end{enumerate}
+Segue che $s \models AG f_1$ se e solo se $s \models f_1 \lor AXAG f_1 = \tau(AG f_1)$.
+
+\medskip
+
+\textit{Completezza)} Dimostro che $AG f_1 = \cap_i \tau^i(\textrm{\T})$.
+In primo luogo, dimostro la monotonocità della trasformazione di predicato $\tau$. $\forall P_1 \subseteq P_2$,
+\begin{align*}
+s\in \tau(P_1) &\Rightarrow s \models f_1 \textrm{and} \forall s' \textrm{t.c.} ((s,s') \in R \land s' \in P_1)\\
+               &\Rightarrow s \models f_1 \textrm{and} \forall s' \textrm{t.c.} ((s,s') \in R \land s' \in P_2)\\
+			   &\Rightarrow s\in \tau(P_2)
+\end{align*}
+Dato che il numero di stati è finito, la monotonocità della trasformazione implica che esiste un limite alla catena decrescente $\tau^0(\T) \subseteq \tau^1(\T) \subseteq \ldots \subseteq \tau^i(\T)$.
+Poniamo questo limite a $\tau^l(\T)=\cap_i \tau^i(\T)$, dimostro che $\tau^l(\T)=AG f_1$.
+\begin{itemize}
+\item[$\supseteq$] Per induzione su $i$, mostro che $\forall i,AG f_1 \subseteq \tau^i(\T)$.
+
+	Per $i=0$ abbiamo che $AG f_1 \subseteq \tau^0(\T) = \T$.
+	
+	Assumiamo che $AG f_1 \subseteq \tau^i(\T)$. Per la monotonocità di $\tau$ abbiamo che $\tau(AG f_1) \subseteq \tau^{i+1}(\T)$. Dato che $AG f_1$ è un punto fisso di $\tau$, abbiamo che $AG f_1 \subseteq \tau^{i+1}(\T)$. Segue che $AG f_1 \subseteq \tau^l(\F)$.
+\item[$\subseteq$] Sia $s \in \tau^l(\T)$. Voglio mostrare che $\forall (s_i,s_{i+1}) \in R$ su tutti i cammini $s_0, \ldots, s_i$, con $s_0 = s$, allora $s_i \models f_1$ (per avere che $s_i \models AG f_1$). 
+	Per induzione, mostro che $\forall (s_i,s_{i+1}) \in R$ su tutti i cammini $s_0, \ldots, s_i$, con $s_0 = s$, allora $s_i \in \tau^l(\T)$
+
+	Per $i=0$: triviale (per ipotesi)
+	
+	Assumiamo che $s_i \models \tau^l(\T)$, abbiamo che $s_i \models f_1 \land AX\tau^{l+1}(\T)$, quindi $s_{i+1} \in \tau^{l+1}(\T)$. Dato che $\tau^{l+1}(\T)=\tau^l(\T)$, abbiamo che $s_{i+1} \in \tau^l(\T)$.
+	
+	Segue che $\tau^l(\T) \subseteq AG f_1 $.
+\end{itemize}
 
 \end{document}
