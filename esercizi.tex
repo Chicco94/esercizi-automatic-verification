@@ -1,4 +1,5 @@
 \documentclass[12pt]{article}
+\usepackage[a4paper, margin=1in]{geometry}
 
 \usepackage[english]{babel}
 \setlength{\parindent}{0pt} % tolgo indentazioni
@@ -889,7 +890,22 @@ Dato che, il numero di stati dell'automa è $n+1$ e $q_0$ occorre solo ad $\epsi
 tale che $\pi(u)=\pi(w)=f_i=f_j \in F$ e $t_n(v)=a$ 
 
 \subsection*{Esercizio4}
-\textit{Siano $C=\{c_1,\ldots,c_m\}$ e \=c$= ( c_1,\ldots,c_m) $. Sia dato $T \subseteq T^{\omega}_A$ tale che $T=T_0 \cdot$\=c$(T_1,\ldots,T_m)^{\omega}$}
+\textit{Siano $C=\{c_1,\ldots,c_m\}$ e \=c$= ( c_1,\ldots,c_m) $. Sia dato $T \subseteq T^{\omega}_A$ tale che $T=T_0 \cdot$\=c$(T_1,\ldots,T_m)^{\omega_{\textrm{\=c}}}$ con $T_0,T_1,\ldots,T_m \subseteq T_{A \cup C}$ insiemi riconoscibili. Mostrare che $T$ è riconoscibile da un automa di \buchi.}
+
+Siano $C=\{c_1,\ldots,c_m\}$ e \=c$= ( c_1,\ldots,c_m)$ e $\forall i \; 0 \leq i \leq m$, sia $T_i \subseteq T_{A \cup C}$ un insieme di alberi riconosciuti dall'automa di \buchi $\mathcal{A}_i = (\mathcal{Q}_i,A \cup C,\Delta_i,\{ q_{0_i}\},F)$.
+L'insieme $T\subseteq T^\omega_A$ tale che $T = T_0 \cdot$\=c$(T_1,\ldots,T_m)^{\omega_{\textrm{\=c}}}$ è riconosciuto dall'automa di \buchi $\mathcal{Q},A,\Delta,\mathcal{Q}_0,F)$ dove:
+\begin{itemize}[leftmargin=10pt]
+\item $\mathcal{Q} = \bigcup_{0\leq i\leq m}\mathcal{Q}_i$
+\item $\mathcal{Q}_0 = \lbrace (q_{0_0}) \rbrace \cup \lbrace q_{0_l} \vert 1 \leq l \leq m, \exists c \in C \cdot (q_{0_0},c,q_x,q_y) \in \Delta_0 \rbrace$
+\item $F = \bigcup_{0\leq i\leq m} F_i$
+\item $\Delta = \bigcup_{0\leq i\leq m} ((\Delta_i \setminus \Delta^-_i) \cup \Delta^+_i)$ dove $\forall i \; 0 \leq i \leq m$:
+	\begin{itemize}[leftmargin=15pt]
+	\item $\Delta^-_i = \lbrace (q_j,c,q_y,q_z) \in \Delta_i \vert c \in C \rbrace \cup \lbrace (q_k,c,q_j,q_x) \vert a \in A, \exists c \in C \cdot (q_j,c,q_y,q_z) \in \Delta_i \rbrace$
+	\item $\Delta^+_i = \lbrace (q_k,c,q_{0_l},q_x) \vert 1 \leq l \leq m, a \in A,\exists c \in C \cdot \lbrace (q_k,a,q_j,q_x),(q_j,c,q_y,q_z) \rbrace \subseteq \Delta^- \rbrace$
+	\end{itemize}
+\end{itemize}
+Quindi, $\Delta$ è ottenuta rimuovendo da ogni $\Delta_i$ le transizioni che leggono un simbolo in $C$ e sostituendo le  transizioni immediatamente precedenti (che leggono un simbolo di $A$) con nuove transizioni, leggenti lo stesso simbolo ma indirizzate verso uno stato iniziale $q_{0_l}$ preso da uno degli $\mathcal{A}_l$ con $l > 1$.
+Infine, se lo stato iniziale $q_{0_0}$ può leggere un simbolo in $C$, ogni altro stato iniziale $q_{0_l}$ deve essere aggiunto all'insieme degli stati iniziali di $\mathcal{A}$
 
 
 \subsection*{Esercizio5}
