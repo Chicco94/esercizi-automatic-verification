@@ -838,6 +838,25 @@ also satisfied because the \textbf{await} $\alpha_1$ (resp. \textbf{await} $\alp
 \subsection*{Esercizio1}
 \textit{Dato un linguaggio $L \subseteq A^*$, dimostrare se che $L$ è un linguaggio star-free, allora $L$ è definibile nel frammento al prim'ordine di $S1S_A$, con la relazione di ordinamento $<$ e i predicati unari $Q_a$, con $a \in A$.}
 
+Un linguaggio star-free è costruito su:
+\begin{enumerate}[noitemsep]
+\item un alfabeto $A$
+\item l'insieme vuoto $\emptyset$
+\item operatori booleani \emph{AND} \emph{OR} \emph{NOT}
+\item operazione di concatenazione $\cdot$
+\end{enumerate}
+Mentre un linguaggio del frammento al prim'ordine di $S1S_A$ è costruito su:
+\begin{enumerate}[noitemsep]
+\item un alfabeto $A$
+\item una costante $0$
+\item operatori booleani \emph{AND} \emph{OR} \emph{NOT}
+\item quantificatore $\forall$ e $\exists$
+\item un insieme di variabili $\{x,y,\ldots\}$
+\item un insieme di predicati $\{<\} \cup \{Q_a \forall a \in A\}$
+\end{enumerate}
+
+L'idea è quella di ricostruire l'espressione regolare che definisce il linguaggio L come una formula in $S1S_A$.
+Di seguito
 
 \subsection*{Esercizio2}
 \textit{Dimostrare che l'insieme dei linguaggi riconosciuti da automi di \buchi su alberi infiniti con insieme degli stati finali singoletto è strettamente contenuto nell'insieme dei linguaggi riconosciuti da automi di \buchi su alberi infiniti.}
