@@ -856,7 +856,16 @@ Mentre un linguaggio del frammento al prim'ordine di $S1S_A$ è costruito su:
 \end{enumerate}
 
 L'idea è quella di ricostruire l'espressione regolare che definisce il linguaggio L come una formula in $S1S_A$.
-Di seguito
+Di seguito elenco delle forme di $S1S_A$ con cui vengono interpretate le espressioni regolari costruite su $L$:
+\begin{itemize}
+	\item $\phi_\epsilon(x) = \bigwedge_{a \in A} x \notin Q_a$
+	\item $\phi_a(x) = x \in Q_a \bigwedge_{b \in A,b \neq a} x \notin Q_b$
+	\item $\phi_{exp_1 \cap \exp_2}(x) = \phi_{exp_1}(x) \land \phi_{exp_2}(x)$
+	\item $\phi_{exp_1 \cup \exp_2}(x) = \phi_{exp_1}(x) \lor \phi_{exp_2}(x)$
+	\item $\phi_{\neg exp_1}(x) = \neg \phi_{exp_1}(x)$
+	\item $\phi_{exp_1 \cdot \exp_2}(x,y) = \phi_{exp_1}(x) \land x+1 = y \land \phi_{exp_2}(y)$
+\end{itemize}
+Con queste formule di $S1S_A$ possiamo quindi ricostruire l'espressione regolare che caratterizza $L$. 
 
 \subsection*{Esercizio2}
 \textit{Dimostrare che l'insieme dei linguaggi riconosciuti da automi di \buchi su alberi infiniti con insieme degli stati finali singoletto è strettamente contenuto nell'insieme dei linguaggi riconosciuti da automi di \buchi su alberi infiniti.}
