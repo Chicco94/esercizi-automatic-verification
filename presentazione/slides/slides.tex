@@ -1,12 +1,26 @@
 \documentclass{beamer}
 
 \usepackage[utf8]{inputenc}
+
+\usepackage[default]{droidserif}
+\usepackage[T1]{fontenc}
+
+% per testo colotaro
+\usepackage{xcolor}
+
+% per immagini
 \usepackage{graphicx}
 \graphicspath{ {./images/} }
 
+
+
+%--------------------------------------------------------------------------------
+%						BLOCCO PER PRESENTAZIONI UNIUD
+%--------------------------------------------------------------------------------
 \definecolor{marrone}{RGB}{92,64,60}
 \definecolor{arancio}{RGB}{255,102,0}
 \definecolor{azzurro}{RGB}{119,154,171}
+\definecolor{bianco}{RGB}{255,255,255}
 
 \setbeamercolor{marrone}{fg=white, bg=marrone}
 \setbeamercolor{arancio}{fg=white, bg=arancio}
@@ -17,19 +31,47 @@
 	\begin{beamercolorbox}[sep=0.15cm,ht=1cm,wd=1.05cm]{marrone}%
 		\includegraphics[width=.75cm]{UdineLogoFull}
 	\end{beamercolorbox}%
-	\begin{beamercolorbox}[ht=1cm,wd=.4\paperwidth]{arancio}%
-		\hfill\insertsection\hspace*{1em}%
+	\begin{beamercolorbox}[sep=0.15cm,ht=1cm,wd=.4\paperwidth]{arancio}%
+		\textbf{UNIVERSITÀ \linebreak
+		DEGLI STUDI \linebreak
+		DI UDINE}
 	\end{beamercolorbox}%
 	\begin{beamercolorbox}[ht=1cm,wd=.6\paperwidth]{azzurro}%
-		\hfill\insertsection\hspace*{1em}%
 	\end{beamercolorbox}%
 }
 
+\setbeamertemplate{frametitle}{
+	\begin{flushright}
+		\vspace*{-1.25cm}\color{bianco}
+		\insertframetitle
+	\end{flushright}
+}
+
+\logo{\includegraphics[scale=.5]{UdineLogo}\hspace*{.65\paperwidth}}
+%--------------------------------------------------------------------------------
+%					FINE BLOCCO PER PRESENTAZIONI UNIUD
+%--------------------------------------------------------------------------------
+
+
+
 %Information to be included in the title page:
-\title{Sample title}
-\author{Anonymous}
-\institute{Overleaf}
-\date{2014}
+\title[About Beamer] %optional
+{About the Beamer class in presentation making}
+
+\subtitle{A short story}
+
+\author[Enrico] % (optional, for multiple authors)
+{E. Cominato 137396\inst{1}}
+
+\institute % (optional)
+{
+  \inst{1}%
+  Dipartimento di Scienze Matematiche, Informatiche e Fisiche\\
+  Università degli studi di Udine
+}
+
+\date[VLC 2013] % (optional)
+{Very Large Conference, April 2013}
 
 
 
