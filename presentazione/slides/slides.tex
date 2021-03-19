@@ -1,0 +1,45 @@
+\documentclass{beamer}
+
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\graphicspath{ {./images/} }
+
+\definecolor{marrone}{RGB}{92,64,60}
+\definecolor{arancio}{RGB}{255,102,0}
+\definecolor{azzurro}{RGB}{119,154,171}
+
+\setbeamercolor{marrone}{fg=white, bg=marrone}
+\setbeamercolor{arancio}{fg=white, bg=arancio}
+\setbeamercolor{azzurro}{fg=white, bg=azzurro}
+
+\setbeamertemplate{headline}{%
+	\leavevmode%
+	\begin{beamercolorbox}[sep=0.15cm,ht=1cm,wd=1.05cm]{marrone}%
+		\includegraphics[width=.75cm]{UdineLogoFull}
+	\end{beamercolorbox}%
+	\begin{beamercolorbox}[ht=1cm,wd=.4\paperwidth]{arancio}%
+		\hfill\insertsection\hspace*{1em}%
+	\end{beamercolorbox}%
+	\begin{beamercolorbox}[ht=1cm,wd=.6\paperwidth]{azzurro}%
+		\hfill\insertsection\hspace*{1em}%
+	\end{beamercolorbox}%
+}
+
+%Information to be included in the title page:
+\title{Sample title}
+\author{Anonymous}
+\institute{Overleaf}
+\date{2014}
+
+
+
+\begin{document}
+
+\frame{\titlepage}
+
+\begin{frame}
+\frametitle{Sample frame title}
+This is a text in the first frame. This is a text in the first frame. This is a text in the first frame.
+\end{frame}
+
+\end{document}
