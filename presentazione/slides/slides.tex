@@ -1,57 +1,11 @@
-\documentclass{beamer}
+\documentclass[table]{beamer}
 
 \usepackage[utf8]{inputenc}
 
 \usepackage[default]{droidserif}
 \usepackage[T1]{fontenc}
 
-% per testo colotaro
-\usepackage{xcolor}
-
-% per immagini
-\usepackage{graphicx}
-\graphicspath{ {./images/} }
-
-
-
-%--------------------------------------------------------------------------------
-%						BLOCCO PER PRESENTAZIONI UNIUD
-%--------------------------------------------------------------------------------
-\definecolor{marrone}{RGB}{92,64,60}
-\definecolor{arancio}{RGB}{255,102,0}
-\definecolor{azzurro}{RGB}{119,154,171}
-\definecolor{bianco}{RGB}{255,255,255}
-
-\setbeamercolor{marrone}{fg=white, bg=marrone}
-\setbeamercolor{arancio}{fg=white, bg=arancio}
-\setbeamercolor{azzurro}{fg=white, bg=azzurro}
-
-\setbeamertemplate{headline}{%
-	\leavevmode%
-	\begin{beamercolorbox}[sep=0.15cm,ht=1cm,wd=1.05cm]{marrone}%
-		\includegraphics[width=.75cm]{UdineLogoFull}
-	\end{beamercolorbox}%
-	\begin{beamercolorbox}[sep=0.15cm,ht=1cm,wd=.4\paperwidth]{arancio}%
-		\textbf{UNIVERSITÀ \linebreak
-		DEGLI STUDI \linebreak
-		DI UDINE}
-	\end{beamercolorbox}%
-	\begin{beamercolorbox}[ht=1cm,wd=.6\paperwidth]{azzurro}%
-	\end{beamercolorbox}%
-}
-
-\setbeamertemplate{frametitle}{
-	\begin{flushright}
-		\vspace*{-1.25cm}\color{bianco}
-		\insertframetitle
-	\end{flushright}
-}
-
-\logo{\includegraphics[scale=.5]{UdineLogo}\hspace*{.65\paperwidth}}
-%--------------------------------------------------------------------------------
-%					FINE BLOCCO PER PRESENTAZIONI UNIUD
-%--------------------------------------------------------------------------------
-
+\input{lib/uniud_tmpl}
 
 
 %Information to be included in the title page:
@@ -79,9 +33,16 @@
 
 \frame{\titlepage}
 
+\section{Initial Definitions}
 \begin{frame}
-\frametitle{Sample frame title}
-This is a text in the first frame. This is a text in the first frame. This is a text in the first frame.
+\frametitle{Discrete case}
+\begin{dfn}[Plant]
+A plant automaton is a tuple $\mathcal{P}=(Q,\Sigma_c,\delta, q)$ where
+$Q$ is a finite set of states, $\Sigma_c$ is a set of controller commands, $\delta:Q \times \Sigma_c \longmapsto 2^Q$ is the transition function and $q_o \in Q$ is an initial state.
+\end{dfn}
+\begin{dfn}[Controllers]
+A controller (strategy) for a plant specified by $\mathcal{P}=(Q,\Sigma_c,\delta, q)$ is a function $C:Q^+\longmapsto \Sigma_c$. A simple controller is a controller that can be written as a function $C:Q^+\longmapsto \Sigma_c$.
+\end{dfn}
 \end{frame}
 
 \end{document}

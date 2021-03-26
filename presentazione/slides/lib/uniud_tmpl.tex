@@ -1,0 +1,113 @@
+
+% per immagini
+\usepackage{graphicx}
+\graphicspath{ {./images/} }
+
+% per testo colotaro
+\usepackage{xcolor}
+
+% colori utilizzati
+\definecolor{marrone}{RGB}{92,64,60}
+\definecolor{arancio}{RGB}{255,102,0}
+\definecolor{azzurro}{RGB}{119,154,171}
+\definecolor{bianco}{RGB}{255,255,255}
+
+
+%--------------------------------------------------------------------------------
+%						BLOCCO PER TEOREMI E DEFINIZIONI
+%--------------------------------------------------------------------------------
+\usepackage{amsthm}
+\usepackage{thmtools}
+\usepackage{thmbox}
+
+\makeatletter
+\def\thmbox@color{black}
+\define@key{thmbox}{color}{\def\thmbox@color{#1}}
+\def\thmbox@head#1{%
+  \par\noindent\vbox{%
+    \setbox\thmbox@box@=\hbox{%
+      \vrule width 0mm height 0mm depth \thmbox@vskip%
+      #1}%
+    \copy\thmbox@box@%
+    \ifthmbox@underline%
+       \color@begingroup\color{\thmbox@color}\hrule width \wd\thmbox@box@ height \thmbox@thickness\color@endgroup%
+    \fi}%
+  \hrule height 0mm\relax}
+\def\thmbox@put#1{
+  \vskip\z@%
+  \noindent%
+  \hbox{%
+    {\dimen0=\thmbox@leftmargin%
+     \advance\dimen0-\thmbox@hskip%
+     \advance\dimen0-\thmbox@thickness%
+     \hskip\dimen0}%
+    \color@begingroup\color{\thmbox@color}\vrule width \thmbox@thickness\color@endgroup%
+    \hskip\thmbox@hskip%
+    \box#1%
+    \ifx\thmbox@style L%
+      \hskip\thmbox@hskip%
+      \color@begingroup\color{\thmbox@color}\vrule width \thmbox@thickness\color@endgroup%
+    \fi}%
+  \par\nobreak}
+\def\thmbox@tail{%
+  \hrule height 0mm%
+  \ifx\thmbox@style M%
+    \thmbox@dim=1cm%
+  \else\ifx\thmbox@style L%
+    \thmbox@dim=\hsize%
+    \advance\thmbox@dim-\thmbox@leftmargin%
+    \advance\thmbox@dim-\thmbox@rightmargin%
+    \advance\thmbox@dim2\thmbox@hskip%
+    \advance\thmbox@dim2\thmbox@thickness%
+  \fi\fi%
+  \noindent%
+  {\dimen0=\thmbox@leftmargin%
+   \advance\dimen0-\thmbox@hskip%
+   \advance\dimen0-\thmbox@thickness%
+   \hskip\dimen0}%
+  \color@begingroup\color{\thmbox@color}\vrule width \thmbox@dim height \thmbox@thickness\color@endgroup%
+  \par}
+\makeatother
+
+%\declaretheorem[shaded={rulecolor=azzurro,rulewidth=2pt, bgcolor={rgb}{1,1,1}}]{defn}{Definition}
+%\declaretheorem[thmbox=M]{Definition}
+\newtheorem[style=L, thickness=1pt,color=azzurro]{thm}{Theorem}
+\newtheorem[style=L, thickness=1pt,color=arancio]{dfn}{Definition}
+%--------------------------------------------------------------------------------
+%						BLOCCO PER TEOREMI E DEFINIZIONI
+%--------------------------------------------------------------------------------
+
+
+
+%--------------------------------------------------------------------------------
+%						BLOCCO PER PRESENTAZIONI UNIUD
+%--------------------------------------------------------------------------------
+\setbeamercolor{marrone}{fg=white, bg=marrone}
+\setbeamercolor{arancio}{fg=white, bg=arancio}
+\setbeamercolor{azzurro}{fg=white, bg=azzurro}
+
+\setbeamertemplate{headline}{%
+	\leavevmode%
+	\begin{beamercolorbox}[sep=0.15cm,ht=1cm,wd=1.05cm]{marrone}%
+		\includegraphics[width=.75cm]{UdineLogoFull}
+	\end{beamercolorbox}%
+	\begin{beamercolorbox}[sep=0.15cm,ht=1cm,wd=.4\paperwidth]{arancio}%
+		\textbf{UNIVERSITÀ \linebreak
+		DEGLI STUDI \linebreak
+		DI UDINE}
+	\end{beamercolorbox}%
+	\begin{beamercolorbox}[ht=1cm,wd=.6\paperwidth]{azzurro}%
+	\end{beamercolorbox}%
+}
+
+\setbeamertemplate{frametitle}{
+	\begin{flushright}
+		\vspace*{-1.25cm}\color{bianco}
+		\insertframetitle
+	\end{flushright}
+}
+
+\logo{\includegraphics[scale=.5]{UdineLogo}\hspace*{.65\paperwidth}}
+%--------------------------------------------------------------------------------
+%					FINE BLOCCO PER PRESENTAZIONI UNIUD
+%--------------------------------------------------------------------------------
