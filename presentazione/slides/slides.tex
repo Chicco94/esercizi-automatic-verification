@@ -19,9 +19,9 @@
 
 \institute % (optional)
 {
-  \inst{1}%
-  Dipartimento di Scienze Matematiche, Informatiche e Fisiche\\
-  Università degli studi di Udine
+	\inst{1}%
+	Dipartimento di Scienze Matematiche, Informatiche e Fisiche\\
+	Università degli studi di Udine
 }
 
 \date[VLC 2013] % (optional)
@@ -34,15 +34,63 @@
 \frame{\titlepage}
 
 \section{Initial Definitions}
+%\newcommand{\P}{$\mathcal{P}$}
+%\newcommand{\Plat}{\mathcal{P}=(Q,\Sigma_c,\delta, q)}
+%\newcommand{\ControllerFn}{C:Q^+\longmapsto \Sigma_c}
 \begin{frame}
-\frametitle{Discrete case}
-\begin{dfn}[Plant]
-A plant automaton is a tuple $\mathcal{P}=(Q,\Sigma_c,\delta, q)$ where
-$Q$ is a finite set of states, $\Sigma_c$ is a set of controller commands, $\delta:Q \times \Sigma_c \longmapsto 2^Q$ is the transition function and $q_o \in Q$ is an initial state.
-\end{dfn}
-\begin{dfn}[Controllers]
-A controller (strategy) for a plant specified by $\mathcal{P}=(Q,\Sigma_c,\delta, q)$ is a function $C:Q^+\longmapsto \Sigma_c$. A simple controller is a controller that can be written as a function $C:Q^+\longmapsto \Sigma_c$.
-\end{dfn}
+	\frametitle{Discrete case}
+	\begin{dfn}[Plant]
+		A plant automaton is a tuple $\mathcal{P}=(Q,\Sigma_c,\delta, q)$ where
+		$Q$ is a finite set of states, $\Sigma_c$ is a set of controller commands, 
+		$\delta:Q \times \Sigma_c \longmapsto 2^Q$ is the transition function and 
+		$q_o \in Q$ is an initial state.
+	\end{dfn}
+
+	\begin{dfn}[Controllers]
+		A controller (strategy) for a plant specified by $\mathcal{P}=(Q,\Sigma_c,\delta, q)$ 
+		is a function $C:Q^+\longmapsto \Sigma_c$. A simple controller is a controller that 
+		can be written as a function $C:Q^+\longmapsto \Sigma_c$.
+	\end{dfn}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Discrete case}
+	\begin{dfn}[Trajectories]
+		Let $\mathcal{P}$ ne a plant and let $C:Q^+\longmapsto \Sigma_c$ be a controller. 
+		An infinite sequence of states $\alpha:q[0],q[1],\ldots$ such that
+		 $q[0]=q_0$ is called a trajectory of $\mathcal{P}$ if 
+		$$q[i+1] \in \bigcup_{\sigma \in \Sigma_c}\delta(q[i],\sigma)$$
+	\end{dfn}
+
+	\begin{dfn}[Acceptance Condition]
+		Let $\mathcal{P}=(Q,\Sigma_c,\delta, q)$ be a plant. An acceptance condition for $\mathcal{P}$ is
+		$$ \Omega \in \{(F,\Diamond),(F,\square ),(F,\Diamond\square),(F,\square\Diamond),(F,\mathcal{R}_n)\}$$
+	\end{dfn}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Discrete case}
+	\begin{dfn}[Controller Synthesis Problem]
+		For a plant $\mathcal{P}$ and an acceptance condition $\Omega$, the problem $\textbf{Synth}(\mathcal{P},\Omega)$ is:
+		Find a controller C such that $L_C(\mathcal{P})\subseteq L(\mathcal{P},\Omega)$ ot otherwise show that such
+		 a controller does not exists.
+	\end{dfn}
+
+	\begin{dfn}[Controllable Predecessors]
+		Let $\mathcal{P}=(Q,\Sigma_c,\delta, q)$ be a plant. We define a function 
+		$\pi:2^Q \longmapsto 2^Q$, mapping a set of states $P \subseteq Q$ into the set of its Controllable 
+		predecessors, i.e., the set of states from which the controller can "force" the plant into P in one step:
+		$$ \pi(P) = \{q : \exists \sigma \in \Sigma_c \centerdot  \delta(q,\sigma) \subseteq P\} $$
+	\end{dfn}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Discrete case}
+	\begin{thm}
+		For every $\Omega \in \{(F,\Diamond),(F,\square ),(F,\Diamond\square),(F,\square\Diamond),(F,\mathcal{R}_1)\}$
+		the problem $\textbf{Synth}(\mathcal{P},\Omega)$ is solvable. Moreover, if $(\mathcal{P},\Omega)$ is controllable then 
+		it is controllable by a simple controller.
+	\end{thm}
 \end{frame}
 
 \end{document}
