@@ -5,6 +5,8 @@
 \usepackage[default]{droidserif}
 \usepackage[T1]{fontenc}
 
+\usepackage{changepage}
+
 \input{lib/uniud_tmpl}
 
 
@@ -34,44 +36,81 @@
 \frame{\titlepage}
 
 \section{Initial Definitions}
-%\newcommand{\P}{$\mathcal{P}$}
-%\newcommand{\Plat}{\mathcal{P}=(Q,\Sigma_c,\delta, q)}
-%\newcommand{\ControllerFn}{C:Q^+\longmapsto \Sigma_c}
+\newcommand{\Plant}{\ensuremath{\mathcal{P}=(Q,\Sigma_c,\delta, q)}}
+\newcommand{\Controller}{\ensuremath{C:Q^+\longmapsto \Sigma_c}}
+\newcommand{\AccpCond}{\ensuremath{\{(F,\Diamond),(F,\square ),(F,\Diamond\square),(F,\square\Diamond),(\mathcal{F},\mathcal{R}_n)\}}}
+\newcommand{\Synth}{\ensuremath{\textbf{Synth}(\mathcal{P},\Omega)}}
 \begin{frame}
 	\frametitle{Discrete case}
 	\begin{dfn}[Plant]
-		A plant automaton is a tuple $\mathcal{P}=(Q,\Sigma_c,\delta, q)$ where
+		A plant automaton is a tuple $\Plant$ where
 		$Q$ is a finite set of states, $\Sigma_c$ is a set of controller commands, 
 		$\delta:Q \times \Sigma_c \longmapsto 2^Q$ is the transition function and 
 		$q_o \in Q$ is an initial state.
 	\end{dfn}
 
 	\begin{dfn}[Controllers]
-		A controller (strategy) for a plant specified by $\mathcal{P}=(Q,\Sigma_c,\delta, q)$ 
-		is a function $C:Q^+\longmapsto \Sigma_c$. A simple controller is a controller that 
-		can be written as a function $C:Q^+\longmapsto \Sigma_c$.
+		A controller (strategy) for a plant specified by $\Plant$ 
+		is a function $\Controller$. A simple controller is a controller that 
+		can be written as a function $C:Q \longmapsto \Sigma_c$.
 	\end{dfn}
 \end{frame}
 
 \begin{frame}
 	\frametitle{Discrete case}
 	\begin{dfn}[Trajectories]
-		Let $\mathcal{P}$ ne a plant and let $C:Q^+\longmapsto \Sigma_c$ be a controller. 
+		Let $\mathcal{P}$ be a plant and let $\Controller$ be a controller. 
 		An infinite sequence of states $\alpha:q[0],q[1],\ldots$ such that
 		 $q[0]=q_0$ is called a trajectory of $\mathcal{P}$ if 
 		$$q[i+1] \in \bigcup_{\sigma \in \Sigma_c}\delta(q[i],\sigma)$$
+		and a C-trajectory if $q[i+1] \in \delta(q[i],C[\alpha[0..i]])$ for every $i\geq 0$.
+		The corresponding sets of trajectories are denoted by $L(\mathcal{P})$ and $L_C(\mathcal{P})$.
 	\end{dfn}
+\end{frame}
 
+\begin{frame}
+	For every infinite trajectory $\alpha \in L(\mathcal{P})$:
+	\begin{itemize}
+		\item $Vis(\alpha)$ denote the set of all states appearing in $\alpha$
+		\item $Inf(\alpha)$ denote the set of all states appearing in $\alpha$ infinitely many times
+	\end{itemize}
+\end{frame}
+
+\begin{frame}
 	\begin{dfn}[Acceptance Condition]
-		Let $\mathcal{P}=(Q,\Sigma_c,\delta, q)$ be a plant. An acceptance condition for $\mathcal{P}$ is
-		$$ \Omega \in \{(F,\Diamond),(F,\square ),(F,\Diamond\square),(F,\square\Diamond),(F,\mathcal{R}_n)\}$$
+		Let $\Plant$ be a plant. An acceptance condition for $\mathcal{P}$ is
+		$$ \Omega \in \AccpCond$$
+		where $\mathcal{F} = \{(F_i,G_i)\}^{n}_{i=1}$ and $F, F_i$ and $G_i$ 
+		are certain subsets of $Q$ referred as the good states. The set of sequences of $\mathcal{P}$ that are accepted
+		accordig to $\Omega$ is defined as follows:
 	\end{dfn}
+	\begin{adjustwidth}{-1cm}{-1cm}
+	\begin{table}[]
+		\begin{tabular}{lll}
+		\hline
+		\rowcolor{azzurro_chiaro}
+		$L(\mathcal{P},F,\square)$ & $\{\alpha \in L(\mathcal{P}):Vis(\alpha)\subseteq F\}$ & $\alpha$ always remains in $F$ \\ 
+		$L(\mathcal{P},F,\Diamond)$ & $\{\alpha \in L(\mathcal{P}):Vis(\alpha)\cap F \neq \emptyset\}$ & $\alpha$ eventually visits $F$ \\ 
+		\rowcolor{azzurro_chiaro}
+		$L(\mathcal{P},F,\Diamond\square)$ & $\{\alpha \in L(\mathcal{P}):Inf(\alpha)\subseteq F\}$ & $\alpha$ eventually remains in $F$ \\ 
+		$L(\mathcal{P},F,\square\Diamond)$ & $\{\alpha \in L(\mathcal{P}):Inf(\alpha)\cap F \neq \emptyset\}$ & $\alpha$ visits $F$ infinitely often \\ 
+		\rowcolor{azzurro_chiaro}
+		$L(\mathcal{P},\mathcal{F},\mathcal{R}_n)$ & \shortstack{
+			$\{\alpha \in L(\mathcal{P}): \exists i \alpha \in$ \\
+			$L(\mathcal{P},F_i,\square\Diamond) \cap L(\mathcal{P},G_i,\Diamond\square)\}$
+		} & 
+		\shortstack{
+			$\alpha$ visits $F_i$ infinitely often \\
+			 and eventually stays in $G_i$ }\\ \hline
+		\end{tabular}
+	\end{table}
+	\end{adjustwidth}
 \end{frame}
 
 \begin{frame}
 	\frametitle{Discrete case}
 	\begin{dfn}[Controller Synthesis Problem]
-		For a plant $\mathcal{P}$ and an acceptance condition $\Omega$, the problem $\textbf{Synth}(\mathcal{P},\Omega)$ is:
+		For a plant $\mathcal{P}$ and an acceptance condition $\Omega$, the problem $\Synth$ is:
 		Find a controller C such that $L_C(\mathcal{P})\subseteq L(\mathcal{P},\Omega)$ ot otherwise show that such
 		 a controller does not exists.
 	\end{dfn}
@@ -87,8 +126,8 @@
 \begin{frame}
 	\frametitle{Discrete case}
 	\begin{thm}
-		For every $\Omega \in \{(F,\Diamond),(F,\square ),(F,\Diamond\square),(F,\square\Diamond),(F,\mathcal{R}_1)\}$
-		the problem $\textbf{Synth}(\mathcal{P},\Omega)$ is solvable. Moreover, if $(\mathcal{P},\Omega)$ is controllable then 
+		For every $\Omega \in \AccpCond$
+		the problem $\Synth$ is solvable. Moreover, if $(\mathcal{P},\Omega)$ is controllable then 
 		it is controllable by a simple controller.
 	\end{thm}
 \end{frame}
