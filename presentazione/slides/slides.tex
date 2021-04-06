@@ -114,13 +114,51 @@
 		Find a controller C such that $L_C(\mathcal{P})\subseteq L(\mathcal{P},\Omega)$ ot otherwise show that such
 		 a controller does not exists.
 	\end{dfn}
+\end{frame}
 
+\begin{frame}
 	\begin{dfn}[Controllable Predecessors]
-		Let $\mathcal{P}=(Q,\Sigma_c,\delta, q)$ be a plant. We define a function 
-		$\pi:2^Q \longmapsto 2^Q$, mapping a set of states $P \subseteq Q$ into the set of its Controllable 
-		predecessors, i.e., the set of states from which the controller can "force" the plant into P in one step:
-		$$ \pi(P) = \{q : \exists \sigma \in \Sigma_c \centerdot  \delta(q,\sigma) \subseteq P\} $$
+		Let $\mathcal{P}=(Q,\Sigma_c,\delta, q)$ be a plant and a set of states $P \subseteq Q$. 
+		The controllable predecessors of $P$ is the set of states from which the controller 
+		can "force" the plant into P in one step:
+		$$ \{q : \exists \sigma \in \Sigma_c \centerdot  \delta(q,\sigma) \subseteq P\} $$
 	\end{dfn}
+	We define a function $\pi:2^Q \longmapsto 2^Q$, mapping a set of states $P \subseteq Q$ into 
+	the set of its Controllable predecessors:
+	$$ \pi(P) = \{q : \exists \sigma \in \Sigma_c \centerdot  \delta(q,\sigma) \subseteq P\} $$
+\end{frame}
+
+
+\begin{frame}
+	\begin{center}
+		\begin{tikzpicture}[shorten >=1pt,node distance=2.5cm,on grid,auto] 
+			\node[state] (q_0)					{};
+			\node[state] (q_1)	[right=of q_0]	{};
+			\node[state] (q_2)	[right=of q_1]	{};
+
+			% stati predecessori
+			\node[state] (p_0)	[above=of q_0]	{};
+			\node[state] (p_1)	[above=of q_1]	{};
+			\node[state] (p_2)	[above=of q_2]	{};
+			\node[state] (p_3)	[right=of p_2]	{};
+			
+			% raggruppamenti
+			\begin{scope}[on background layer]
+				\node[fit=(q_0) (q_1) (q_2), ellipse, 
+				draw=arancio,fill=arancio!30, draw=arancio, fill opacity=0.4, label=below:P] (P) {};
+				\node[fit=(p_0) (p_1) (p_2), ellipse, 
+				draw=azzurro, fill=azzurro!30, draw=azzurro, fill opacity=0.4, label=above:$\pi(P)$] (predP) {};
+			\end{scope}
+
+			\path[->] 
+				(p_0) edge  node {} (q_0)
+				(p_1) edge  node {} (q_0)
+					  edge  node {} (q_1)
+				(p_2) edge  node {} (q_2)
+				(p_3) edge  node {} (q_2);
+		\end{tikzpicture}
+	\end{center}
+		
 \end{frame}
 
 \begin{frame}
