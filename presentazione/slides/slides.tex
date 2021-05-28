@@ -38,7 +38,7 @@
 \section{Initial Definitions}
 \newcommand{\Plant}{\ensuremath{\mathcal{P}=(Q,\Sigma_c,\delta, q)}}
 \newcommand{\Controller}{\ensuremath{C:Q^+\longmapsto \Sigma_c}}
-\newcommand{\AccpCond}{\ensuremath{\{(F,\Diamond),(F,\square ),(F,\Diamond\square),(F,\square\Diamond),(\mathcal{F},\mathcal{R}_n)\}}}
+\newcommand{\AccpCond}{\ensuremath{\{(F,\square),(F,\Diamond ),(F,\Diamond\square),(F,\square\Diamond),(\mathcal{F},\mathcal{R}_n)\}}}
 \newcommand{\Synth}{\ensuremath{\textbf{Synth}(\mathcal{P},\Omega)}}
 \begin{frame}
 	\frametitle{Discrete case}
@@ -54,6 +54,7 @@
 		is a function $\Controller$. A simple controller is a controller that 
 		can be written as a function $C:Q \longmapsto \Sigma_c$.
 	\end{dfn}
+	We are interested in the simpler cases of controllers that base their decisions on a finite memory.
 \end{frame}
 
 \begin{frame}
@@ -153,12 +154,12 @@
 			\path[->] 
 				(p_0) edge  node {} (q_0)
 				(p_1) edge  node {} (q_0)
+				(p_1) edge  node {} (p_0)
 					  edge  node {} (q_1)
 				(p_2) edge  node {} (q_2)
-				(p_3) edge  node {} (q_2);
+				(p_3) edge  node {} (p_2);
 		\end{tikzpicture}
 	\end{center}
-		
 \end{frame}
 
 \begin{frame}
@@ -169,5 +170,4 @@
 		it is controllable by a simple controller.
 	\end{thm}
 \end{frame}
-
 \end{document}
