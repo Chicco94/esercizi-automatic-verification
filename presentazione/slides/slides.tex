@@ -4,6 +4,7 @@
 
 \usepackage[default]{droidserif}
 \usepackage[T1]{fontenc}
+\usepackage{ragged2e}
 
 \usepackage{changepage}
 
@@ -169,5 +170,93 @@
 		the problem $\Synth$ is solvable. Moreover, if $(\mathcal{P},\Omega)$ is controllable then 
 		it is controllable by a simple controller.
 	\end{thm}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Discrete case}
+	\begin{dfn}[Winning states]
+		For a plant $\Plant$ and an acceptance condition $\Omega$, we denote $W \subseteq Q$ as the set
+		of winning states, namely, the set of states from which a controller can enforce good behaviors according to $\Omega$.
+	\end{dfn}
+\end{frame}
+\begin{frame}
+	We can characterize this states by the following fixed-point expressions:
+	\begin{itemize}
+		\item[$\square$] $\nu W \big( F \cap \pi(H)\big)$ 
+		\item[$\Diamond$] $\nu W\big(F \cup \pi(W)\big)$ 
+		\item[$\Diamond\square$] $\mu W \nu H\Big(\pi(H) \cap \big(F \cup \pi(W)\big)\Big)$
+		\item[$\square\Diamond$] $\nu W \mu H\Big(\pi(H) \cup \big(F \cap \pi(W)\big)\Big)$
+		\item[$\mathcal{R}_1$] $\mu W \Bigg\{\pi(W) \cap \nu Y \mu H . W \cup G \cap \Big(\pi(H) \cup \big(F \cap \pi(Y)\big)\Big)\Bigg\}$
+	\end{itemize}
+	Then the plant is controllable iff $q_0 \in W$
+\end{frame}
+\begin{frame}
+	Let see in more details how this works. Consider the case $\Diamond$:
+	\begin{table}[]
+		\begin{tabular}{lll}
+		$\begin{aligned}
+			&W_0 := \emptyset \\
+			&\textrm{\textbf{for} } i:=0,1,\ldots \textrm{ \textbf{repeat}} \\
+			& \quad W_{i+1} := F \cup \pi(W_i) \\
+			&\textrm{\textbf{until} } W_{i+1} = W_i\\
+		\end{aligned}$
+		& $\quad$ &
+		$\begin{aligned}
+			&W_0 := \emptyset \\
+			&W_1 := F \cup \pi(W_0) = F \cup \pi(W_0) = F \\
+			&W_2 := F \cup \pi(W_1) = F \cup \pi(F)\\
+			& \ldots \\
+		\end{aligned}$ \\
+		&&\\% empty line
+		\multicolumn{3}{l}{finally: $W_n := F \cup \pi(W_{n-1}) = F \cup \pi(F \cup \pi(\ldots(F \cup \pi(F))))$}
+		\end{tabular}
+	\end{table}
+\end{frame}
+\begin{frame}
+	\justify
+	In the process of calculating $W_i+1$, whenever we add a state $q$ to $W_i$, 
+	there must be at least one action $\sigma \in \Sigma_c$ such that $\delta(q,\sigma) \subseteq W_i$.
+	
+	\medskip	
+	
+	So we define the controller at $q$ as $C(q)=\sigma$.
+	
+	\medskip
+	
+	When the process terminates, the controller is synthesized for all the winning states.
+		
+	\medskip
+	
+	It can be seen that if the process fails, that is, $q_0 \not\in W$ then for every controller
+	command there is a possibly bad consequence that will put the system outside $F$, 
+	and no controller, even an infinite state one, can prevent this.
+\end{frame}
+\begin{frame}
+	Consider now the case $\square\Diamond$:
+	\begin{table}[]
+		\begin{tabular}{lll}
+		$\begin{aligned}
+			&W_0 := Q \\
+			&\textrm{\textbf{for} } i:=0,1,\ldots \textrm{ \textbf{repeat}} \\
+			&\quad H_0 := \emptyset \\
+			&\quad \textrm{\textbf{for} } j:=0,1,\ldots \textrm{ \textbf{repeat}} \\
+			&\quad \quad H_{j+1} := \pi(H_j) \cup (F \cap \pi(W_i)) \\
+			&\quad \textrm{\textbf{until} }H_{j+1} = H_j\\
+			& \quad W_{i+1} := H_j \\
+			&\textrm{\textbf{until} } W_{i+1} = W_i\\
+		\end{aligned}$
+		& $\quad$ &
+		$\begin{aligned}
+			&W_0 := Q & H_0 := \emptyset \\
+			&W_0 := Q & H_1 := F \cap \pi(Q) \\
+			& \\
+			& W_1 := F \cap \pi(Q)
+			&W_2 := F \cup \pi(W_1) = F \cup \pi(F)\\
+			& \ldots \\
+		\end{aligned}$ \\
+		&&\\% empty line
+		\multicolumn{3}{l}{finally: $W_n := F \cup \pi(W_{n-1}) = F \cup \pi(F \cup \pi(\ldots(F \cup \pi(F))))$}
+		\end{tabular}
+	\end{table}
 \end{frame}
 \end{document}
