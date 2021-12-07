@@ -1,3 +1,9 @@
 *.gz
 *.aux
 *.log
+presentazione/slides/build/slides.nav
+*.nav
+*.snm
+*.toc
+presentazione/slides/build/slides.nav
+*.out

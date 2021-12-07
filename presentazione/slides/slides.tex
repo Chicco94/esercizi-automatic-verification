@@ -12,10 +12,10 @@
 
 
 %Information to be included in the title page:
-\title[About Beamer] %optional
-{About the Beamer class in presentation making}
+\title[Automatic Verification] %optional
+{On the Synthesis of Discrete Controllers for Timed Systems}
 
-\subtitle{A short story}
+\subtitle{An Extended Abstract}
 
 \author[Enrico] % (optional, for multiple authors)
 {E. Cominato 137396\inst{1}}
@@ -36,8 +36,30 @@
 
 \frame{\titlepage}
 
+\section{Introduction}
+\begin{frame}
+\frametitle{Abstract}
+This paper presents algorithms for the automatic synthesis of the real time controllers by finding a winning strategy for certain games defined by the timed automata of Alur and Dill.
+\end{frame}
+
+\begin{frame}
+\frametitle{Introduction}
+Consider a dynamical system P whose presentation describes all its possible behaviours.
+A subset of the plant's behaviours, satisfying some criterion is defined as good or acceptable.
+
+\medskip
+
+A controller C is another system which can interact with P in a certain manner by observing the state of P and by issuing control actions that influence the behaviour of P.
+\end{frame}
+
+\begin{frame}
+\frametitle{Introduction}
+The synthesis problem is then, to find out whether, for a given P, there exists a realizable controller C
+such that their interaction will produce only good behaviours.
+\end{frame}
+
 \section{Initial Definitions}
-\newcommand{\Plant}{\ensuremath{\mathcal{P}=(Q,\Sigma_c,\delta, q)}}
+\newcommand{\Plant}{\ensuremath{\mathcal{P}=(Q,\Sigma_c,\delta, q_0)}}
 \newcommand{\Controller}{\ensuremath{C:Q^+\longmapsto \Sigma_c}}
 \newcommand{\AccpCond}{\ensuremath{\{(F,\square),(F,\Diamond ),(F,\Diamond\square),(F,\square\Diamond),(\mathcal{F},\mathcal{R}_n)\}}}
 \newcommand{\Synth}{\ensuremath{\textbf{Synth}(\mathcal{P},\Omega)}}
@@ -47,7 +69,7 @@
 		A plant automaton is a tuple $\Plant$ where
 		$Q$ is a finite set of states, $\Sigma_c$ is a set of controller commands, 
 		$\delta:Q \times \Sigma_c \longmapsto 2^Q$ is the transition function and 
-		$q_o \in Q$ is an initial state.
+		$q_0 \in Q$ is an initial state.
 	\end{dfn}
 
 	\begin{dfn}[Controllers]
@@ -180,9 +202,10 @@
 	\end{dfn}
 \end{frame}
 \begin{frame}
+	\frametitle{Discrete case}
 	We can characterize this states by the following fixed-point expressions:
 	\begin{itemize}
-		\item[$\square$] $\nu W \big( F \cap \pi(H)\big)$ 
+		\item[$\square$] $\nu W \big( F \cap \pi(W)\big)$ 
 		\item[$\Diamond$] $\nu W\big(F \cup \pi(W)\big)$ 
 		\item[$\Diamond\square$] $\mu W \nu H\Big(\pi(H) \cap \big(F \cup \pi(W)\big)\Big)$
 		\item[$\square\Diamond$] $\nu W \mu H\Big(\pi(H) \cup \big(F \cap \pi(W)\big)\Big)$
@@ -191,6 +214,7 @@
 	Then the plant is controllable iff $q_0 \in W$
 \end{frame}
 \begin{frame}
+	\frametitle{Discrete case}
 	Let see in more details how this works. Consider the case $\Diamond$:
 	\begin{table}[]
 		\begin{tabular}{lll}
@@ -213,6 +237,7 @@
 	\end{table}
 \end{frame}
 \begin{frame}
+	\frametitle{Discrete case}
 	\justify
 	In the process of calculating $W_i+1$, whenever we add a state $q$ to $W_i$, 
 	there must be at least one action $\sigma \in \Sigma_c$ such that $\delta(q,\sigma) \subseteq W_i$.
@@ -227,36 +252,8 @@
 		
 	\medskip
 	
-	It can be seen that if the process fails, that is, $q_0 \not\in W$ then for every controller
+	It can be seen that if the process fails, that is $q_0 \not\in W$, then for every controller
 	command there is a possibly bad consequence that will put the system outside $F$, 
 	and no controller, even an infinite state one, can prevent this.
-\end{frame}
-\begin{frame}
-	Consider now the case $\square\Diamond$:
-	\begin{table}[]
-		\begin{tabular}{lll}
-		$\begin{aligned}
-			&W_0 := Q \\
-			&\textrm{\textbf{for} } i:=0,1,\ldots \textrm{ \textbf{repeat}} \\
-			&\quad H_0 := \emptyset \\
-			&\quad \textrm{\textbf{for} } j:=0,1,\ldots \textrm{ \textbf{repeat}} \\
-			&\quad \quad H_{j+1} := \pi(H_j) \cup (F \cap \pi(W_i)) \\
-			&\quad \textrm{\textbf{until} }H_{j+1} = H_j\\
-			& \quad W_{i+1} := H_j \\
-			&\textrm{\textbf{until} } W_{i+1} = W_i\\
-		\end{aligned}$
-		& $\quad$ &
-		$\begin{aligned}
-			&W_0 := Q & H_0 := \emptyset \\
-			&W_0 := Q & H_1 := F \cap \pi(Q) \\
-			& \\
-			& W_1 := F \cap \pi(Q)
-			&W_2 := F \cup \pi(W_1) = F \cup \pi(F)\\
-			& \ldots \\
-		\end{aligned}$ \\
-		&&\\% empty line
-		\multicolumn{3}{l}{finally: $W_n := F \cup \pi(W_{n-1}) = F \cup \pi(F \cup \pi(\ldots(F \cup \pi(F))))$}
-		\end{tabular}
-	\end{table}
 \end{frame}
 \end{document}
