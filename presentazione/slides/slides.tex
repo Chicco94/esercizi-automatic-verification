@@ -1,10 +1,14 @@
 \documentclass[table]{beamer}
 
+\usepackage{pgfpages}
+\setbeameroption{show notes on second screen}
+
 \usepackage[utf8]{inputenc}
 
 \usepackage[default]{droidserif}
 \usepackage[T1]{fontenc}
 \usepackage{ragged2e}
+\apptocmd{\frame}{}{\justifying}{}
 
 \usepackage{changepage}
 
@@ -34,6 +38,9 @@
 \newcommand{\Controller}{\ensuremath{C:Q^+\longmapsto \Sigma_c}}
 \newcommand{\AccpCond}{\ensuremath{\{(F,\square),(F,\Diamond ),(F,\Diamond\square),(F,\square\Diamond),(\mathcal{F},\mathcal{R}_n)\}}}
 \newcommand{\Synth}{\ensuremath{\textbf{Synth}(\mathcal{P},\Omega)}}
+\newcommand{\conf}{\ensuremath{(q,x)}}
+\newcommand{\confP}{\ensuremath{(q',x')}}
+\newcommand{\confH}{\ensuremath{(\hat{q},\hat{x})}}
 \newcommand{\confPair}{\ensuremath{((q,x),(q',x'))}}
 
 \begin{document}
@@ -189,13 +196,9 @@ such that their interaction will produce only good behaviours.
 		the problem $\Synth$ is solvable. Moreover, if $(\mathcal{P},\Omega)$ is controllable then 
 		it is controllable by a simple controller.
 	\end{thm}
-\end{frame}
-
-\begin{frame}
-	\begin{dfn}[Winning states]
-		For a plant $\Plant$ and an acceptance condition $\Omega$, we denote $W \subseteq Q$ as the set
-		of winning states, namely, the set of states from which a controller can enforce good behaviors according to $\Omega$.
-	\end{dfn}
+	
+	For a plant $\Plant$ and an acceptance condition $\Omega$, we denote $W \subseteq Q$ as the set
+	of winning states, namely, the set of states from which a controller can enforce good behaviors according to $\Omega$.
 \end{frame}
 
 \begin{frame}
@@ -344,7 +347,102 @@ such that their interaction will produce only good behaviours.
 
 \begin{frame}
 	\begin{dfn}[Real time Controller Synthesis]
-		Given a timed automaton $\mathcal{T}$ an a acceptance condition $\Omega$, the problem \textbf{RT-Synth}$(\mathcal{T},\Omega)$ is: Construct a real-time controller $C$ such that $L_C(\mathcal{T}\subseteqL(\mathcal{T},\Omega))$
+		Given a timed automaton $\mathcal{T}$ an a acceptance condition $\Omega$, the problem \textbf{RT-Synth}$(\mathcal{T},\Omega)$ is: Construct a real-time controller $C$ such that $L_C(\mathcal{T})\subseteq L(\mathcal{T},\Omega)$
 	\end{dfn}
 \end{frame}
+
+\subsection{Control Synthesis for Timed Systems}
+\begin{frame}
+	In order to tackle the real time controller synthesis problem we introduce the following definitions:
+	\begin{dfn}[$(t,\sigma)-successor$]
+		For $t \in T$ and $\sigma \in \Sigma$, the configuration $\confP$ is defined to be a $(t,\sigma)-successor$ of the configuration $\conf$ if there exists an intermediate configuration $\confH$ such that $\confH$ is a $t- successor$ of $\conf$ and $\confP$ is a $\sigma-successor$ of $\confH$.
+	\end{dfn}
+	
+	Then we define a function $\delta : (Q \times  X) \times (T \times \Sigma^\perp_c) \mapsto 2^{Q \times X}$ where $\delta(\conf,(t,\sigma))$ stands for all the possible consequences of the controller attempting to issue the command $\sigma \in \Sigma^\perp_c$ after waiting $t$ time units starting at configuration $\conf$
+	
+	\note{
+		Note that this covers the case of $\confP$ being simply a $\sigma-successor$ 
+		of $\conf$ by viewing it as a $(0,\sigma)-successor$ of $\conf$.
+	}
+\end{frame}
+
+\begin{frame}
+	\begin{dfn}[Extended Transition Function]
+		For every $t \in T$ and $\sigma in \Sigma_c$, the set $\delta(\conf,(t,\sigma))$ consists of all the configurations $\confP$ such that:
+		\begin{itemize}
+			\item $\confP$ is a $(t,\sigma)-successor$ of $\conf$
+			\item $\confP$ is a $(t,e)-successor$ of $\conf$ for some $t' \in [0,t]$
+		\end{itemize}
+	\end{dfn}
+	\note{
+		This definition covers successor configurations that are obtained
+		in one of two possible ways:\\
+		some configurations result from the plant waiting patiently at state 
+		q for t time units, and then taking a $\sigma$-labeled transition 
+		according to the controller recommendation, \\
+		the second possibility is of configurations obtained by taking an 
+		environment transition at any time $t' \leq t$\\
+		This is in fact the crucial new feature of real-time games - there 
+		are no turns and the adversary need not wait for the player's next move.
+	}
+\end{frame}
+
+
+
+\begin{frame}
+	\begin{dfn}[Controllable Predecessors]
+		The controllable predecessors function $\pi:2^Q \times 2^X \mapsto 2^Q \times 2^X$ is defined for every $K \subseteq Q \times X by$
+		$$\pi(K) =\{\conf : \exists t \in T \exists \sigma \in \Sigma_c\;\;\delta(\conf,(t,\sigma)) \subseteq K\}$$
+	\end{dfn}
+	\note{
+		As in the discrete case, we define a predecessor function that indicates the
+		configurations from which the controller can force the automaton into a given
+		set of configurations
+	}
+\end{frame}
+
+
+\begin{frame}
+	\begin{thm}[Control Synthesis for Timed ystems]
+	Given a timed automaton $\mathcal{T}$ and an acceptance condition
+	$$\AccpCond$$
+	the problem \textbf{RT-Synth}$(\mathcal{T},\Omega)$ is solvable
+	\end{thm}
+\end{frame}
+\begin{frame}
+	\textbf{Sketch of Proof}
+	
+	\medskip
+	
+	We have just shown that $2^Q \times \mathcal{H}^*_k$ is closed under $\pi$.
+	
+	\medskip
+	
+	Any of the iterative processes for the fixed point equations $(1)-(5)$ starts with an
+	element of $2^Q \times \mathcal{H}^*_k$.
+		
+	\medskip
+	
+	For example, the iteration for $\Diamond$ starts with $W_0=Q\times F$.
+		
+	\medskip
+	
+	Each iteration consists of applying Boolean set-theoretic operations and the predecessor operation, 
+	which implies that every $W_i$ is also an element of $2^Q \times \mathcal{H}^*_k$ - a
+	finite set. 
+		
+	\medskip
+	
+	Thus, by monotonicity, a fixed point is eventually reached.
+	\note{
+		The strategy is extracted in a similar manner as in the discrete case. When
+		ever a configuration $\conf$ is added to $W$, it is due to one or more pairs of the
+		form $([t_1,t_2],\sigma)$ indicating that within any $t,t_1<t<t_2$ issuing $\sigma$ after waiting
+		$t$ will lead to a winning position. Hence by letting $C\conf = \perp$ when $t_1>0$ and
+		$C\conf = \sigma$ when $t_1=0$ we obtain a $k-$polyhedral controller.
+	}
+\end{frame}
+
+
+
 \end{document}
