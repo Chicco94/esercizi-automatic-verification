@@ -4,6 +4,7 @@
 \setbeameroption{show notes on second screen}
 
 \usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
 
 \usepackage[default]{droidserif}
 \usepackage[T1]{fontenc}
@@ -32,7 +33,7 @@
 }
 
 \date[VLC 2013] % (optional)
-{Very Large Conference, April 2013}
+{}
 
 \newcommand{\Plant}{\ensuremath{\mathcal{P}=(Q,\Sigma_c,\delta, q_0)}}
 \newcommand{\Controller}{\ensuremath{C:Q^+\longmapsto \Sigma_c}}
@@ -55,7 +56,7 @@ This paper presents algorithms for the automatic synthesis of the real time cont
 
 \subsection{The problem}
 \begin{frame}
-Consider a dynamical system P whose presentation describes all its possible behaviours.
+Consider a dynamical system P, whose presentation describes all its possible behaviours.
 A subset of the plant's behaviours, satisfying some criterion is defined as good or acceptable.
 
 \medskip
@@ -83,7 +84,10 @@ such that their interaction will produce only good behaviours.
 		is a function $\Controller$. A simple controller is a controller that 
 		can be written as a function $C:Q \longmapsto \Sigma_c$.
 	\end{dfn}
-	We are interested in the simpler cases of controllers that base their decisions on a finite memory.
+	\note{
+		We are interested in the simpler cases of controllers 
+		that base their decisions on a finite memory.
+	}
 \end{frame}
 
 \begin{frame}
@@ -115,25 +119,28 @@ such that their interaction will produce only good behaviours.
 	\end{dfn}
 	\begin{adjustwidth}{-1cm}{-1cm}
 	\begin{table}[]
-		\begin{tabular}{lll}
+		\begin{tabular}{ll}
 		\hline
 		\rowcolor{azzurro_chiaro}
-		$L(\mathcal{P},F,\square)$ & $\{\alpha \in L(\mathcal{P}):Vis(\alpha)\subseteq F\}$ & $\alpha$ always remains in $F$ \\ 
-		$L(\mathcal{P},F,\Diamond)$ & $\{\alpha \in L(\mathcal{P}):Vis(\alpha)\cap F \neq \emptyset\}$ & $\alpha$ eventually visits $F$ \\ 
+		$L(\mathcal{P},F,\square)$ & $\{\alpha \in L(\mathcal{P}):Vis(\alpha)\subseteq F\}$ \\ 
+		$L(\mathcal{P},F,\Diamond)$ & $\{\alpha \in L(\mathcal{P}):Vis(\alpha)\cap F \neq \emptyset\}$ \\ 
 		\rowcolor{azzurro_chiaro}
-		$L(\mathcal{P},F,\Diamond\square)$ & $\{\alpha \in L(\mathcal{P}):Inf(\alpha)\subseteq F\}$ & $\alpha$ eventually remains in $F$ \\ 
-		$L(\mathcal{P},F,\square\Diamond)$ & $\{\alpha \in L(\mathcal{P}):Inf(\alpha)\cap F \neq \emptyset\}$ & $\alpha$ visits $F$ infinitely often \\ 
+		$L(\mathcal{P},F,\Diamond\square)$ & $\{\alpha \in L(\mathcal{P}):Inf(\alpha)\subseteq F\}$ \\ 
+		$L(\mathcal{P},F,\square\Diamond)$ & $\{\alpha \in L(\mathcal{P}):Inf(\alpha)\cap F \neq \emptyset\}$\\ 
 		\rowcolor{azzurro_chiaro}
 		$L(\mathcal{P},\mathcal{F},\mathcal{R}_n)$ & \shortstack{
 			$\{\alpha \in L(\mathcal{P}): \exists i \alpha \in$ \\
 			$L(\mathcal{P},F_i,\square\Diamond) \cap L(\mathcal{P},G_i,\Diamond\square)\}$
-		} & 
-		\shortstack{
-			$\alpha$ visits $F_i$ infinitely often \\
-			 and eventually stays in $G_i$ }\\ \hline
+		} \\ 
+		\hline
 		\end{tabular}
 	\end{table}
 	\end{adjustwidth}
+	\note[item]{$\alpha$ always remains in $F$}
+	\note[item]{$\alpha$ eventually visits $F$}
+	\note[item]{$\alpha$ eventually remains in $F$}
+	\note[item]{$\alpha$ visits $F$ infinitely often }
+	\note[item]{$\alpha$ visits $F_i$ infinitely often and eventually stays in $G_i$ }
 \end{frame}
 
 \begin{frame}
@@ -192,8 +199,8 @@ such that their interaction will produce only good behaviours.
 \subsection{Theorem}
 \begin{frame}
 	\begin{thm}
-		For every $\Omega \in \AccpCond$
-		the problem $\Synth$ is solvable. Moreover, if $(\mathcal{P},\Omega)$ is controllable then 
+		For every $\Omega \in \AccpCond$, the problem $\Synth$ is solvable. 
+		Moreover, if $(\mathcal{P},\Omega)$ is controllable then 
 		it is controllable by a simple controller.
 	\end{thm}
 	
@@ -211,6 +218,10 @@ such that their interaction will produce only good behaviours.
 		\item[$\mathcal{R}_1$] $\mu W \Bigg\{\pi(W) \cap \nu Y \mu H . W \cup G \cap \Big(\pi(H) \cup \big(F \cap \pi(Y)\big)\Big)\Bigg\}$
 	\end{itemize}
 	Then the plant is controllable iff $q_0 \in W$
+	\note{
+		$\nu$ greatest \\
+		$\mu$ least 
+	}
 \end{frame}
 
 \begin{frame}
@@ -239,7 +250,7 @@ such that their interaction will produce only good behaviours.
 \subsection{Conclusions}
 \begin{frame}
 	\justify
-	In the process of calculating $W_i+1$, whenever we add a state $q$ to $W_i$, 
+	In the process of calculating $W_{i+1}$, whenever we add a state $q$ to $W_i$, 
 	there must be at least one action $\sigma \in \Sigma_c$ such that $\delta(q,\sigma) \subseteq W_i$.
 	
 	\medskip	
@@ -299,12 +310,12 @@ such that their interaction will produce only good behaviours.
 			\item $Q$ a finite set of discrete states
 			\item $X$ a clock domain $X=(\mathbb{R}^+)^d$ for some $d>0$
 			\item $\Sigma$ an input alphabet (including a single environment action $e$)
-			\item $I:Q \mapsto \mathcal{H}^cap_k$ as the state invariant function
-			\item $R \subseteq Q \times \Sigma \times \mathcal{H}^cap_k \times F(X) \times Q$ is a set of transition relations each of the form $\langle q,\sigma,g,f,q'\rangle$ where:
+			\item $I:Q \mapsto \mathcal{H}^\cap_k$ as the state invariant function
+			\item $R \subseteq Q \times \Sigma \times \mathcal{H}^\cap_k \times F(X) \times Q$ is a set of transition relations each of the form $\langle q,\sigma,g,f,q'\rangle$ where:
 			\begin{itemize}
 				\item $q,q' in Q$
 				\item $\sigma \in \Sigma$
-				\item $g \in \mathcal{H}^cap_k$
+				\item $g \in \mathcal{H}^\cap_k$
 				\item $f \in F(X)$
 			\end{itemize}
 		\end{itemize}
@@ -391,7 +402,7 @@ such that their interaction will produce only good behaviours.
 
 \begin{frame}
 	\begin{dfn}[Controllable Predecessors]
-		The controllable predecessors function $\pi:2^Q \times 2^X \mapsto 2^Q \times 2^X$ is defined for every $K \subseteq Q \times X by$
+		The controllable predecessors function $\pi:2^Q \times 2^X \mapsto 2^Q \times 2^X$ is defined for every $K \subseteq Q \times X$ by
 		$$\pi(K) =\{\conf : \exists t \in T \exists \sigma \in \Sigma_c\;\;\delta(\conf,(t,\sigma)) \subseteq K\}$$
 	\end{dfn}
 	\note{
