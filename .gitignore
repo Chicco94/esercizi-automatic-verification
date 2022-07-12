@@ -7,3 +7,7 @@ presentazione/slides/build/slides.nav
 *.toc
 presentazione/slides/build/slides.nav
 *.out
+*.bbl
+*.bcf
+*.blg
+*.run.xml
