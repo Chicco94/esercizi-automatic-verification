@@ -121,3 +121,80 @@
 %--------------------------------------------------------------------------------
 %					FINE BLOCCO PER PRESENTAZIONI UNIUD
 %--------------------------------------------------------------------------------
+
+
+\makeatletter
+
+\pgfkeys{/pgf/.cd,
+    ellipse ratio/.code={\pgfkeyssetvalue{/pgf/ellipse ratio}{#1}},
+    ellipse ratio/.initial=1
+}
+
+\pgfdeclareshape{newellipse}
+{
+  \inheritsavedanchors[from=ellipse]
+  \inheritanchorborder[from=ellipse]
+  \savedanchor\radius{%
+    % 
+    % Caculate ``height radius''
+    % 
+    \pgf@y=.5\ht\pgfnodeparttextbox%
+    \advance\pgf@y by.5\dp\pgfnodeparttextbox%
+    \pgfmathsetlength\pgf@yb{\pgfkeysvalueof{/pgf/inner ysep}}%
+    \advance\pgf@y by\pgf@yb%
+    % 
+    % Caculate ``width radius''
+    % 
+    \pgf@x=.5\wd\pgfnodeparttextbox%
+    \pgfmathsetlength\pgf@xb{\pgfkeysvalueof{/pgf/inner xsep}}%
+    \advance\pgf@x by\pgf@xb%
+    % 
+    % Adjust
+    %
+    \pgfkeysgetvalue{/pgf/ellipse ratio}{\ratioscale}
+    \pgfmathsetmacro\widthfactor{sqrt(\ratioscale^2+1)/\ratioscale}
+    \pgfmathsetmacro\heightfactor{sqrt(\ratioscale^2+1)}
+    \pgf@x=\widthfactor\pgf@x%
+    \pgf@y=\heightfactor\pgf@y%
+    % 
+    % Adjust height, if necessary
+    % 
+    \pgfmathsetlength\pgf@yc{\pgfkeysvalueof{/pgf/minimum height}}%
+    \ifdim\pgf@y<.5\pgf@yc%
+      \pgf@y=.5\pgf@yc%
+    \fi%
+    % 
+    % Adjust width, if necessary
+    % 
+    \pgfmathsetlength\pgf@xc{\pgfkeysvalueof{/pgf/minimum width}}%
+    \ifdim\pgf@x<.5\pgf@xc%
+      \pgf@x=.5\pgf@xc%
+    \fi%
+    % 
+    % Add outer sep
+    % 
+    \pgfmathsetlength{\pgf@xb}{\pgfkeysvalueof{/pgf/outer xsep}}%  
+    \pgfmathsetlength{\pgf@yb}{\pgfkeysvalueof{/pgf/outer ysep}}%  
+    \advance\pgf@x by\pgf@xb%
+    \advance\pgf@y by\pgf@yb%
+  }
+
+  \inheritanchor[from=ellipse]{center}
+  \inheritanchor[from=ellipse]{mid}
+  \inheritanchor[from=ellipse]{base}
+  \inheritanchor[from=ellipse]{north}
+  \inheritanchor[from=ellipse]{south}
+  \inheritanchor[from=ellipse]{west}
+  \inheritanchor[from=ellipse]{mid west}
+  \inheritanchor[from=ellipse]{base west}
+  \inheritanchor[from=ellipse]{north west}
+  \inheritanchor[from=ellipse]{south west}
+  \inheritanchor[from=ellipse]{east}
+  \inheritanchor[from=ellipse]{mid east}
+  \inheritanchor[from=ellipse]{base east}
+  \inheritanchor[from=ellipse]{north east}
+  \inheritanchor[from=ellipse]{south east}
+
+  \inheritbackgroundpath[from=ellipse]
+}
+\makeatother
