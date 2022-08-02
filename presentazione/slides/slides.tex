@@ -331,7 +331,11 @@ such that their interaction will produce only good behaviours.
 \section{Real Time Case}
 \subsection{Initial Definitions}
 \begin{frame}
-	Let $T$ denote $\mathbb{R}^+$ and let $X=T^d$.
+	Timed automata are automata equipped with clocks whose values grow continuously.
+
+	\medskip 
+
+	Let $T$ denote $\mathbb{R}^+$ and let $X=T^d$ (the clock space).
 	
 	\medskip
 	
@@ -340,8 +344,14 @@ such that their interaction will produce only good behaviours.
 	\medskip
 	
 	\begin{dfn}[Reset functions]
-		Let $F(X)$ denote the class of functions $f:X \mapsto X$ that can be written in the form $f(x_1,\ldots,f_d)=(f_1,\ldots,f_d)$ where each $f_i$ is either $x_i$ or $0$.
+		Let $F(X)$ denote the class of functions $f:X \mapsto X$ that can be written in the form $f(x_1,\ldots,x_d)=(f_1,\ldots,f_d)$ where each $f_i$ is either $x_i$ or $0$.
 	\end{dfn}
+	
+	\note{
+		The clocks interact with the transitions by participating in preconditions 
+		(guards) for certain transitions and they are possibly reset when some
+		transitions are taken
+	}
 \end{frame}
 
 \begin{frame}
@@ -368,9 +378,10 @@ such that their interaction will produce only good behaviours.
 		\begin{itemize}
 			\item $Q$ a finite set of discrete states
 			\item $X$ a clock domain $X=(\mathbb{R}^+)^d$ for some $d>0$
-			\item $\Sigma$ an input alphabet (including a single environment action $e$)
+			\item $\Sigma=\Sigma_c \cup \{e\}$ an input alphabet (including a single environment action $e$)
 			\item $I:Q \mapsto \mathcal{H}^\cap_k$ as the state invariant function
-			\item $R \subseteq Q \times \Sigma \times \mathcal{H}^\cap_k \times F(X) \times Q$ is a set of transition relations each of the form $\langle q,\sigma,g,f,q'\rangle$ where:
+			\item $R \subseteq Q \times \Sigma \times \mathcal{H}^\cap_k \times F(X) \times Q$ is
+			 a set of transition relations each of the form $\langle q,\sigma,g,f,q'\rangle$ where:
 			\begin{itemize}
 				\item $q,q' in Q$
 				\item $\sigma \in \Sigma$
@@ -382,8 +393,23 @@ such that their interaction will produce only good behaviours.
 \end{frame}
 
 \begin{frame}
+	A \emph{configuration} of $\mathcal{T}$ is a pair $(q,x) \in Q \times X$ denoting a discrete
+	state and the values of the clocks.
+
+	\medskip
+
+	Without loss of generality, we assume that:
+	$$ \forall q \in Q, \forall x \in X \; \exists t \in T : x+1t \not \in I_q$$
+	\note{
+		That is, the automaton cannot stay in any of its discrete states forever.
+
+		$x+1t = (x_1,\ldots,x_n)+(1,\ldots,1)t=(x_1+t,\ldots,x_n+t)$
+		The time has the same pace in all clocks
+	}
+\end{frame}
+\begin{frame}
 	\begin{dfn}[Steps and Trajectories]
-		A step of $\mathcal(T)$ is a pair of configurations $\confPair$ such that either:
+		A step of $\mathcal{T}$ is a pair of configurations $\confPair$ such that either:
 		\begin{itemize}
 			\item $q=q'$ and for some $t \in T, x'=x+1t, x \in I_q$ and $x' \in I_q$. In this case we say that $(q',x')$ is a \emph{t-successor} of $(q,x)$ and that $\confPair$ is a \emph{t-step}.
 			\item There is some $r = \langle q,\sigma,g,f,q'\rangle \in R$ such that $x \in g$ and $x' = f(x)$. In this case we say that $(q',x')$ is a \emph{$\sigma$-successor} of $(q,x)$ and that $\confPair$ is a \emph{$\sigma$-step} 
@@ -400,7 +426,7 @@ such that their interaction will produce only good behaviours.
 	\begin{dfn}[Real time Controller]
 		A simple real time controller is a function $C: Q \times X \mapsto \Sigma_c \cup {\perp}$
 	\end{dfn}
-	According to this function the controller chooses at any configuration $(q,x)$ whether to issue some enabled transition $\sigma$ or to do nothing and let time go by. We denote by $\Sigma_c^\perp$ the range of controller commands $\Sigma_c \cup {\perp}$. We also require that the controller is $k$-polyhedral, i.e., for every $\sigma \in \Sigma_c^\perp, C^{-1}(\sigma)$ is  a $k$-polyhedral set.
+	According to this function the controller chooses at any configuration $(q,x)$ whether to issue some enabled transition $\sigma$ or to do nothing and let time go by. We denote by $\Sigma_c^\perp = \Sigma_c \cup {\perp}$ the range of controller commands. We also require that the controller is $k$-polyhedral, i.e., for every $\sigma \in \Sigma_c^\perp, C^{-1}(\sigma)$ is  a $k$-polyhedral set.
 \end{frame}
 
 \begin{frame}
@@ -457,8 +483,6 @@ such that their interaction will produce only good behaviours.
 	}
 \end{frame}
 
-
-
 \begin{frame}
 	\begin{dfn}[Controllable Predecessors]
 		The controllable predecessors function $\pi:2^Q \times 2^X \mapsto 2^Q \times 2^X$ is defined for every $K \subseteq Q \times X$ by
@@ -471,9 +495,35 @@ such that their interaction will produce only good behaviours.
 	}
 \end{frame}
 
+\begin{frame}
+	Assume that $Q = \{q_0,\ldots,q_m\}$. Clearly, any set of configurations ca be written as $ K=\{q_0\} \times P_0 \cup \ldots \cup \{q_m\} \times P_m$ where $P_0,\dots P_m$ are subsets of $X$.
+
+	\medskip
+
+	Thus the set $K$ can be uniquely represented by a set tuple $\mathcal{H} = \langle P_0, \ldots, P_m\rangle$ and we can view $\pi$ as a transformation on set tuples.
+\end{frame}
 
 \begin{frame}
-	\begin{thm}[Control Synthesis for Timed ystems]
+	\begin{thm}[Closure of $\mathcal{H}^*_k$ under $\pi$]
+		if $\mathcal{H} = \langle P_0, \ldots, P_m\rangle$ is k-polyhedral so is $\pi(\mathcal{H}) = \langle P_0, \ldots, P_m\rangle$
+	\end{thm}
+\end{frame}
+
+\begin{frame}
+	\textbf{Sketch of Proof}
+	
+	\medskip
+
+	A set tuple $\mathcal{H}$ il calle d k-polyhedral if each component $P_0,\ldots,P_m$ belongs to $\mathcal{H}^*_k$.
+
+	\medskip
+
+	Wlog, we assume that foe every $q \in Q,\sigma in \Sigma_c$ there is at most one $r=\langle q,\sigma,g,f,q'\rangle \in R$.
+	
+\end{frame}
+
+\begin{frame}
+	\begin{thm}[Control Synthesis for Timed systems]
 	Given a timed automaton $\mathcal{T}$ and an acceptance condition
 	$$\AccpCond$$
 	the problem \textbf{RT-Synth}$(\mathcal{T},\Omega)$ is solvable
