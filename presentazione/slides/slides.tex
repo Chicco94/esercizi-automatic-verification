@@ -11,9 +11,13 @@
 \usepackage[default]{droidserif}
 \usepackage[T1]{fontenc}
 \usepackage{ragged2e}
+\usepackage{amsmath,adjustbox}
+\usepackage{mathtools}
+\usepackage{lmodern} % https://tex.stackexchange.com/questions/58087/how-to-remove-the-warnings-font-shape-ot1-cmss-m-n-in-size-4-not-available
 \apptocmd{\frame}{}{\justifying}{}
 
 \usepackage{changepage}
+\usepackage{graphics}
 
 \input{lib/uniud_tmpl}
 
@@ -511,16 +515,28 @@ such that their interaction will produce only good behaviours.
 
 \begin{frame}
 	\textbf{Sketch of Proof}
-	
-	\medskip
 
 	A set tuple $\mathcal{H}$ il calle d k-polyhedral if each component $P_0,\ldots,P_m$ belongs to $\mathcal{H}^*_k$.
 
-	\medskip
+	Wlog, we assume that for every $q \in Q,\sigma in \Sigma_c$ there is at most one $r=\langle q,\sigma,g,f,q'\rangle \in R$. Let $\langle P_0', \ldots, P_m'\rangle = \pi(\langle P_0, \ldots, P_m\rangle)$. Then, for each $i=0,\ldots,m$ then set $P_i'$ can be expressed as:
 
-	Wlog, we assume that foe every $q \in Q,\sigma in \Sigma_c$ there is at most one $r=\langle q,\sigma,g,f,q'\rangle \in R$.
-	
+	\noindent 
+	\begin{adjustbox}{max width=\textwidth}
+	\parbox{\linewidth}{%
+		\begin{align*}
+			P_i' = \bigcup_{\langle q_i,\sigma,g,f,q_j\rangle \in R} \{x : \exists t \in T \left (
+			\begin{aligned}
+				\;&x \in I_{q_i} \land\\
+				\;&x+1t \in I_{q_i} \land\\ 
+				\;&x+1t \in g \land\\
+				\;&f(x+1t) \in P_j \land \;\; (\forall t' \leq t)\\
+				\;&\bigwedge_{\langle q_i,\sigma,g,f,q_j\rangle \in R}(x+1t' \in g')\rightarrow f(x1t')\in P_k
+			\end{aligned} \right ) \}
+		\end{align*}
+	}
+	\end{adjustbox}
 \end{frame}
+
 
 \begin{frame}
 	\begin{thm}[Control Synthesis for Timed systems]
@@ -529,6 +545,8 @@ such that their interaction will produce only good behaviours.
 	the problem \textbf{RT-Synth}$(\mathcal{T},\Omega)$ is solvable
 	\end{thm}
 \end{frame}
+
+
 \begin{frame}
 	\textbf{Sketch of Proof}
 	
