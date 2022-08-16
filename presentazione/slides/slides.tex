@@ -18,6 +18,7 @@
 
 \usepackage{changepage}
 \usepackage{graphics}
+\usepackage{tikz}
 
 \input{lib/uniud_tmpl}
 
@@ -530,11 +531,66 @@ such that their interaction will produce only good behaviours.
 				\;&x+1t \in I_{q_i} \land\\ 
 				\;&x+1t \in g \land\\
 				\;&f(x+1t) \in P_j \land \;\; (\forall t' \leq t)\\
-				\;&\bigwedge_{\langle q_i,\sigma,g,f,q_j\rangle \in R}(x+1t' \in g')\rightarrow f(x1t')\in P_k
+				\;&\bigwedge_{\langle q_i,\sigma,g,f,q_j\rangle \in R}(x+1t' \in g')\rightarrow f(x+1t')\in P_k
 			\end{aligned} \right ) \}
 		\end{align*}
 	}
 	\end{adjustbox}
+\end{frame}
+
+\begin{frame}
+	It can be verified that every $P'_i$ can be written as a boolean combinations of sets of the form:
+
+	\begin{equation*}
+		\resizebox{.9\hsize}{!}{
+			$I_{q_i} \cap \{x : \exists t \in T \;  x+1t \in I_{q_i} \cap g \cap f^{-1}(P_j)\; \forall t' \leq t \; x+1t' \in \overline{g'} \cup f'^{-1}(P_k)\}$
+		}
+	\end{equation*}
+	for some guards $g,g'$ and reset functions $f,f'$, where we use $f^{-1}(P)=\{x : f(x) \in P\}$.
+
+	\medskip
+	
+	Since timed reachability is distributive over union, i.e.,
+	$$\{x:\exists t\;x+1t \in S_1 \cup \S_2\} = \{x:\exists t\;x+1t \in S_1\} \cup \{x:\exists t\;x+1t \in \S_2\}$$
+	it is sufficient to prove the claim assuming $k$-convex polyhedral sets.
+
+	\note{
+		The domani of $f^{-1}(P)=\{x : f(x) \in P\}$ is $\mathbb{R}^{+d}$
+	}
+\end{frame}
+
+\begin{frame}
+	So, what remains to show is that for any two $k$-convex sets $S_1$ and $S_2$, the set $\pi_{t',t}(S_1,S_2)$, denoting all the points in $S_1$ from which we can reach $S_2$ without leaving $S_1$, and defined as
+	$$\pi_{t',t}(S_1,S_2)=\{x:\exists t \; x+1t\in S_2 \land \forall t'\leq t\;x+1t' \in S_1\}$$
+	is also convex.
+
+	\begin{tikzpicture}
+		%\draw[step=.5cm,gray,very thin] (-.1,-.1) grid (4.7,4.7);
+
+		\draw[very thick,->] (0,0) -- (4.7,0) node[anchor=north west] {$x_1$};
+		\draw[very thick,->] (0,0) -- (0,4.7) node[anchor=south east] {$x_2$};
+
+		%S1
+		\draw[thick] (0,0) -- (2.5,0) -- (3.5,1) -- (3.5,3) -- (1,3) -- (0,2) -- cycle;
+		\node at (1,1) {$S_1$};
+
+		%S2
+		\draw[thick] (2,2) -- (4.5,2) -- (4.5,4.5) -- (3,4.5) -- (2,3.5) -- cycle;
+		\node at (4,4) {$S_2$};
+
+		% time
+		\draw[thick,->] (1.5,1) -- (2,1.5) node[anchor=north west] {$t$};
+
+		%pi(S1,S2)
+		\draw[red,thick,dashed] (0,0) -- (1.5,0) -- (3.5,2) -- (3.5,3) -- (2,3) -- (0,1) -- cycle;
+		
+		\fill[black] (1.5,0) circle (1.5pt);
+		\node at (1.5,-.25) {$c'$};
+
+		\fill[black] (4.5,0) circle (1.5pt);
+		\node at (4.5,-.25) {$c$};
+
+	\end{tikzpicture}
 \end{frame}
 
 
