@@ -92,6 +92,12 @@ such that their interaction will produce only good behaviours.
 		can be written as a function $C:Q \longmapsto \Sigma_c$.
 	\end{dfn}
 	\note{
+		For each controller command $\sigma \in \Sigma_c$ at some state $q \in Q$ there are several possible consequences denoted by $\delta(q,\sigma)$.
+		
+		\medskip
+
+		Unlike other formulation of 2-person games, where there is an explicit description of the transition function of both players, here we represent the response of the environment as a non-deterministic choice among the transitions labeled by the same $/sigma$.
+		\\
 		We are interested in the simpler cases of controllers 
 		that base their decisions on a finite memory.
 	}
