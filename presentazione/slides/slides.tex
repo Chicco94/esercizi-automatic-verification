@@ -87,7 +87,7 @@ such that their interaction will produce only good behaviours.
 	\end{dfn}
 
 	\begin{dfn}[Controllers]
-		A controller (strategy) for a plant specified by $\Plant$ 
+		A controller for a plant specified by $\Plant$ 
 		is a function $\Controller$. A simple controller is a controller that 
 		can be written as a function $C:Q \longmapsto \Sigma_c$.
 	\end{dfn}
@@ -164,11 +164,11 @@ such that their interaction will produce only good behaviours.
 		Let $\mathcal{P}=(Q,\Sigma_c,\delta, q)$ be a plant and a set of states $P \subseteq Q$. 
 		The controllable predecessors of $P$ is the set of states from which the controller 
 		can "force" the plant into P in one step:
-		$$ \{q : \exists \sigma \in \Sigma_c \centerdot  \delta(q,\sigma) \subseteq P\} $$
+		$$ \{q : \exists \sigma \in \Sigma_c \;  \delta(q,\sigma) \subseteq P\} $$
 	\end{dfn}
 	We define a function $\pi:2^Q \longmapsto 2^Q$, mapping a set of states $P \subseteq Q$ into 
 	the set of its Controllable predecessors:
-	$$ \pi(P) = \{q : \exists \sigma \in \Sigma_c \centerdot  \delta(q,\sigma) \subseteq P\} $$
+	$$ \pi(P) = \{q : \exists \sigma \in \Sigma_c \;  \delta(q,\sigma) \subseteq P\} $$
 \end{frame}
 
 \begin{frame}
