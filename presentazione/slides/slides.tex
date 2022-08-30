@@ -159,8 +159,7 @@ such that their interaction will produce only good behaviours.
 \begin{frame}
 	\begin{dfn}[Controller Synthesis Problem]
 		For a plant $\mathcal{P}$ and an acceptance condition $\Omega$, the problem $\Synth$ is:
-		Find a controller C such that $L_C(\mathcal{P})\subseteq L(\mathcal{P},\Omega)$ ot otherwise show that such
-		 a controller does not exists.
+		Find a controller C such that $L_C(\mathcal{P})\subseteq L(\mathcal{P},\Omega)$ or otherwise show that such a controller does not exists.
 	\end{dfn}
 \end{frame}
 
@@ -169,7 +168,7 @@ such that their interaction will produce only good behaviours.
 	\begin{dfn}[Controllable Predecessors]
 		Let $\mathcal{P}=(Q,\Sigma_c,\delta, q)$ be a plant and a set of states $P \subseteq Q$. 
 		The controllable predecessors of $P$ is the set of states from which the controller 
-		can "force" the plant into P in one step:
+		can "force" the plant into $P$ in one step:
 		$$ \{q : \exists \sigma \in \Sigma_c \;  \delta(q,\sigma) \subseteq P\} $$
 	\end{dfn}
 	We define a function $\pi:2^Q \longmapsto 2^Q$, mapping a set of states $P \subseteq Q$ into 
@@ -225,7 +224,7 @@ such that their interaction will produce only good behaviours.
 	We can characterize this states by the following fixed-point expressions:
 	\begin{itemize}
 		\item[$\square$] $\nu W \big( F \cap \pi(W)\big)$ 
-		\item[$\Diamond$] $\nu W\big(F \cup \pi(W)\big)$ 
+		\item[$\Diamond$] $\mu W\big(F \cup \pi(W)\big)$ 
 		\item[$\Diamond\square$] $\mu W \nu H\Big(\pi(H) \cap \big(F \cup \pi(W)\big)\Big)$
 		\item[$\square\Diamond$] $\nu W \mu H\Big(\pi(H) \cup \big(F \cap \pi(W)\big)\Big)$
 		\item[$\mathcal{R}_1$] $\mu W \Bigg\{\pi(W) \cap \nu Y \mu H . W \cup G \cap \Big(\pi(H) \cup \big(F \cap \pi(Y)\big)\Big)\Bigg\}$
@@ -394,10 +393,10 @@ such that their interaction will produce only good behaviours.
 			\item $R \subseteq Q \times \Sigma \times \mathcal{H}^\cap_k \times F(X) \times Q$ is
 			 a set of transition relations each of the form $\langle q,\sigma,g,f,q'\rangle$ where:
 			\begin{itemize}
-				\item $q,q' in Q$
-				\item $\sigma \in \Sigma$
-				\item $g \in \mathcal{H}^\cap_k$
-				\item $f \in F(X)$
+				\item $q,q' in Q$ are states
+				\item $\sigma \in \Sigma$ is a command
+				\item $g \in \mathcal{H}^\cap_k$ is a guard condition
+				\item $f \in F(X)$ is a reset function
 			\end{itemize}
 		\end{itemize}
 	\end{dfn}
@@ -410,11 +409,11 @@ such that their interaction will produce only good behaviours.
 	\medskip
 
 	Without loss of generality, we assume that:
-	$$ \forall q \in Q, \forall x \in X \; \exists t \in T : x+1t \not \in I_q$$
+	$$ \forall q \in Q, \forall x \in X \; \exists t \in T : x+\textbf{1}t \not \in I_q$$
 	\note{
 		That is, the automaton cannot stay in any of its discrete states forever.
 
-		$x+1t = (x_1,\ldots,x_n)+(1,\ldots,1)t=(x_1+t,\ldots,x_n+t)$
+		$x+\textbf{1}t = (x_1,\ldots,x_n)+(1,\ldots,1)t=(x_1+t,\ldots,x_n+t)$
 		The time has the same pace in all clocks
 	}
 \end{frame}
@@ -422,7 +421,7 @@ such that their interaction will produce only good behaviours.
 	\begin{dfn}[Steps and Trajectories]
 		A step of $\mathcal{T}$ is a pair of configurations $\confPair$ such that either:
 		\begin{itemize}
-			\item $q=q'$ and for some $t \in T, x'=x+1t, x \in I_q$ and $x' \in I_q$. In this case we say that $(q',x')$ is a \emph{t-successor} of $(q,x)$ and that $\confPair$ is a \emph{t-step}.
+			\item $q=q'$ and for some $t \in T, x'=x+\textbf{1}t, x \in I_q$ and $x' \in I_q$. In this case we say that $(q',x')$ is a \emph{t-successor} of $(q,x)$ and that $\confPair$ is a \emph{t-step}.
 			\item There is some $r = \langle q,\sigma,g,f,q'\rangle \in R$ such that $x \in g$ and $x' = f(x)$. In this case we say that $(q',x')$ is a \emph{$\sigma$-successor} of $(q,x)$ and that $\confPair$ is a \emph{$\sigma$-step} 
 		\end{itemize}
 		
@@ -446,7 +445,7 @@ such that their interaction will produce only good behaviours.
 		\begin{itemize}
 			\item an $e-step$ 
 			\item a $\sigma-step$ such that $C(q,x)=\sigma \in \Sigma_c$
-			\item a $t-step$ for some $t \in T$ such that for every $t'$, $t' \in [0,t), C(q,x+1t')=\perp$
+			\item a $t-step$ for some $t \in T$ such that for every $t'$, $t' \in [0,t), C(q,x+\textbf{1}t')=\perp$
 		\end{itemize}
 	\end{dfn}
 	A $C$-trajectory is a trajectory consisting of $C$-steps. We denote the set of $C$-trajectories of $\mathcal{T}$ by $L_C(\mathcal{T})$.
@@ -534,10 +533,10 @@ such that their interaction will produce only good behaviours.
 			P_i' = \bigcup_{\langle q_i,\sigma,g,f,q_j\rangle \in R} \{x : \exists t \in T \left (
 			\begin{aligned}
 				\;&x \in I_{q_i} \land\\
-				\;&x+1t \in I_{q_i} \land\\ 
-				\;&x+1t \in g \land\\
-				\;&f(x+1t) \in P_j \land \;\; (\forall t' \leq t)\\
-				\;&\bigwedge_{\langle q_i,\sigma,g,f,q_j\rangle \in R}(x+1t' \in g')\rightarrow f(x+1t')\in P_k
+				\;&x+\textbf{1}t \in I_{q_i} \land\\ 
+				\;&x+\textbf{1}t \in g \land\\
+				\;&f(x+\textbf{1}t) \in P_j \land \;\; (\forall t' \leq t)\\
+				\;&\bigwedge_{\langle q_i,\sigma,g,f,q_j\rangle \in R}(x+\textbf{1}t' \in g')\rightarrow f(x+\textbf{1}t')\in P_k
 			\end{aligned} \right ) \}
 		\end{align*}
 	}
@@ -549,7 +548,7 @@ such that their interaction will produce only good behaviours.
 
 	\begin{equation*}
 		\resizebox{.9\hsize}{!}{
-			$I_{q_i} \cap \{x : \exists t \in T \;  x+1t \in I_{q_i} \cap g \cap f^{-1}(P_j)\; \forall t' \leq t \; x+1t' \in \overline{g'} \cup f'^{-1}(P_k)\}$
+			$I_{q_i} \cap \{x : \exists t \in T \;  x+\textbf{1}t \in I_{q_i} \cap g \cap f^{-1}(P_j)\; \forall t' \leq t \; x+\textbf{1}t' \in \overline{g'} \cup f'^{-1}(P_k)\}$
 		}
 	\end{equation*}
 	for some guards $g,g'$ and reset functions $f,f'$, where we use $f^{-1}(P)=\{x : f(x) \in P\}$.
@@ -557,7 +556,7 @@ such that their interaction will produce only good behaviours.
 	\medskip
 	
 	Since timed reachability is distributive over union, i.e.,
-	$$\{x:\exists t\;x+1t \in S_1 \cup \S_2\} = \{x:\exists t\;x+1t \in S_1\} \cup \{x:\exists t\;x+1t \in \S_2\}$$
+	$$\{x:\exists t\;x+\textbf{1}t \in S_1 \cup \S_2\} = \{x:\exists t\;x+\textbf{1}t \in S_1\} \cup \{x:\exists t\;x+\textbf{1}t \in \S_2\}$$
 	it is sufficient to prove the claim assuming $k$-convex polyhedral sets.
 
 	\note{
@@ -567,7 +566,7 @@ such that their interaction will produce only good behaviours.
 
 \begin{frame}
 	So, what remains to show is that for any two $k$-convex sets $S_1$ and $S_2$, the set $\pi_{t',t}(S_1,S_2)$, denoting all the points in $S_1$ from which we can reach $S_2$ without leaving $S_1$, and defined as
-	$$\pi_{t',t}(S_1,S_2)=\{x:\exists t \; x+1t\in S_2 \land \forall t'\leq t\;x+1t' \in S_1\}$$
+	$$\pi_{t',t}(S_1,S_2)=\{x:\exists t \; x+\textbf{1}t\in S_2 \land \forall t'\leq t\;x+\textbf{1}t' \in S_1\}$$
 	is also convex.
 
 	\begin{tikzpicture}
