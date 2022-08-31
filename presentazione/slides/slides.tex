@@ -96,7 +96,7 @@ such that their interaction will produce only good behaviours.
 		
 		\medskip
 
-		Unlike other formulation of 2-person games, where there is an explicit description of the transition function of both players, here we represent the response of the environment as a non-deterministic choice among the transitions labeled by the same $/sigma$.
+		Unlike other formulation of 2-person games, where there is an explicit description of the transition function of both players, here we represent the response of the environment as a non-deterministic choice among the transitions labeled by the same $\sigma$.
 		\\
 		We are interested in the simpler cases of controllers 
 		that base their decisions on a finite memory.
@@ -192,7 +192,7 @@ such that their interaction will produce only good behaviours.
 			% raggruppamenti
 			\begin{scope}[on background layer]
 				\node[fit=(q_0) (q_1) (q_2), ellipse, 
-				draw=arancio,fill=arancio!30, fill opacity=0.4, label=below:P] (P) {};
+				draw=arancio,fill=arancio!30, fill opacity=0.4, label=below:$P$] (P) {};
 				\node[fit=(p_0) (p_1) (p_2), ellipse, 
 				draw=azzurro, fill=azzurro!30, fill opacity=0.4, label=above:$\pi(P)$] (predP) {};
 			\end{scope}
@@ -215,6 +215,9 @@ such that their interaction will produce only good behaviours.
 		Moreover, if $(\mathcal{P},\Omega)$ is controllable then 
 		it is controllable by a simple controller.
 	\end{thm}
+	\textbf{Sketch of Proof}
+
+	\medskip
 	
 	For a plant $\Plant$ and an acceptance condition $\Omega$, we denote $W \subseteq Q$ as the set
 	of winning states, namely, the set of states from which a controller can enforce good behaviors according to $\Omega$.
@@ -521,6 +524,8 @@ such that their interaction will produce only good behaviours.
 
 \begin{frame}
 	\textbf{Sketch of Proof}
+	
+	\medskip
 
 	A set tuple $\mathcal{H}$ il calle d k-polyhedral if each component $P_0,\ldots,P_m$ belongs to $\mathcal{H}^*_k$.
 
@@ -556,7 +561,7 @@ such that their interaction will produce only good behaviours.
 	\medskip
 	
 	Since timed reachability is distributive over union, i.e.,
-	$$\{x:\exists t\;x+\textbf{1}t \in S_1 \cup \S_2\} = \{x:\exists t\;x+\textbf{1}t \in S_1\} \cup \{x:\exists t\;x+\textbf{1}t \in \S_2\}$$
+	$$\{x:\exists t\;x+\textbf{1}t \in S_1 \cup S_2\} = \{x:\exists t\;x+\textbf{1}t \in S_1\} \cup \{x:\exists t\;x+\textbf{1}t \in S_2\}$$
 	it is sufficient to prove the claim assuming $k$-convex polyhedral sets.
 
 	\note{
