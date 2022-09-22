@@ -20,12 +20,14 @@
 \usepackage{graphics}
 \usepackage{tikz}
 
+\usepackage{showframe}
+
 \input{lib/uniud_tmpl}
 
 
 %Information to be included in the title page:
 \title[Automatic Verification] %optional
-{\cite[On the Synthesis of Discrete Controllers for Timed Systems]{first_article}}
+{On the Synthesis of Discrete Controllers for Timed Systems \cite{first_article}}
 
 \subtitle{An Extended Abstract}
 
@@ -63,8 +65,8 @@ This paper presents algorithms for the automatic synthesis of the real time cont
 
 \subsection{The problem}
 \begin{frame}
-Consider a dynamical system P, whose presentation describes all its possible behaviours.
-A subset of the plant's behaviours, satisfying some criterion is defined as good or acceptable.
+Consider a dynamical system P, whose presentation descri\-bes all its possible behaviours.
+A subset of the plant's be\-hav\-iours, satisfying some criterion is defined as good or acceptable.
 
 \medskip
 
@@ -439,7 +441,10 @@ such that their interaction will produce only good behaviours.
 	\begin{dfn}[Real time Controller]
 		A simple real time controller is a function $C: Q \times X \mapsto \Sigma_c \cup {\perp}$
 	\end{dfn}
-	According to this function the controller chooses at any configuration $(q,x)$ whether to issue some enabled transition $\sigma$ or to do nothing and let time go by. We denote by $\Sigma_c^\perp = \Sigma_c \cup {\perp}$ the range of controller commands. We also require that the controller is $k$-polyhedral, i.e., for every $\sigma \in \Sigma_c^\perp, C^{-1}(\sigma)$ is  a $k$-polyhedral set.
+	We denote by $\Sigma_c^\perp = \Sigma_c \cup {\perp}$ the range of controller commands. We also require that the controller is $k$-polyhedral, i.e., for every $\sigma \in \Sigma_c^\perp, C^{-1}(\sigma)$ is  a $k$-polyhedral set.
+	\note{
+		According to this function the controller chooses at any configuration $(q,x)$ whether to issue some enabled transition $\sigma$ or to do nothing and let time go by.
+	} 
 \end{frame}
 
 \begin{frame}
@@ -462,7 +467,6 @@ such that their interaction will produce only good behaviours.
 
 \subsection{Control Synthesis for Timed Systems}
 \begin{frame}
-	In order to tackle the real time controller synthesis problem we introduce the following definitions:
 	\begin{dfn}[$(t,\sigma)-successor$]
 		For $t \in T$ and $\sigma \in \Sigma$, the configuration $\confP$ is defined to be a $(t,\sigma)-successor$ of the configuration $\conf$ if there exists an intermediate configuration $\confH$ such that $\confH$ is a $t- successor$ of $\conf$ and $\confP$ is a $\sigma-successor$ of $\confH$.
 	\end{dfn}
@@ -470,6 +474,8 @@ such that their interaction will produce only good behaviours.
 	Then we define a function $\delta : (Q \times  X) \times (T \times \Sigma^\perp_c) \mapsto 2^{Q \times X}$ where $\delta(\conf,(t,\sigma))$ stands for all the possible consequences of the controller attempting to issue the command $\sigma \in \Sigma^\perp_c$ after waiting $t$ time units starting at configuration $\conf$
 	
 	\note{
+		In order to tackle the real time controller synthesis problem we introduce the following definitions:\\
+
 		Note that this covers the case of $\confP$ being simply a $\sigma-successor$ 
 		of $\conf$ by viewing it as a $(0,\sigma)-successor$ of $\conf$.
 	}
