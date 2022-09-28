@@ -71,11 +71,21 @@ A subset of the plant's be\-hav\-iours, satisfying some criterion is defined as 
 \medskip
 
 A controller C is another system which can interact with P in a certain manner by observing the state of P and by issuing control actions that influence the behaviour of P.
+
+\note{
+	\begin{enumerate}
+		\item Kitchen robot
+		\item Selfdrived metro
+	\end{enumerate}
+}
 \end{frame}
 
 \begin{frame}
 The synthesis problem is then, to find out whether, for a given P, there exists a realizable controller C
 such that their interaction will produce only good behaviours.
+\note{
+	Let's see some definition before dive in into the theorem and its proofs
+}
 \end{frame}
 
 \section{Discrete Case}
@@ -201,8 +211,8 @@ such that their interaction will produce only good behaviours.
 
 			\path[->] 
 				(p_0) edge  node {} (q_0)
+				(p_0) edge  node {} (p_1)
 				(p_1) edge  node {} (q_0)
-				(p_1) edge  node {} (p_0)
 					  edge  node {} (q_1)
 				(p_2) edge  node {} (q_2)
 				(p_3) edge  node {} (p_2);
@@ -262,6 +272,10 @@ such that their interaction will produce only good behaviours.
 		\multicolumn{3}{l}{finally: $W_n := F \cup \pi(W_{n-1}) = F \cup \pi(F \cup \pi(\ldots(F \cup \pi(F))))$}
 		\end{tabular}
 	\end{table}
+
+	\note{
+		chain of operations
+	}
 \end{frame}
 
 
@@ -319,6 +333,7 @@ such that their interaction will produce only good behaviours.
 			
 		\end{tikzpicture}
 	\end{center}
+	\note{concluding the proof}
 \end{frame}
 
 
@@ -334,13 +349,15 @@ such that their interaction will produce only good behaviours.
 	
 	\medskip
 	
-	When the process terminates, the controller is synthesized for all the winning states.
+	When the process terminates, the controller is synthesized for all the winning states. $\qed$
 		
 	\medskip
 	
 	It can be seen that if the process fails, that is $q_0 \not\in W$, then for every controller
 	command there is a possibly bad consequence that will put the system outside $F$, 
 	and no controller, even an infinite state one, can prevent this.
+
+	\note{the non determinism, the environment, is playing against us}
 \end{frame}
 
 \section{Real Time Case}
@@ -385,6 +402,7 @@ such that their interaction will produce only good behaviours.
 			\item $\mathcal{H}^*_k$: the set of k-polyhedral sets containing all sets obtained from $\mathcal{H}_k$ via union intersection and complementation
 		\end{itemize}
 	\end{dfn}
+	\note{$\#$ equals hash}
 \end{frame}
 
 \begin{frame}
@@ -434,16 +452,29 @@ such that their interaction will produce only good behaviours.
 		
 		A trajectory of $\mathcal{T}$ is a sequence $ \beta = (q[0],x[0]),(q[1],x[1]),\ldots $ of configurations such that for every $i$, $((q[i],x[i]),(q[i+1],x[i+1]))$ is a step.
 	\end{dfn}
+	\note{
+		$\sigma$-steps includes the environment steps
+	}
 \end{frame}
 
 \subsection{Real Time Controllers}
 \begin{frame}
 	\begin{dfn}[Real time Controller]
-		A simple real time controller is a function $C: Q \times X \mapsto \Sigma_c \cup {\perp}$
+		A simple real time controller is a function $C: Q \times X \mapsto \Sigma_c \cup {\bot}$
 	\end{dfn}
-	We denote by $\Sigma_c^\perp = \Sigma_c \cup {\perp}$ the range of controller commands. We also require that the controller is $k$-polyhedral, i.e., for every $\sigma \in \Sigma_c^\perp, C^{-1}(\sigma)$ is  a $k$-polyhedral set.
+
+	\medskip
+
+	We denote by $\Sigma_c^\bot = \Sigma_c \cup {\bot}$ the range of controller commands.
+	
+	\medskip
+
+	We also require that the controller is $k$-polyhedral, i.e., for every $\sigma \in \Sigma_c^\bot, C^{-1}(\sigma)$ is  a $k$-polyhedral set.
+
 	\note{
 		According to this function the controller chooses at any configuration $(q,x)$ whether to issue some enabled transition $\sigma$ or to do nothing and let time go by.
+		\\
+		$\bot$ equals bot
 	} 
 \end{frame}
 
@@ -453,7 +484,7 @@ such that their interaction will produce only good behaviours.
 		\begin{itemize}
 			\item an $e-step$ 
 			\item a $\sigma-step$ such that $C(q,x)=\sigma \in \Sigma_c$
-			\item a $t-step$ for some $t \in T$ such that for every $t'$, $t' \in [0,t), C(q,x+\textbf{1}t')=\perp$
+			\item a $t-step$ for some $t \in T$ such that for every $t'$, $t' \in [0,t), C(q,x+\textbf{1}t')=\bot$
 		\end{itemize}
 	\end{dfn}
 	A $C$-trajectory is a trajectory consisting of $C$-steps. We denote the set of $C$-trajectories of $\mathcal{T}$ by $L_C(\mathcal{T})$.
@@ -471,7 +502,7 @@ such that their interaction will produce only good behaviours.
 		For $t \in T$ and $\sigma \in \Sigma$, the configuration $\confP$ is defined to be a $(t,\sigma)-successor$ of the configuration $\conf$ if there exists an intermediate configuration $\confH$ such that $\confH$ is a $t- successor$ of $\conf$ and $\confP$ is a $\sigma-successor$ of $\confH$.
 	\end{dfn}
 	
-	Then we define a function $\delta : (Q \times  X) \times (T \times \Sigma^\perp_c) \mapsto 2^{Q \times X}$ where $\delta(\conf,(t,\sigma))$ stands for all the possible consequences of the controller attempting to issue the command $\sigma \in \Sigma^\perp_c$ after waiting $t$ time units starting at configuration $\conf$
+	Then we define a function $\delta : (Q \times  X) \times (T \times \Sigma^\bot_c) \mapsto 2^{Q \times X}$ where $\delta(\conf,(t,\sigma))$ stands for all the possible consequences of the controller attempting to issue the command $\sigma \in \Sigma^\bot_c$ after waiting $t$ time units starting at configuration $\conf$
 	
 	\note{
 		In order to tackle the real time controller synthesis problem we introduce the following definitions:\\
@@ -648,7 +679,7 @@ such that their interaction will produce only good behaviours.
 		The strategy is extracted in a similar manner as in the discrete case. When
 		ever a configuration $\conf$ is added to $W$, it is due to one or more pairs of the
 		form $([t_1,t_2],\sigma)$ indicating that within any $t,t_1<t<t_2$ issuing $\sigma$ after waiting
-		$t$ will lead to a winning position. Hence by letting $C\conf = \perp$ when $t_1>0$ and
+		$t$ will lead to a winning position. Hence by letting $C\conf = \bot$ when $t_1>0$ and
 		$C\conf = \sigma$ when $t_1=0$ we obtain a $k-$polyhedral controller.
 	}
 \end{frame}
