@@ -93,23 +93,30 @@ such that their interaction will produce only good behaviours.
 \begin{frame}
 	\begin{dfn}[Plant]
 		A plant automaton is a tuple $\Plant$ where
-		$Q$ is a finite set of states, $\Sigma_c$ is a set of controller commands, 
-		$\delta:Q \times \Sigma_c \longmapsto 2^Q$ is the transition function and 
-		$q_0 \in Q$ is an initial state.
+		\begin{itemize}
+			\item $Q$ is a finite set of states,
+			\item $\Sigma_c$ is a set of controller commands,
+			\item $\delta:Q \times \Sigma_c \longmapsto 2^Q$ is the transition function
+			\item $q_0 \in Q$ is an initial state
+		\end{itemize}
 	\end{dfn}
 
-	\begin{dfn}[Controllers]
-		A controller for a plant specified by $\Plant$ 
-		is a function $\Controller$. A simple controller is a controller that 
-		can be written as a function $C:Q \longmapsto \Sigma_c$.
-	\end{dfn}
 	\note{
 		For each controller command $\sigma \in \Sigma_c$ at some state $q \in Q$ there are several possible consequences denoted by $\delta(q,\sigma)$.
 		
 		\medskip
 
 		Unlike other formulation of 2-person games, where there is an explicit description of the transition function of both players, here we represent the response of the environment as a non-deterministic choice among the transitions labeled by the same $\sigma$.
-		\\
+	}
+\end{frame}
+
+\begin{frame}
+	\begin{dfn}[Controllers]
+		A controller for a plant specified by $\Plant$ 
+		is a function $\Controller$. A simple controller is a controller that 
+		can be written as a function $C:Q \longmapsto \Sigma_c$.
+	\end{dfn}
+	\note{
 		We are interested in the simpler cases of controllers 
 		that base their decisions on a finite memory.
 	}
@@ -205,19 +212,22 @@ such that their interaction will produce only good behaviours.
 			\begin{scope}[on background layer]
 				\node[fit=(q_0) (q_1) (q_2), ellipse, 
 				draw=arancio,fill=arancio!30, fill opacity=0.4, label=below:$P$] (P) {};
-				\node[fit=(p_0) (p_1) (p_2), ellipse, 
+				\node[fit=(p_1) (p_2), ellipse, 
 				draw=azzurro, fill=azzurro!30, fill opacity=0.4, label=above:$\pi(P)$] (predP) {};
 			\end{scope}
 
 			\path[->] 
-				(p_0) edge  node {} (q_0)
-				(p_0) edge  node {} (p_1)
-				(p_1) edge  node {} (q_0)
-					  edge  node {} (q_1)
-				(p_2) edge  node {} (q_2)
-				(p_3) edge  node {} (p_2);
+				(p_0) edge  node {$\sigma$} (q_0)
+				(p_0) edge  node {$\sigma$} (p_1)
+				(p_1) edge  node {$\sigma$} (q_0)
+					  edge  node {$\sigma$} (q_1)
+				(p_2) edge  node {$\sigma$} (q_2)
+				(p_3) edge  node {$\sigma$} (p_2);
 		\end{tikzpicture}
 	\end{center}
+	\note{
+		the first one is not a controllable predecessor because it can have a bad consequence
+	}
 \end{frame}
 
 \subsection{Theorem}
@@ -382,7 +392,9 @@ such that their interaction will produce only good behaviours.
 	\note{
 		The clocks interact with the transitions by participating in preconditions 
 		(guards) for certain transitions and they are possibly reset when some
-		transitions are taken
+		transitions are taken.\\
+
+		Since $X$ is infinite and non-countable, we need a language to express certain subsets of $X$ as well as operations on these subsets.
 	}
 \end{frame}
 
@@ -402,7 +414,11 @@ such that their interaction will produce only good behaviours.
 			\item $\mathcal{H}^*_k$: the set of k-polyhedral sets containing all sets obtained from $\mathcal{H}_k$ via union intersection and complementation
 		\end{itemize}
 	\end{dfn}
-	\note{$\#$ equals hash}
+	\note{
+		$\#$ equals hash \\
+		For every $k, \mathcal{H}^*_k$ has a finite number of elements, each of which can be written as a finite union of convex sets.\\
+		They are usually called $regions$
+	}
 \end{frame}
 
 \begin{frame}
@@ -499,7 +515,7 @@ such that their interaction will produce only good behaviours.
 \subsection{Control Synthesis for Timed Systems}
 \begin{frame}
 	\begin{dfn}[$(t,\sigma)-successor$]
-		For $t \in T$ and $\sigma \in \Sigma$, the configuration $\confP$ is defined to be a $(t,\sigma)-successor$ of the configuration $\conf$ if there exists an intermediate configuration $\confH$ such that $\confH$ is a $t- successor$ of $\conf$ and $\confP$ is a $\sigma-successor$ of $\confH$.
+		For $t \in T$ and $\sigma in \Sigma$, the configuration $\confP$ is defined to be a $(t,\sigma)-successor$ of the configuration $\conf$ if there exists an intermediate configuration $\confH$ such that $\confH$ is a $t- successor$ of $\conf$ and $\confP$ is a $\sigma-successor$ of $\confH$.
 	\end{dfn}
 	
 	Then we define a function $\delta : (Q \times  X) \times (T \times \Sigma^\bot_c) \mapsto 2^{Q \times X}$ where $\delta(\conf,(t,\sigma))$ stands for all the possible consequences of the controller attempting to issue the command $\sigma \in \Sigma^\bot_c$ after waiting $t$ time units starting at configuration $\conf$
