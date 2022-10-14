@@ -447,8 +447,7 @@ such that their interaction will produce only good behaviours.
 
 	\medskip
 
-	Without loss of generality, we assume that:
-	$$ \forall q \in Q, \forall x \in X \; \exists t \in T : x+\textbf{1}t \not \in I_q$$
+	Without loss of generality, we assume that for every $q \in Q$ and for every $x \in X$ there exists $t \in T$ such that $x+\textbf{1}t \not \in I_q$.
 	\note{
 		That is, the automaton cannot stay in any of its discrete states forever.
 
@@ -473,6 +472,16 @@ such that their interaction will produce only good behaviours.
 	}
 \end{frame}
 
+\begin{frame}
+	We denote the set of all trajectories that $\mathcal{T}$ can generate by $L(\mathcal{T})$.
+
+	\medskip
+
+	Given a trajectory $\beta$ we can define $Vis(\beta)$ and $Inf(\beta)$ as in the discrete 
+	case by referring to the projection of $\beta$ on $Q$ and use $L(\mathcal{T},\Omega)$ to 
+	denote acceptable trajectories as in the discrete case.
+\end{frame}
+
 \subsection{Real Time Controllers}
 \begin{frame}
 	\begin{dfn}[Real time Controller]
@@ -491,6 +500,8 @@ such that their interaction will produce only good behaviours.
 		According to this function the controller chooses at any configuration $(q,x)$ whether to issue some enabled transition $\sigma$ or to do nothing and let time go by.
 		\\
 		$\bot$ equals bot
+		\\
+		$C^{-1}(\sigma)$ means that the domain of $C$ has to be a polyhedral set. We will se later that this conditions is required in the proof.
 	} 
 \end{frame}
 
@@ -557,7 +568,9 @@ such that their interaction will produce only good behaviours.
 	\note{
 		As in the discrete case, we define a predecessor function that indicates the
 		configurations from which the controller can force the automaton into a given
-		set of configurations
+		set of configurations.\\
+		As in the discrete case, the sets of winning configurations can be characterized
+		by a fixed point expressions similar to the discrete one over $2^Q \times 2^X$.
 	}
 \end{frame}
 
