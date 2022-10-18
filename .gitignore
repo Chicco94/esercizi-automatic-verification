@@ -11,3 +11,5 @@ presentazione/slides/build/slides.nav
 *.bcf
 *.blg
 *.run.xml
+
+.venv
