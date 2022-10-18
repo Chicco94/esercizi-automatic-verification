@@ -526,7 +526,7 @@ such that their interaction will produce only good behaviours.
 \subsection{Control Synthesis for Timed Systems}
 \begin{frame}
 	\begin{dfn}[$(t,\sigma)-successor$]
-		For $t \in T$ and $\sigma in \Sigma$, the configuration $\confP$ is defined to be a $(t,\sigma)-successor$ of the configuration $\conf$ if there exists an intermediate configuration $\confH$ such that $\confH$ is a $t- successor$ of $\conf$ and $\confP$ is a $\sigma-successor$ of $\confH$.
+		For $t \in T$ and $\sigma \in \Sigma$, the configuration $\confP$ is defined to be a $(t,\sigma)-successor$ of the configuration $\conf$ if there exists an intermediate configuration $\confH$ such that $\confH$ is a $t- successor$ of $\conf$ and $\confP$ is a $\sigma-successor$ of $\confH$.
 	\end{dfn}
 	
 	Then we define a function $\delta : (Q \times  X) \times (T \times \Sigma^\bot_c) \mapsto 2^{Q \times X}$ where $\delta(\conf,(t,\sigma))$ stands for all the possible consequences of the controller attempting to issue the command $\sigma \in \Sigma^\bot_c$ after waiting $t$ time units starting at configuration $\conf$
@@ -541,7 +541,7 @@ such that their interaction will produce only good behaviours.
 
 \begin{frame}
 	\begin{dfn}[Extended Transition Function]
-		For every $t \in T$ and $\sigma in \Sigma_c$, the set $\delta(\conf,(t,\sigma))$ consists of all the configurations $\confP$ such that:
+		For every $t \in T$ and $\sigma \in \Sigma_c$, the set $\delta(\conf,(t,\sigma))$ consists of all the configurations $\confP$ such that:
 		\begin{itemize}
 			\item $\confP$ is a $(t,\sigma)-successor$ of $\conf$
 			\item $\confP$ is a $(t,e)-successor$ of $\conf$ for some $t' \in [0,t]$
@@ -593,9 +593,9 @@ such that their interaction will produce only good behaviours.
 	
 	\medskip
 
-	A set tuple $\mathcal{H}$ il calle d k-polyhedral if each component $P_0,\ldots,P_m$ belongs to $\mathcal{H}^*_k$.
+	A set tuple $\mathcal{H}$ is called k-polyhedral if each component $P_0,\ldots,P_m$ belongs to $\mathcal{H}^*_k$.
 
-	Wlog, we assume that for every $q \in Q,\sigma in \Sigma_c$ there is at most one $r=\langle q,\sigma,g,f,q'\rangle \in R$. Let $\langle P_0', \ldots, P_m'\rangle = \pi(\langle P_0, \ldots, P_m\rangle)$. Then, for each $i=0,\ldots,m$ then set $P_i'$ can be expressed as:
+	Wlog, we assume that for every $q \in Q,\sigma \in \Sigma_c$ there is at most one $r=\langle q,\sigma,g,f,q'\rangle \in R$. Let $\langle P_0', \ldots, P_m'\rangle = \pi(\langle P_0, \ldots, P_m\rangle)$. Then, for each $i=0,\ldots,m$ then set $P_i'$ can be expressed as:
 
 	\noindent 
 	\begin{adjustbox}{max width=\textwidth}
