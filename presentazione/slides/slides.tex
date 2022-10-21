@@ -148,26 +148,26 @@ such that their interaction will produce only good behaviours.
 		where $\mathcal{F} = \{(F_i,G_i)\}^{n}_{i=1}$ and $F, F_i$ and $G_i$ 
 		are certain subsets of $Q$ referred as the good states. The set of sequences of $\mathcal{P}$ that are accepted
 		accordig to $\Omega$ is defined as follows:
+		\begin{adjustwidth}{-1cm}{-1cm}
+		\begin{table}[]
+			\begin{tabular}{ll}
+			\hline
+			\rowcolor{azzurro_chiaro}
+			$L(\mathcal{P},F,\square)$ & $\{\alpha \in L(\mathcal{P}):Vis(\alpha)\subseteq F\}$ \\ 
+			$L(\mathcal{P},F,\Diamond)$ & $\{\alpha \in L(\mathcal{P}):Vis(\alpha)\cap F \neq \emptyset\}$ \\ 
+			\rowcolor{azzurro_chiaro}
+			$L(\mathcal{P},F,\Diamond\square)$ & $\{\alpha \in L(\mathcal{P}):Inf(\alpha)\subseteq F\}$ \\ 
+			$L(\mathcal{P},F,\square\Diamond)$ & $\{\alpha \in L(\mathcal{P}):Inf(\alpha)\cap F \neq \emptyset\}$\\ 
+			\rowcolor{azzurro_chiaro}
+			$L(\mathcal{P},\mathcal{F},\mathcal{R}_n)$ & \shortstack{
+				$\{\alpha \in L(\mathcal{P}): \exists i \alpha \in$ \\
+				$L(\mathcal{P},F_i,\square\Diamond) \cap L(\mathcal{P},G_i,\Diamond\square)\}$
+			} \\ 
+			\hline
+			\end{tabular}
+		\end{table}
+		\end{adjustwidth}
 	\end{dfn}
-	\begin{adjustwidth}{-1cm}{-1cm}
-	\begin{table}[]
-		\begin{tabular}{ll}
-		\hline
-		\rowcolor{azzurro_chiaro}
-		$L(\mathcal{P},F,\square)$ & $\{\alpha \in L(\mathcal{P}):Vis(\alpha)\subseteq F\}$ \\ 
-		$L(\mathcal{P},F,\Diamond)$ & $\{\alpha \in L(\mathcal{P}):Vis(\alpha)\cap F \neq \emptyset\}$ \\ 
-		\rowcolor{azzurro_chiaro}
-		$L(\mathcal{P},F,\Diamond\square)$ & $\{\alpha \in L(\mathcal{P}):Inf(\alpha)\subseteq F\}$ \\ 
-		$L(\mathcal{P},F,\square\Diamond)$ & $\{\alpha \in L(\mathcal{P}):Inf(\alpha)\cap F \neq \emptyset\}$\\ 
-		\rowcolor{azzurro_chiaro}
-		$L(\mathcal{P},\mathcal{F},\mathcal{R}_n)$ & \shortstack{
-			$\{\alpha \in L(\mathcal{P}): \exists i \alpha \in$ \\
-			$L(\mathcal{P},F_i,\square\Diamond) \cap L(\mathcal{P},G_i,\Diamond\square)\}$
-		} \\ 
-		\hline
-		\end{tabular}
-	\end{table}
-	\end{adjustwidth}
 	\note[item]{$\alpha$ always remains in $F$}
 	\note[item]{$\alpha$ eventually visits $F$}
 	\note[item]{$\alpha$ eventually remains in $F$}
