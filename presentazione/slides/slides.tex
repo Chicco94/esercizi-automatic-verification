@@ -595,7 +595,13 @@ such that their interaction will produce only good behaviours.
 
 	A set tuple $\mathcal{H}$ is called k-polyhedral if each component $P_0,\ldots,P_m$ belongs to $\mathcal{H}^*_k$.
 
-	Wlog, we assume that for every $q \in Q,\sigma \in \Sigma_c$ there is at most one $r=\langle q,\sigma,g,f,q'\rangle \in R$. Let $\langle P_0', \ldots, P_m'\rangle = \pi(\langle P_0, \ldots, P_m\rangle)$. Then, for each $i=0,\ldots,m$ then set $P_i'$ can be expressed as:
+	\medskip
+
+	Wlog, we assume that for every $q \in Q,\sigma \in \Sigma_c$ there is at most one $r=\langle q,\sigma,g,f,q'\rangle \in R$. Let $\langle P_0', \ldots, P_m'\rangle = \pi(\langle P_0, \ldots, P_m\rangle)$.
+	
+	\medskip
+
+	Then, for each $i=0,\ldots,m$ then set $P_i'$ can be expressed as:
 
 	\noindent 
 	\begin{adjustbox}{max width=\textwidth}
@@ -603,15 +609,19 @@ such that their interaction will produce only good behaviours.
 		\begin{align*}
 			P_i' = \bigcup_{\langle q_i,\sigma,g,f,q_j\rangle \in R} \{x : \exists t \in T \left (
 			\begin{aligned}
-				\;&x \in I_{q_i} \land\\
-				\;&x+\textbf{1}t \in I_{q_i} \land\\ 
-				\;&x+\textbf{1}t \in g \land\\
-				\;&f(x+\textbf{1}t) \in P_j \land \;\; (\forall t' \leq t)\\
-				\;&\bigwedge_{\langle q_i,\sigma,g,f,q_j\rangle \in R}(x+\textbf{1}t' \in g')\rightarrow f(x+\textbf{1}t')\in P_k
+				\;&x \in I_{q_i} \land\;\;x+\textbf{1}t \in I_{q_i} \land\\ 
+				\;&x+\textbf{1}t \in g \land\;\;f(x+\textbf{1}t) \in P_j \land \;\; (\forall t' \leq t)\\
+				\;&\bigwedge_{\langle q_i,\sigma,g,f,q_k\rangle \in R}(x+\textbf{1}t' \in g')\rightarrow f(x+\textbf{1}t')\in P_k
 			\end{aligned} \right ) \}
 		\end{align*}
 	}
 	\end{adjustbox}
+	\note{
+		This ugly looking formula just states that $x \in P'_i$ if for some $j, \sigma$ and $t$ 
+		we can stay in $q_i$ for $t$ time units and then make a transition to some configuration in
+		$\{q_j\}\times P_j$ while all other environment transitions that might be enabled between
+		$0$ and $t$ will lead us to a configurations which are in some $\{p_k\} \times P_k$.
+	}
 \end{frame}
 
 \begin{frame}
@@ -660,6 +670,17 @@ such that their interaction will produce only good behaviours.
 		%pi(S1,S2)
 		\draw[red,thick,dashed] (0,0) -- (1.5,0) -- (3.5,2) -- (3.5,3) -- (2,3) -- (0,1) -- cycle;
 		
+
+		% point that stays in S1
+		\draw[green,thick,->] (1.5,1.5) -- (3.5,3.5);
+
+		% point that go out of S1
+		\draw[yellow,thick,->] (3,1) -- (4.25,2.25);
+
+		% poit that doesn't reach S2
+		\draw[red,thick,->] (0.5,2.25) -- (2.5,4.25);
+
+
 		\fill[black] (1.5,0) circle (1.5pt);
 		\node at (1.5,-.25) {$c'$};
 
