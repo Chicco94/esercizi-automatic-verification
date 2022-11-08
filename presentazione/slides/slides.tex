@@ -570,7 +570,8 @@ such that their interaction will produce only good behaviours.
 		configurations from which the controller can force the automaton into a given
 		set of configurations.\\
 		As in the discrete case, the sets of winning configurations can be characterized
-		by a fixed point expressions similar to the discrete one over $2^Q \times 2^X$.
+		by a fixed point expressions similar to the discrete one over $2^Q \times 2^X$.\\
+		We need to prove that this function map k-polyhedral sets into k-polyhedral sets (i.e. it moves between regions)
 	}
 \end{frame}
 
@@ -617,23 +618,14 @@ such that their interaction will produce only good behaviours.
 	}
 	\end{adjustbox}
 	\note{
-		This ugly looking formula just states that 
+		This ugly looking formula just states that $x \in P'_i$ if 
 
-		\medskip
-
-		$x \in P'_i$ if for some $j, \sigma$ and $t$ we can stay in $q_i$ for $t$ time units
-
-		\medskip
-
-		and then make a transition to some configuration in $\{q_j\}\times P_j$ 
-
-		\medskip
-
-		while all other environment transitions that might be enabled between $0$ and $t$
-
-		\medskip
-		
-		will lead us to a configurations which are in some $\{p_k\} \times P_k$.
+		\begin{enumerate}
+			\item for some $j, \sigma$ and $t$ we can stay in $q_i$ for $t$ time units
+			\item and then make a transition to some configuration in $\{q_j\}\times P_j$ 
+			\item while all other environment transitions that might be enabled between $0$ and $t$
+			\item will lead us to a configurations which are in some $\{p_k\} \times P_k$.
+		\end{enumerate}
 	}
 \end{frame}
 
