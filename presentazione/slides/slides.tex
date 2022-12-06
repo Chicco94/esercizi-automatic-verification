@@ -57,11 +57,13 @@
 
 \frame{\titlepage}
 
+
 \section{Introduction}
 \subsection{Abstract}
 \begin{frame}
 This paper presents algorithms for the automatic synthesis of the real time controllers by finding a winning strategy for certain games defined by the timed automata of Alur and Dill.
 \end{frame}
+
 
 \subsection{The problem}
 \begin{frame}
@@ -87,6 +89,7 @@ such that their interaction will produce only good behaviours.
 	Let's see some definition before dive in into the theorem and its proofs
 }
 \end{frame}
+
 
 \section{Discrete Case}
 \subsection{Initial Definitions}
@@ -182,6 +185,7 @@ such that their interaction will produce only good behaviours.
 	\end{dfn}
 \end{frame}
 
+
 \subsection{Controllable Predecessors}
 \begin{frame}
 	\begin{dfn}[Controllable Predecessors]
@@ -229,6 +233,7 @@ such that their interaction will produce only good behaviours.
 		the first one is not a controllable predecessor because it can have a bad consequence
 	}
 \end{frame}
+
 
 \subsection{Theorem}
 \begin{frame}
@@ -370,6 +375,7 @@ such that their interaction will produce only good behaviours.
 	\note{the non determinism, the environment, is playing against us}
 \end{frame}
 
+
 \section{Real Time Case}
 \subsection{Initial Definitions}
 \begin{frame}
@@ -455,6 +461,7 @@ such that their interaction will produce only good behaviours.
 		The time has the same pace in all clocks
 	}
 \end{frame}
+
 \begin{frame}
 	\begin{dfn}[Steps and Trajectories]
 		A step of $\mathcal{T}$ is a pair of configurations $\confPair$ such that either:
@@ -481,6 +488,7 @@ such that their interaction will produce only good behaviours.
 	case by referring to the projection of $\beta$ on $Q$ and use $L(\mathcal{T},\Omega)$ to 
 	denote acceptable trajectories as in the discrete case.
 \end{frame}
+
 
 \subsection{Real Time Controllers}
 \begin{frame}
@@ -522,6 +530,7 @@ such that their interaction will produce only good behaviours.
 		Given a timed automaton $\mathcal{T}$ an a acceptance condition $\Omega$, the problem \textbf{RT-Synth}$(\mathcal{T},\Omega)$ is: Construct a real-time controller $C$ such that $L_C(\mathcal{T})\subseteq L(\mathcal{T},\Omega)$
 	\end{dfn}
 \end{frame}
+
 
 \subsection{Control Synthesis for Timed Systems}
 \begin{frame}
@@ -703,7 +712,6 @@ such that their interaction will produce only good behaviours.
 	\end{tikzpicture}
 \end{frame}
 
-
 \begin{frame}
 	\begin{thm}[Control Synthesis for Timed systems]
 	Given a timed automaton $\mathcal{T}$ and an acceptance condition
@@ -711,7 +719,6 @@ such that their interaction will produce only good behaviours.
 	the problem \textbf{RT-Synth}$(\mathcal{T},\Omega)$ is solvable
 	\end{thm}
 \end{frame}
-
 
 \begin{frame}
 	\textbf{Sketch of Proof}
