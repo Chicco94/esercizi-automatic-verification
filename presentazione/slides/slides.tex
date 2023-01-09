@@ -1,4 +1,4 @@
-\documentclass[table]{beamer}
+\documentclass[table]{beamer} 
 
 \usepackage{pgfpages}
 \setbeameroption{show notes on second screen}
@@ -61,7 +61,7 @@
 \section{Introduction}
 \subsection{Abstract}
 \begin{frame}
-This paper presents algorithms for the automatic synthesis of the real time controllers by finding a winning strategy for certain games defined by the timed automata of Alur and Dill.
+This paper presents algorithms for the automatic synthesis of real time controllers by finding a winning strategy for certain games defined by the timed automata of Alur and Dill.
 \end{frame}
 
 
@@ -429,7 +429,7 @@ such that their interaction will produce only good behaviours.
 
 \begin{frame}
 	\begin{dfn}[Timed Automata]
-		A timed automaton is a tuple $\mathcal{T}=\left( Q,X,\Sigma,I,R,q_0\right)$ consisting of:
+		A timed automaton is a tuple $\mathcal{T}=(Q,X,\Sigma,I,R,q_0)$ consisting of:
 		\begin{itemize}
 			\item $Q$ a finite set of discrete states
 			\item $X$ a clock domain $X=(\mathbb{R}^+)^d$ for some $d>0$
@@ -438,7 +438,7 @@ such that their interaction will produce only good behaviours.
 			\item $R \subseteq Q \times \Sigma \times \mathcal{H}^\cap_k \times F(X) \times Q$ is
 			 a set of transition relations each of the form $\langle q,\sigma,g,f,q'\rangle$ where:
 			\begin{itemize}
-				\item $q,q' in Q$ are states
+				\item $q,q' \in Q$ are states
 				\item $\sigma \in \Sigma$ is a command
 				\item $g \in \mathcal{H}^\cap_k$ is a guard condition
 				\item $f \in F(X)$ is a reset function
@@ -472,9 +472,13 @@ such that their interaction will produce only good behaviours.
 		
 		\medskip
 		
-		A trajectory of $\mathcal{T}$ is a sequence $ \beta = (q[0],x[0]),(q[1],x[1]),\ldots $ of configurations such that for every $i$, $((q[i],x[i]),(q[i+1],x[i+1]))$ is a step.
+		A trajectory of $\mathcal{T}$ is a sequence of configurations such that for every $i$, $((q[i],x[i]),(q[i+1],x[i+1]))$ is a step.
 	\end{dfn}
 	\note{
+		$ \beta = (q[0],x[0]),(q[1],x[1]),\ldots $
+
+		\medskip
+
 		$\sigma$-steps includes the environment steps
 	}
 \end{frame}
